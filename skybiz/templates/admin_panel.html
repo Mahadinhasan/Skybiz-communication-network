@@ -1,0 +1,824 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Skybiz- Admin Panel{% endblock %}
+
+{% block content %}
+<section id="admin-panel" class="py-16 bg-gray-100 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+            <div class="bg-{% if message.tags == 'success' %}green-100 text-green-700{% else %}red-100 text-red-700 dark:bg-red-800 dark:text-red-300{% endif %} p-4 rounded-lg">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if user.is_authenticated and user.is_staff %}
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold text-primary dark:text-secondary">Admin Panel</h1>
+            <form method="POST" action="{% url 'admin_panel' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="logout">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
+                    Logout
+                </button>
+            </form>
+        </div>
+
+        <!-- NEWS TICKER MANAGEMENT -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 mt-10">
+    <div class="flex justify-between items-center mb-8">
+        <h2 class="text-2xl font-bold text-primary">
+            <i class="fas fa-newspaper mr-3"></i> Marquee News Management
+        </h2>
+        <button onclick="openNewsModal()" 
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center">
+            <i class="fas fa-plus mr-2"></i> Add News
+        </button>
+    </div>
+
+    <div class="space-y-4">
+        {% for item in news_ticker %}
+        <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-700 p-5 rounded-lg border">
+            <div class="flex-1">
+                <p class="font-medium">{{ item.message }}</p>
+                <small class="text-gray-500">Added: {{ item.created_at|date:"M d, Y" }}</small>
+            </div>
+            <div class="space-x-3">
+                <button onclick='editNews({{ item.id }}, "{{ item.message|escapejs }}")' 
+                        class="text-blue-600 hover:underline">Edit</button>
+                <form method="POST" class="inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_news">
+                    <input type="hidden" name="news_id" value="{{ item.id }}">
+                    <button type="submit" class="text-red-600 hover:underline"
+                            onclick="return confirm('Delete this news?')">Delete</button>
+                </form>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-gray-500 text-center py-8">No news items yet. Add one above!</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- NEWS MODAL -->
+<div id="newsModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center z-50">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl p-8 w-full max-w-2xl">
+        <h3 id="newsModalTitle" class="text-2xl font-bold mb-6">Add News</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="save_news">
+            <input type="hidden" name="news_id" id="newsId">
+
+            <div class="mb-6">
+                <label class="block font-medium mb-2">News Message</label>
+                <textarea name="message" id="newsMessage" rows="4" required 
+                          class="w-full p-4 border rounded-lg dark:bg-gray-700 resize-none"
+                          placeholder="e.g. New 1Gbps Plan Launched! • 50% Off for Students"></textarea>
+            </div>
+
+            <div class="flex justify-end space-x-4">
+                <button type="button" onclick="closeNewsModal()" 
+                        class="px-6 py-3 bg-gray-500 text-white rounded-lg">Cancel</button>
+                <button type="submit" class="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                    Save News
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+        {% comment %} <!-- Carousel Management -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage Carousel Images</h2>
+                <button onclick="openCarouselModal('add')" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                    Add New Image
+                </button>
+            </div>
+            {% if carousel_images %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 dark:bg-gray-700">
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Title</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Caption</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Image</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Status</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for image in carousel_images %}
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="p-4 text-gray-800 dark:text-gray-200">{{ image.title }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ image.caption|truncatewords:10 }}</td>
+                            <td class="p-4">
+                                <img src="{{ image.image.url }}" alt="{{ image.title }}" class="w-24 h-16 object-cover rounded">
+                            </td>
+                            <td class="p-4">
+                                <span class="px-2 py-1 rounded-full text-xs {% if image.is_active %}bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200{% else %}bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200{% endif %}">
+                                    {{ image.is_active|yesno:"Active,Inactive" }}
+                                </span>
+                            </td>
+                            <td class="p-4 flex space-x-2">
+                                <button onclick="editCarousel('{{ image.id }}', '{{ image.title }}', '{{ image.caption|escapejs }}', '{{ image.is_active|yesno:'true,false' }}')"
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
+                                    Edit
+                                </button>
+                                <form method="POST" action="{% url 'admin_panel' %}" class="inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="delete_carousel">
+                                    <input type="hidden" name="carousel_id" value="{{ image.id }}">
+                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-600 dark:text-gray-300">No carousel images available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Carousel Modal -->
+        <div id="carouselModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md mx-auto">
+                <h3 id="carouselModalTitle" class="text-lg font-bold mb-4 text-primary dark:text-secondary">Add Carousel Image</h3>
+                <form id="carouselForm" method="POST" action="{% url 'admin_panel' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" id="carousel_action" value="add_carousel">
+                    <input type="hidden" name="carousel_id" id="carousel_id" value="">
+                    {% for field in image_upload_form %}
+                    <div class="mb-4">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-red-700 dark:text-red-300 text-sm mt-1">
+                            {% for error in field.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeCarouselModal()" class="bg-gray-300 dark:bg-gray-600 text-primary dark:text-secondary px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div> {% endcomment %}
+
+        <!-- Branch Management -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage Branches</h2>
+                <button onclick="openBranchModal('add')" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                    Add New Branch
+                </button>
+            </div>
+            {% if branches %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 dark:bg-gray-700">
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Name</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">City</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">State</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Phone</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Email</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Website</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Status</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for branch in branches %}
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="p-4 text-gray-800 dark:text-gray-200">{{ branch.name }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ branch.city }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ branch.state }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ branch.phone }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ branch.email }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">
+                                {% if branch.website_link %}
+                                <a href="{{ branch.website_link }}" class="text-blue-500 hover:underline" target="_blank">Visit</a>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </td>
+                            <td class="p-4">
+                                <span class="px-2 py-1 rounded-full text-xs {% if branch.is_active %}bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200{% else %}bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200{% endif %}">
+                                    {{ branch.is_active|yesno:"Active,Inactive" }}
+                                </span>
+                            </td>
+                            <td class="p-4 flex space-x-2">
+                                <button onclick="editBranch('{{ branch.id }}', '{{ branch.name }}', '{{ branch.address }}', '{{ branch.city }}', '{{ branch.state }}', '{{ branch.phone }}', '{{ branch.email }}', '{{ branch.website_link|default:'' }}', '{{ branch.is_active|yesno:'true,false' }}')"
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
+                                    Edit
+                                </button>
+                                <form method="POST" action="{% url 'admin_panel' %}" class="inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="delete_branch">
+                                    <input type="hidden" name="branch_id" value="{{ branch.id }}">
+                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-600 dark:text-gray-300">No branches available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Branch Modal -->
+<div id="branchModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-lg max-w-md mx-auto">
+        <h3 id="branchModalTitle" class="text-lg font-bold mb-4 text-primary dark:text-secondary">Add Branch</h3>
+        <form id="branchForm" method="POST" action="{% url 'admin_panel' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" id="branch_action" value="add_branch">
+            <input type="hidden" name="branch_id" id="branch_id" value="">
+            {% for field in branch_form %}
+            <div class="mb-0">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                <div class="text-red-700 dark:text-red-300 text-sm mt-1">
+                    {% for error in field.errors %}
+                    {{ error }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div class="flex justify-end space-x-2">
+                <button type="button" onclick="closeBranchModal()" class="bg-gray-300 dark:bg-gray-600 text-primary dark:text-secondary px-4 py-2 rounded">Cancel</button>
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+       <!-- User Modal -->
+        <div id="userModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md w-full">
+                <h3 id="userModalTitle" class="text-xl font-bold mb-4 text-primary dark:text-secondary">Add New User</h3>
+                <form method="POST" action="{% url 'admin_panel' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" id="userAction" value="add_user">
+                    <input type="hidden" name="user_id" id="userId" value="">
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
+                        <input type="text" name="username" id="username" required class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                        <input type="email" name="email" id="email" required class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                        <input type="password" name="password" id="password" required class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200">
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Role</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="role" value="superadmin" id="superadmin" class="mr-2" checked>
+                                <span class="text-sm">Super Admin (Full Access)</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="role" value="user" id="user" class="mr-2">
+                                <span class="text-sm">Regular User</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeUserModal()" class="bg-gray-300 dark:bg-gray-600 text-primary dark:text-secondary px-4 py-2 rounded hover:bg-gray-400">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded hover:bg-opacity-90">
+                            Save User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <!-- User Management Table -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage user</h2>
+                <button onclick="openUserModal('add')" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                    Add New User
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 dark:bg-gray-700">
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Username</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Email</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Role</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Status</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="p-4 text-gray-800 dark:text-gray-200">{{ user.username }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ user.email }}</td>
+                            <td class="p-4">
+                                <span class="px-2 py-1 rounded-full text-xs text-white {% if user.is_superuser %}bg-purple-600{% else %}bg-gray-600{% endif %}">
+                                    {% if user.is_superuser %}Super Admin{% else %}User{% endif %}
+                                </span>
+                            </td>
+                            <td class="p-4">
+                                <span class="px-2 py-1 rounded-full text-xs {% if user.is_active %}bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200{% else %}bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200{% endif %}">
+                                    {{ user.is_active|yesno:"Active,Inactive" }}
+                                </span>
+                            </td>
+                            <td class="p-4 flex space-x-2">
+                                <button onclick="editUser('{{ user.id }}', '{{ user.username }}', '{{ user.email }}', '{{ user.is_superuser|yesno:'true,false' }}')" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
+                                    Edit
+                                </button>
+                                <form method="POST" action="{% url 'admin_panel' %}" class="inline" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="delete_user">
+                                    <input type="hidden" name="user_id" value="{{ user.id }}">
+                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Package Management -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage Packages</h2>
+                <button onclick="openPackageModal('add')" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                    Add New Package
+                </button>
+            </div>
+            {% if all_packages %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 dark:bg-gray-700">
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Name</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Type</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Price</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for package in all_packages %}
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="p-4 text-gray-800 dark:text-gray-200">{{ package.name }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ package.package_type|capfirst }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">৳{{ package.price }}</td>
+                            <td class="p-4 flex space-x-2">
+                                <button onclick="editPackage('{{ package.id }}', '{{ package.name }}', '{{ package.package_type }}', '{{ package.download_speed }}', '{{ package.upload_speed }}', '{{ package.price }}', '{{ package.data_limit }}', '{{ package.features|escapejs }}', '{{ package.is_popular|yesno:'true,false' }}')"
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
+                                    Edit
+                                </button>
+                                <form method="POST" action="{% url 'admin_panel' %}" class="inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="delete_package">
+                                    <input type="hidden" name="package_id" value="{{ package.id }}">
+                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-600 dark:text-gray-300">No packages available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Package Modal -->
+        <div id="packageModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md mx-auto">
+                <h3 id="packageModalTitle" class="text-lg font-bold mb-0 text-primary dark:text-secondary">Add Package</h3>
+                <form id="packageForm" method="POST" action="{% url 'admin_panel' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="save_package">
+                    <input type="hidden" name="package_id" id="package_id" value="">
+                    <div class="mb-0">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+                        <input type="text" name="name" id="package_name" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
+                    </div>
+                    <div class="mb-2">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Type</label>
+                        <select name="package_type" id="package_type" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
+                            <option value="residential">Residential</option>
+                            <option value="business">Business</option>
+                        </select>
+                    </div>
+                    <div class="mb-1">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Download Speed (Mbps)</label>
+                        <input type="number" name="download_speed" id="download_speed" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
+                    </div>
+                    <div class="mb-1">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Upload Speed (Mbps)</label>
+                        <input type="number" name="upload_speed" id="upload_speed" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
+                    </div>
+                    <div class="mb-0">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Price (৳)</label>
+                        <input type="number" step="0.01" name="price" id="price" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
+                    </div>
+                    <div class="mb-0">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Data Limit</label>
+                        <input type="text" name="data_limit" id="data_limit" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
+                    </div>
+                    <div class="mb-0">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Features</label>
+                        <textarea name="features" id="features" class="w-full p-4 border rounded-lg dark:bg-gray-500 dark:text-gray-150" rows="2" required></textarea>
+                    </div>
+                    <div class="mb-0">
+                        <label class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300">
+                            <input type="checkbox" name="is_popular" id="is_popular" class="mr-2 h-4 w-4 text-primary dark:text-secondary">
+                            Popular Package
+                        </label>
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closePackageModal()" class="bg-gray-300 dark:bg-gray-600 text-primary dark:text-secondary px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Contact Messages -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-primary dark:text-secondary">Contact Messages</h2>
+                <form method="POST" action="{% url 'admin_panel' %}" onsubmit="return confirm('Are you sure you want to delete all contact messages?')">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_all_messages">
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete All</button>
+                </form>
+            </div>
+            {% if messages %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 dark:bg-gray-700">
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Name</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Email</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Subject</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Message</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Status</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for message in messages %}
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="p-4 text-gray-800 dark:text-gray-200">{{ message.name }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ message.email }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ message.subject }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ message.message|truncatewords:10 }}</td>
+                            <td class="p-4">
+                                <span class="px-2 py-1 rounded-full text-xs {% if message.reply_sent %}bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200{% else %}bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-200{% endif %}">
+                                    {{ message.reply_sent|yesno:"Replied,Pending" }}
+                                </span>
+                            </td>
+                            <td class="p-4">
+                                <button onclick="document.getElementById('replyModal-{{ message.id }}').classList.remove('hidden')"
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
+                                    Reply
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-600 dark:text-gray-300">No messages available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Reply Modal -->
+        {% for message in messages %}
+        <div id="replyModal-{{ message.id }}" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md mx-auto">
+                <h3 class="text-lg font-bold mb-4 text-primary dark:text-secondary">Reply to {{ message.name }}</h3>
+                <form method="POST" action="{% url 'admin_panel' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="send_reply">
+                    <input type="hidden" name="message_id" value="{{ message.id }}">
+                    <textarea name="reply_text" rows="4" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded mb-4 dark:bg-gray-700 dark:text-gray-200" placeholder="Type your reply..."></textarea>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" class="close-reply-modal bg-gray-300 dark:bg-gray-600 text-primary dark:text-secondary px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Send Reply</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Business Quote Requests -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
+            <h2 class="text-xl font-bold mb-4 text-primary dark:text-secondary">Business Quote Requests</h2>
+            {% if business_requests %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 dark:bg-gray-700">
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Company</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Contact</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Email</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Bandwidth</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Requirements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in business_requests %}
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="p-4 text-gray-800 dark:text-gray-200">{{ request.company_name }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ request.contact_person }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ request.email }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ request.bandwidth }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ request.requirements|truncatewords:10 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-600 dark:text-gray-300">No business requests available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Speed Test Results -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-primary dark:text-secondary">Speed Test Results</h2>
+                <form method="POST" action="{% url 'admin_panel' %}" onsubmit="return confirm('Are you sure you want to delete all speed test data?')">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="delete_all_speed_tests">
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">Delete All</button>
+                </form>
+            </div>
+            {% if speed_test_results %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 dark:bg-gray-700">
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">User</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Download (Mbps)</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Upload (Mbps)</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Latency (ms)</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">IP Address</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in speed_test_results %}
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="p-4 text-gray-800 dark:text-gray-200">{{ result.user.username|default:"Anonymous" }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ result.download_speed|floatformat:2 }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ result.upload_speed|floatformat:2 }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ result.latency|floatformat:2 }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ result.ip_address|default:"N/A" }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300">{{ result.timestamp }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-600 dark:text-gray-300">No speed test results available.</p>
+            {% endif %}
+        </div>
+
+        {% else %}
+        <!-- Login Form -->
+        <div class="max-w-md mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-6 text-primary dark:text-secondary text-center">Admin Login</h2>
+            <form method="POST" action="{% url 'admin_panel' %}">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="login">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Username</label>
+                    <input type="text" name="username" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                    <input type="password" name="password" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
+                </div>
+                <button type="submit" class="w-full bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                    Login
+                </button>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+{% block scripts %}
+{% if user.is_authenticated and user.is_staff %}
+<script>
+    function openNewsModal() {
+    document.getElementById('newsModalTitle').textContent = 'Add News Item';
+    document.getElementById('newsId').value = '';
+    document.getElementById('newsMessage').value = '';
+    document.getElementById('newsModal').classList.remove('hidden');
+}
+
+function editNews(id, message) {
+    document.getElementById('newsModalTitle').textContent = 'Edit News Item';
+    document.getElementById('newsId').value = id;
+    document.getElementById('newsMessage').value = message;
+    document.getElementById('newsModal').classList.remove('hidden');
+}
+
+function closeNewsModal() {
+    document.getElementById('newsModal').classList.add('hidden');
+}
+
+window.onclick = function(e) {
+    if (e.target.id === 'newsModal') closeNewsModal();
+}
+    function openBranchModal(mode) {
+        const modal = document.getElementById('branchModal');
+        const title = document.getElementById('branchModalTitle');
+        const actionInput = document.getElementById('branch_action');
+        const idInput = document.getElementById('branch_id');
+        const nameInput = document.querySelector('input[name="name"]');
+        const addressInput = document.querySelector('input[name="address"]');
+        const cityInput = document.querySelector('input[name="city"]');
+        const stateInput = document.querySelector('input[name="state"]');
+        const phoneInput = document.querySelector('input[name="phone"]');
+        const emailInput = document.querySelector('input[name="email"]');
+        const websiteInput = document.querySelector('input[name="website_link"]');
+        const isActiveInput = document.querySelector('input[name="is_active"]');
+
+        title.textContent = mode === 'add' ? 'Add Branch' : 'Edit Branch';
+        actionInput.value = mode === 'add' ? 'add_branch' : 'edit_branch';
+        idInput.value = '';
+        nameInput.value = '';
+        addressInput.value = '';
+        cityInput.value = '';
+        stateInput.value = '';
+        phoneInput.value = '';
+        emailInput.value = '';
+        websiteInput.value = '';
+        isActiveInput.checked = true;
+        modal.classList.remove('hidden');
+    }
+
+    function closeBranchModal() {
+        document.getElementById('branchModal').classList.add('hidden');
+    }
+
+    function editBranch(id, name, address, city, state, phone, email, website_link, is_active) {
+        openBranchModal('edit');
+        document.getElementById('branch_id').value = id;
+        document.querySelector('input[name="name"]').value = name;
+        document.querySelector('input[name="address"]').value = address;
+        document.querySelector('input[name="city"]').value = city;
+        document.querySelector('input[name="state"]').value = state;
+        document.querySelector('input[name="phone"]').value = phone;
+        document.querySelector('input[name="email"]').value = email;
+        document.querySelector('input[name="website_link"]').value = website_link;
+        document.querySelector('input[name="is_active"]').checked = (is_active === 'true');
+    }
+     function openUserModal(mode) {
+        const modal = document.getElementById('userModal');
+        const title = document.getElementById('userModalTitle');
+        const actionInput = document.getElementById('userAction');
+        const userIdInput = document.getElementById('userId');
+        const usernameInput = document.getElementById('username');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const roleSuperadmin = document.getElementById('superadmin');
+        const roleUser = document.getElementById('user');
+
+        title.textContent = mode === 'add' ? 'Add New User' : 'Edit User';
+        actionInput.value = mode === 'add' ? 'add_user' : 'edit_user';
+        userIdInput.value = '';
+        usernameInput.value = '';
+        emailInput.value = '';
+        passwordInput.value = '';
+        roleSuperadmin.checked = true;  // Default: Super Admin
+        roleUser.checked = false;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeUserModal() {
+        const modal = document.getElementById('userModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function editUser(id, username, email, is_superuser) {
+        openUserModal('edit');
+        document.getElementById('userId').value = id;
+        document.getElementById('username').value = username;
+        document.getElementById('email').value = email;
+        document.getElementById('password').value = '';
+
+        const roleSuperadmin = document.getElementById('superadmin');
+        const roleUser = document.getElementById('user');
+        
+        if (is_superuser === 'true') {
+            roleSuperadmin.checked = true;
+            roleUser.checked = false;
+        } else {
+            roleSuperadmin.checked = false;
+            roleUser.checked = true;
+        }
+    }
+
+    // Close modal on outside click
+    window.onclick = function(event) {
+        const modal = document.getElementById('userModal');
+        if (event.target === modal) {
+            closeUserModal();
+        }
+    }
+    function openPackageModal(mode) {
+        const modal = document.getElementById('packageModal');
+        const title = document.getElementById('packageModalTitle');
+        const packageId = document.getElementById('package_id');
+        const name = document.getElementById('package_name');
+        const packageType = document.getElementById('package_type');
+        const downloadSpeed = document.getElementById('download_speed');
+        const uploadSpeed = document.getElementById('upload_speed');
+        const price = document.getElementById('price');
+        const dataLimit = document.getElementById('data_limit');
+        const features = document.getElementById('features');
+        const isPopular = document.getElementById('is_popular');
+
+        title.textContent = mode === 'add' ? 'Add Package' : 'Edit Package';
+        packageId.value = '';
+        name.value = '';
+        packageType.value = 'residential';
+        downloadSpeed.value = '';
+        uploadSpeed.value = '';
+        price.value = '';
+        dataLimit.value = '';
+        features.value = '';
+        isPopular.checked = false;
+        modal.classList.remove('hidden');
+    }
+
+    function closePackageModal() {
+        document.getElementById('packageModal').classList.add('hidden');
+    }
+
+    function editPackage(id, name, package_type, download_speed, upload_speed, price, data_limit, features, is_popular) {
+        openPackageModal('edit');
+        document.getElementById('package_id').value = id;
+        document.getElementById('package_name').value = name;
+        document.getElementById('package_type').value = package_type;
+        document.getElementById('download_speed').value = download_speed;
+        document.getElementById('upload_speed').value = upload_speed;
+        document.getElementById('price').value = price;
+        document.getElementById('data_limit').value = data_limit;
+        document.getElementById('features').value = features;
+        document.getElementById('is_popular').checked = (is_popular === 'true');
+    }
+
+    document.querySelectorAll('.close-reply-modal').forEach(button => {
+        button.addEventListener('click', () => {
+            button.closest('.fixed').classList.add('hidden');
+        });
+    });
+</script>
+{% endif %}
+{% endblock scripts%}
+{% endblock %}

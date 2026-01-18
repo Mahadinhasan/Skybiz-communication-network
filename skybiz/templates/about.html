@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section id="about" class="page-section">
+    <div class="py-16 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">About Skybiz communication Network</h1>
+            
+            <!-- Company Info -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+                <div>
+                    <h2 class="text-2xl font-bold mb-6 text-primary dark:text-secondary">Our Mission</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">
+                        To provide reliable, high-speed internet connectivity that empowers individuals and businesses to thrive in the digital age. We believe that fast, affordable internet is not a luxury, but a necessity for modern life.
+                    </p>
+                    <h2 class="text-2xl font-bold mb-6 text-primary dark:text-secondary">Our Vision</h2>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        To become the leading internet service provider by delivering exceptional connectivity solutions that exceed customer expectations and drive innovation in our communities.
+                    </p>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold mb-6 text-primary dark:text-secondary">Our History</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-full text-sm font-semibold">2013</div>
+                            <p class="text-gray-600 dark:text-gray-300">Founded with a vision to revolutionize internet connectivity</p>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-full text-sm font-semibold">2018</div>
+                            <p class="text-gray-600 dark:text-gray-300">Expanded to serve 10 cities with fiber-optic infrastructure</p>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-full text-sm font-semibold">2020</div>
+                            <p class="text-gray-600 dark:text-gray-300">Reached 5000+ satisfied customers city</p>
+                        </div>
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-full text-sm font-semibold">2023</div>
+                            <p class="text-gray-600 dark:text-gray-300">Leading provider in 7+ cities with 10Gbps speeds</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why Choose Us -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-12 text-primary dark:text-secondary">Why Choose Skybiz communication Network?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="text-center p-6">
+                        <div class="text-4xl mb-4">📡</div>
+                        <h3 class="text-lg font-semibold mb-2 text-primary dark:text-secondary">Advanced Infrastructure</h3>
+                        <p class="text-gray-600 dark:text-gray-300">State-of-the-art fiber-optic network ensuring maximum reliability and speed.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="text-4xl mb-4">⚡</div>
+                        <h3 class="text-lg font-semibold mb-2 text-primary dark:text-secondary">Lightning Fast</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Speeds up to 1Gbps for seamless streaming, gaming, and working.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="text-4xl mb-4">🛡️</div>
+                        <h3 class="text-lg font-semibold mb-2 text-primary dark:text-secondary">Reliable Service</h3>
+                        <p class="text-gray-600 dark:text-gray-300">99.9% uptime guarantee with redundant network infrastructure.</p>
+                        <!--IIG name detials-->
+                        <p class="text-gray-600 dark:text-gray-300">IIG : Summit communication and Level3 carrier</p>
+                        <p class="text-gray-600 dark:text-gray-300">Backup Link : Fiber@Home Ltd.</p>
+                    </div>
+                    <div class="text-center p-6">
+                        <div class="text-4xl mb-4">💬</div>
+                        <h3 class="text-lg font-semibold mb-2 text-primary dark:text-secondary">Expert Support</h3>
+                        <p class="text-gray-600 dark:text-gray-300">24/7 customer support from knowledgeable technical experts.</p>
+                    </div>
+                </div>
+            </div>
+
+            {% comment %} <!-- Our Total Branch Area -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-semibold text-center text-primary dark:text-secondary mb-6">Our Total Branch Area</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary dark:text-secondary">{{ total_branches }}</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Total Branches</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary dark:text-secondary">{{ unique_cities }}</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Cities Covered</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h3 class="text-xl font-bold text-primary dark:text-secondary">{{ unique_states }}</h3>
+                    <p class="text-gray-600 dark:text-gray-300">States Served</p>
+                </div>
+            </div>
+        </section> {% endcomment %}
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section id="packages" class="page-section">
+    <div class="py-16 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">Internet Packages</h1>
+            
+            <!-- Package Filter -->
+            <div class="flex justify-center mb-8">
+                <div class="bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
+                    <button id="residentialTab" class="px-6 py-2 rounded-md bg-primary text-white font-medium">Residential</button>
+                    <button id="businessTab" class="px-6 py-2 rounded-md text-primary dark:text-secondary font-medium hover:bg-gray-200 dark:hover:bg-gray-600">Business</button>
+                </div>
+            </div>
+
+            <!-- Residential Packages -->
+            <div id="residentialPackages" class="space-y-6">
+                <div class="overflow-x-auto">
+                    <table class="w-full bg-white dark:bg-gray-700 rounded-lg shadow-lg">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th class="px-6 py-4 text-left">Package</th>
+                                <th class="px-6 py-4 text-left">Speed</th>
+                                <th class="px-6 py-4 text-left">Data</th>
+                                <th class="px-6 py-4 text-left">Price</th>
+                                <th class="px-6 py-4 text-left">Features</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                            {% for package in residential_packages %}
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-600 {% if package.is_popular %}bg-secondary bg-opacity-10{% endif %}">
+                                <td class="px-6 py-4 font-semibold text-primary dark:text-secondary">{{ package.name }}{% if package.is_popular %} ⭐{% endif %}</td>
+                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.download_speed }}/{{ package.upload_speed }} Mbps</td>
+                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.data_limit }}</td>
+                                <td class="px-6 py-4 font-bold text-primary dark:text-secondary">৳{{ package.price }}/mo</td>
+                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.features }}</td>
+                                <td class="px-6 py-4">
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Business Packages -->
+            <div id="businessPackages" class="space-y-6 hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full bg-white dark:bg-gray-700 rounded-lg shadow-lg">
+                        <thead class="bg-primary text-white">
+                            <tr>
+                                <th class="px-6 py-4 text-left">Package</th>
+                                <th class="px-6 py-4 text-left">Speed</th>
+                                <th class="px-6 py-4 text-left">Data</th>
+                                <th class="px-6 py-4 text-left">Price</th>
+                                <th class="px-6 py-4 text-left">Features</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
+                            {% for package in business_packages %}
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
+                                <td class="px-6 py-4 font-semibold text-primary dark:text-secondary">{{ package.name }}</td>
+                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">
+                                    {% if package.download_speed == 0 %}Custom{% else %}{{ package.download_speed }}/{{ package.upload_speed }} Mbps{% endif %}
+                                </td>
+                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.data_limit }}</td>
+                                <td class="px-6 py-4 font-bold text-primary dark:text-secondary">
+                                    {% if package.price == 0 %}Custom Quote{% else %}৳{{ package.price }}/mo{% endif %}
+                                </td>
+                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.features }}</td>
+                                <td class="px-6 py-4">
+                                    <button class="{% if package.price == 0 %}bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:opacity-90 transition-opacity{% endif %}">
+                                        {% if package.price == 0 %}
+                                            <a href="{% url 'business' %}">Get Quote</a>
+                                        {% endif %}
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block scripts %}
+<script>
+    const residentialTab = document.getElementById('residentialTab');
+    const businessTab = document.getElementById('businessTab');
+    const residentialPackages = document.getElementById('residentialPackages');
+    const businessPackages = document.getElementById('businessPackages');
+
+    residentialTab.addEventListener('click', () => {
+        residentialTab.classList.add('bg-primary', 'text-white');
+        residentialTab.classList.remove('text-primary', 'dark:text-secondary', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+        businessTab.classList.remove('bg-primary', 'text-white');
+        businessTab.classList.add('text-primary', 'dark:text-secondary', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+        residentialPackages.classList.remove('hidden');
+        businessPackages.classList.add('hidden');
+    });
+
+    businessTab.addEventListener('click', () => {
+        businessTab.classList.add('bg-primary', 'text-white');
+        businessTab.classList.remove('text-primary', 'dark:text-secondary', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+        residentialTab.classList.remove('bg-primary', 'text-white');
+        residentialTab.classList.add('text-primary', 'dark:text-secondary', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
+        businessPackages.classList.remove('hidden');
+        residentialPackages.classList.add('hidden');
+    });
+</script>
+{% endblock scripts%}
+{% endblock %}

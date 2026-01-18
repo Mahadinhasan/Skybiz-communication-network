@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Skybiz{% endblock %}
+
+{% block content %}
+<section class="py-20 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-primary dark:text-secondary mb-6">
+            Test Your Internet Speed
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-12">
+            Check your download, upload speed and ping in seconds.
+        </p>
+
+        <div id="speedTestContainer" class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-10">
+            <!-- Before Test -->
+            <div id="beforeTest">
+                <div class="mb-8">
+                    <div class="w-48 h-48 mx-auto bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                        <svg class="w-24 h-24 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <button onclick="startSpeedTest()"
+                        class="bg-primary hover:bg-blue-700 text-white font-bold py-5 px-12 rounded-full text-xl transition transform hover:scale-105 shadow-lg">
+                    Start Speed Test
+                </button>
+            </div>
+
+            <!-- During Test -->
+            <div id="duringTest" class="hidden">
+                <div class="animate-pulse mb-8">
+                    <div class="w-48 h-48 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
+                        <svg class="w-20 h-20 text-primary animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-2xl font-semibold text-primary">Testing your speed...</p>
+                <p class="text-gray-500 mt-4">This may take 20–40 seconds</p>
+            </div>
+
+            <!-- Results -->
+            <div id="results" class="hidden space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-xl text-white">
+                        <p class="text-sm opacity-90">Download</p>
+                        <p id="downloadSpeed" class="text-4xl font-bold mt-2">0</p>
+                        <p class="text-sm opacity-80">Mbps</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-xl text-white">
+                        <p class="text-sm opacity-90">Upload</p>
+                        <p id="uploadSpeed" class="text-4xl font-bold mt-2">0</p>
+                        <p class="text-sm opacity-80">Mbps</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-xl text-white">
+                        <p class="text-sm opacity-90">Ping</p>
+                        <p id="ping" class="text-4xl font-bold mt-2">0</p>
+                        <p class="text-sm opacity-80">ms</p>
+                    </div>
+                </div>
+
+                <div class="text-center text-gray-600 dark:text-gray-400">
+                    <p id="serverInfo" class="text-lg"></p>
+                </div>
+
+                <button onclick="resetTest()"
+                        class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-full transition">
+                    Test Again
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+     let testStartTime;
+
+function startSpeedTest() {
+    testStartTime = Date.now();
+    document.getElementById('speedTestBox').classList.add('hidden');
+    document.getElementById('testingBox').classList.remove('hidden');
+
+    const progress = document.createElement('div');
+    progress.id = 'progressBar';
+    progress.className = 'w-full bg-gray-300 rounded-full h-4 mt-6 overflow-hidden';
+    progress.innerHTML = '<div id="progressFill" class="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300" style="width: 0%"></div>';
+    document.getElementById('testingBox').appendChild(progress);
+
+    let width = 0;
+    const interval = setInterval(() => {
+        width += 2;
+        document.getElementById('progressFill').style.width = width + '%';
+        if (width >= 100) clearInterval(interval);
+    }, 120);  // 12s total animation
+
+    fetch("{% url 'home_speed_test' %}", {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(r => r.json())
+    .then(data => {
+        clearInterval(interval);
+        document.getElementById('testingBox').classList.add('hidden');
+        document.getElementById('resultBox').classList.remove('hidden');
+
+        if (data.success) {
+            const timeTaken = ((Date.now() - testStartTime) / 1000).toFixed(1);
+            document.getElementById('downloadResult').textContent = data.download;
+            document.getElementById('uploadResult').textContent = data.upload;
+            document.getElementById('pingResult').textContent = data.ping;
+            document.getElementById('serverInfo').innerHTML = 
+                `${data.server} • ${data.location} <span class="text-green-600">(${timeTaken}s)</span>`;
+        } else {
+            alert("No connection. Try again!");
+            resetSpeedTest();
+        }
+    })
+    .catch(() => {
+        alert("Failed. Check internet.");
+        resetSpeedTest();
+    });
+}
+
+function resetSpeedTest() {
+    document.getElementById('resultBox').classList.add('hidden');
+    document.getElementById('speedTestBox').classList.remove('hidden');
+    const pb = document.getElementById('testingBox');
+    if (pb) pb.innerHTML = pb.innerHTML.split('<div id="progressBar"')[0]; // Clean progress
+}
+</script>
+{% endblock %}

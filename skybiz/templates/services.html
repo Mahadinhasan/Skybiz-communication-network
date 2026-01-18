@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section id="services" class="page-section">
+    <div class="py-16 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">Our Services</h1>
+            
+            <!-- Service Features -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">High-Speed Internet</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Experience blazing fast internet speeds with our fiber-optic connections, perfect for streaming, gaming, and remote work.</p>
+                </div>
+                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div class="text-5xl mb-4">🔒</div>
+                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Secure Connections</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Our advanced security protocols ensure your data is protected while you browse, stream, and work online.</p>
+                </div>
+                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div class="text-5xl mb-4">💼</div>
+                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Business Solutions</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Tailored internet solutions for businesses of all sizes, including dedicated lines, static IPs, and 24/7 support.</p>
+                </div>
+            </div>
+
+            <!-- Cable Tv or Digital Setup Box services -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="flex items-center space-x-6 bg-gray-50 dark:bg-gray-700 p-8 rounded-lg">
+                    <div class="text-6xl">📺</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2 text-primary dark:text-secondary">Cable TV Services</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Enjoy a wide range of channels and on-demand content with our reliable cable TV services. Perfect for home entertainment.</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6 bg-gray-50 dark:bg-gray-700 p-8 rounded-lg">
+                    <div class="text-6xl">📡</div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2 text-primary dark:text-secondary">Digital Setup Box</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Get the best viewing experience with our digital setup boxes, offering high-definition channels and easy-to-use interfaces.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                       <!--FTP server-->
+    <div class="py-16 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">FTP Server Services</h1>
+            
+            <!-- FTP Features and ip Address-->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div class="text-5xl mb-4">📁</div>
+                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Secure File Storage</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Store and manage your files securely with our FTP server solutions, ensuring easy access and data protection.</p>
+                </div>
+                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div class="text-5xl mb-4">⚙️</div>
+                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Easy File Management</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Our FTP servers offer user-friendly interfaces for effortless file uploads, downloads, and organization.</p>
+                </div>
+                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <div class="text-5xl mb-4">🌐</div>
+                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">IP Address</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Access your FTP server using the following IP address: <a href="http://103.203.93.2/" class="dark:text-secondary hover:underline">103.203.93.2</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+<section id="faq" class="page-section">
+    <div class="py-16 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">Frequently Asked Questions</h1>
+            
+            <div class="space-y-8">
+                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4 text-primary dark:text-secondary">What internet packages do you offer?</h2>
+                    <p class="text-gray-600 dark:text-gray-300">We offer a variety of packages ranging from basic plans for light browsing to high-speed plans for heavy usage. Please visit our <a href="{% url 'packages' %}" class="text-secondary hover:underline">Packages</a> page for detailed information.</p>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4 text-primary dark:text-secondary">How can I sign up for your service?</h2>
+                    <p class="text-gray-600 dark:text-gray-300">You can sign up by visiting our <a href="{% url 'contact' %}" class="text-secondary hover:underline">Contact Us</a> page and filling out the inquiry form, or by calling our customer service number.</p>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4 text-primary dark:text-secondary">What areas do you serve?</h2>
+                    <p class="text-gray-600 dark:text-gray-300">We currently serve multiple regions. Please check our coverage map on the <a href="{% url 'home' %}" class="text-secondary hover:underline">Home</a> page or contact us for specific area inquiries.</p>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
+                    <h2 class="text-2xl font-bold mb-4 text-primary dark:text-secondary">What should I do if I experience connectivity issues?</h2>
+                    <p class="text-gray-600 dark:text-gray-300">If you experience any connectivity issues, please try restarting your modem/router. If the problem persists, contact our support team via the <a href="{% url 'contact' %}" class="text-secondary hover:underline">Contact Us</a> page or call our customer service number for assistance.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
