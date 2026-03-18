@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path,re_path
 from . import views
 
 urlpatterns = [
@@ -13,4 +13,5 @@ urlpatterns = [
     path('dashboard/', views.admin_dashboard, name='dashboard'),
     path('home-speed-test/', views.home_speed_test, name='home_speed_test'),
     path('faq/', views.faq, name='faq'),
+    re_path(r'^.*$', views.custom_404_view, name='custom_404'),
 ]
