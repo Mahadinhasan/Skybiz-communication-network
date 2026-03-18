@@ -643,4 +643,11 @@ def admin_dashboard(request):#admin_dashboard feature
         })
 
     return render(request, 'admin_dashboard.html', context)
+
+    def custom_404_view(request, exception=None):
+    """Render a beautiful custom 404 page."""
+    context = {
+        'request_path': request.path,
+    }
+    return render(request, '404.html', context, status=404)
 #Creator by Mahadin Hasan
