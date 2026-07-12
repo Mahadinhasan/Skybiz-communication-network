@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User,Group
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
 from twilio.rest import Client
-from .models import Package, ContactMessage, BusinessQuoteRequest, UserProfile, SpeedTestResult, Branch, NewsTicker
-from .forms import AdminLoginForm, AdminRegistrationForm, BranchForm
+from .models import Package, ContactMessage, BusinessQuoteRequest, UserProfile, SpeedTestResult, Branch, NewsTicker, FooterLocation, CarouselImage
+from .forms import AdminLoginForm, AdminRegistrationForm, BranchForm, ImageUploadForm, FooterLocationForm
 from django.db.models import Avg
 from datetime import timedelta
 from django.utils import timezone
@@ -16,17 +16,19 @@ import logging
 import speedtest
 from django.views.decorators.csrf import csrf_exempt
 
-# Ensure user groups exist
-Group.objects.get_or_create(name='Staff')
-Group.objects.get_or_create(name='User')
-
 # Configure logging
 logger = logging.getLogger(__name__)
 
 def home(request):
     popular_packages = Package.objects.filter(is_popular=True)[:12]
+    carousel_images = CarouselImage.objects.filter(is_active=True).order_by('-created_at')
+    news_items = NewsTicker.objects.filter(is_active=True).order_by('-created_at')
+    branches = Branch.objects.filter(is_active=True)
     return render(request, 'home.html', {
         'popular_packages': popular_packages,
+        'carousel_images': carousel_images,
+        'news_items': news_items,
+        'branches': branches,
     })
 
 def packages(request):
@@ -105,48 +107,51 @@ def contact(request):
     branches = Branch.objects.filter(is_active=True)
     return render(request, 'contact.html',{'branches': branches})
 
+def speedtest_ping(request):
+    return JsonResponse({'success': True})
+
+def speedtest_download(request):
+    # Return 5MB of dummy data to test download speed
+    chunk = b'x' * (5 * 1024 * 1024)
+    response = HttpResponse(chunk, content_type='application/octet-stream')
+    response['Content-Length'] = len(chunk)
+    response['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    return response
+
 @csrf_exempt
-def home_speed_test(request):
+def speedtest_upload(request):
+    if request.method == 'POST':
+        # Consume the upload stream
+        _ = request.body
+        return JsonResponse({'success': True})
+    return JsonResponse({'error': 'Invalid method'}, status=400)
+
+@csrf_exempt
+def speedtest_save(request):
     if request.method == 'POST':
         try:
-            # Import inside function - critical fix for some hosting environments
-            s = speedtest.Speedtest()
-            s.get_servers()
-            s.get_best_server()
+            import json
+            data = json.loads(request.body)
+            download = float(data.get('download', 0))
+            upload = float(data.get('upload', 0))
+            ping = float(data.get('ping', 0))
             
-            # Fast test - only 8-12 seconds
-            download = round(s.download() / 1_000_000, 2)
-            upload = round(s.upload() / 1_000_000, 2)
-            ping = round(s.results.ping, 1)
-            
-            server = s.results.server
-            
-            # Save result
-            SpeedTestResult.objects.create(
+            # Save speed test result to database
+            result = SpeedTestResult.objects.create(
                 user=request.user if request.user.is_authenticated else None,
                 download_speed=download,
                 upload_speed=upload,
                 latency=ping,
                 ip_address=request.META.get('REMOTE_ADDR', 'Unknown')
             )
-            
-            return JsonResponse({
-                'success': True,
-                'download': download,
-                'upload': upload,
-                'ping': ping,
-                'server': server.get('sponsor', 'Local Server'),
-                'location': f"{server.get('name', '')}, {server.get('country', '')}"
-            })
-            
+            return JsonResponse({'success': True, 'id': result.id})
         except Exception as e:
-            logger.error(f"Speed test failed: {e}")
-            return JsonResponse({
-                'success': False,
-                'error': 'No internet connection detected'
-            })
-    
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+            logger.error(f"Failed to save speed test results: {e}")
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+    return JsonResponse({'error': 'Invalid method'}, status=400)
+
+def speed_test_view(request):
+    return render(request, 'speed_test.html')
 
 def faq(request):
     return render(request, 'faq.html')
@@ -356,61 +361,63 @@ def admin_panel(request):#Admin_panel feature
                 messages.error(request, 'Message not found.')
             return redirect('admin_panel')
         
-        # elif action == 'add_carousel':
-        #     if request.user.is_authenticated and request.user.is_staff:
-        #         form = ImageUploadForm(request.POST, request.FILES)
-        #         if form.is_valid():
-        #             try:
-        #                 carousel_image = form.save(commit=False)
-        #                 carousel_image.uploaded_by = request.user
-        #                 # (max 5MB)
-        #                 if carousel_image.image.size > 5 * 1024 * 1024:
-        #                     messages.error(request, 'Image file size exceeds 5MB limit.')
-        #                 else:
-        #                     carousel_image.save()
-        #                     messages.success(request, 'Carousel image added successfully.')
-        #             except Exception as e:
-        #                 messages.error(request, f'Failed to save image: {str(e)}')
-        #         else:
-        #             for field, errors in form.errors.items():
-        #                 for error in errors:
-        #                     messages.error(request, f'Error in {field}: {error}')
-        #         return redirect('admin_panel')
+        elif action == 'add_carousel':
+            if request.user.is_authenticated and request.user.is_staff:
+                if CarouselImage.objects.count() >= 5:
+                    messages.error(request, 'Maximum 5 carousel images allowed. Please delete an existing image to upload a new one.')
+                    return redirect('admin_panel')
+                form = ImageUploadForm(request.POST, request.FILES)
+                if form.is_valid():
+                    try:
+                        carousel_image = form.save(commit=False)
+                        carousel_image.uploaded_by = request.user
+                        if carousel_image.image.size > 5 * 1024 * 1024:
+                            messages.error(request, 'Image file size exceeds 5MB limit.')
+                        else:
+                            carousel_image.save()
+                            messages.success(request, 'Carousel image added successfully.')
+                    except Exception as e:
+                        messages.error(request, f'Failed to save image: {str(e)}')
+                else:
+                    for field, errors in form.errors.items():
+                        for error in errors:
+                            messages.error(request, f'Error in {field}: {error}')
+                return redirect('admin_panel')
         
-        # elif action == 'edit_carousel':
-        #     if request.user.is_authenticated and request.user.is_staff:
-        #         carousel_id = request.POST.get('carousel_id')
-        #         try:
-        #             carousel_image = CarouselImage.objects.get(id=carousel_id)
-        #             form = ImageUploadForm(request.POST, request.FILES, instance=carousel_image)
-        #             if form.is_valid():
-        #                 if 'image' in request.FILES and request.FILES['image'].size > 5 * 1024 * 1024:
-        #                     messages.error(request, 'Image file size exceeds 5MB limit.')
-        #                 else:
-        #                     form.save()
-        #                     messages.success(request, 'Carousel image updated successfully.')
-        #             else:
-        #                 for field, errors in form.errors.items():
-        #                     for error in errors:
-        #                         messages.error(request, f'Error in {field}: {error}')
-        #         except CarouselImage.DoesNotExist:
-        #             messages.error(request, 'Carousel image not found.')
-        #         return redirect('admin_panel')
+        elif action == 'edit_carousel':
+            if request.user.is_authenticated and request.user.is_staff:
+                carousel_id = request.POST.get('carousel_id')
+                try:
+                    carousel_image = CarouselImage.objects.get(id=carousel_id)
+                    form = ImageUploadForm(request.POST, request.FILES, instance=carousel_image)
+                    if form.is_valid():
+                        if 'image' in request.FILES and request.FILES['image'].size > 5 * 1024 * 1024:
+                            messages.error(request, 'Image file size exceeds 5MB limit.')
+                        else:
+                            form.save()
+                            messages.success(request, 'Carousel image updated successfully.')
+                    else:
+                        for field, errors in form.errors.items():
+                            for error in errors:
+                                messages.error(request, f'Error in {field}: {error}')
+                except CarouselImage.DoesNotExist:
+                    messages.error(request, 'Carousel image not found.')
+                return redirect('admin_panel')
         
-        # elif action == 'delete_carousel':
-        #     if request.user.is_authenticated and request.user.is_staff:
-        #         carousel_id = request.POST.get('carousel_id')
-        #         try:
-        #             carousel_image = CarouselImage.objects.get(id=carousel_id)
-        #             # Delete the image file from storage
-        #             if carousel_image.image:
-        #                 if os.path.isfile(carousel_image.image.path):
-        #                     os.remove(carousel_image.image.path)
-        #             carousel_image.delete()
-        #             messages.success(request, 'Carousel image deleted successfully.')
-        #         except CarouselImage.DoesNotExist:
-        #             messages.error(request, 'Carousel image not found.')
-        #         return redirect('admin_panel')
+        elif action == 'delete_carousel':
+            if request.user.is_authenticated and request.user.is_staff:
+                carousel_id = request.POST.get('carousel_id')
+                try:
+                    carousel_image = CarouselImage.objects.get(id=carousel_id)
+                    if carousel_image.image:
+                        import os
+                        if os.path.isfile(carousel_image.image.path):
+                            os.remove(carousel_image.image.path)
+                    carousel_image.delete()
+                    messages.success(request, 'Carousel image deleted successfully.')
+                except CarouselImage.DoesNotExist:
+                    messages.error(request, 'Carousel image not found.')
+                return redirect('admin_panel')
         elif action == 'delete_all_speed_tests':
                 SpeedTestResult.objects.all().delete()
                 messages.success(request, 'All speed test results have been deleted.')
@@ -469,19 +476,60 @@ def admin_panel(request):#Admin_panel feature
             news_id = request.POST.get('news_id')
             NewsTicker.objects.filter(id=news_id).delete()
             messages.success(request, 'News deleted!')
-            return redirect('admin_panel')    
-
+            return redirect('admin_panel')
+        
+        elif action == 'add_footer_location':
+            if request.user.is_authenticated and request.user.is_staff:
+                form = FooterLocationForm(request.POST)
+                if form.is_valid():
+                    form.save()
+                    messages.success(request, 'Footer location added successfully.')
+                else:
+                    for field, errors in form.errors.items():
+                        for error in errors:
+                            messages.error(request, f'Error in {field}: {error}')
+                return redirect('admin_panel')
+        
+        elif action == 'edit_footer_location':
+            if request.user.is_authenticated and request.user.is_staff:
+                location_id = request.POST.get('location_id')
+                try:
+                    location = FooterLocation.objects.get(id=location_id)
+                    form = FooterLocationForm(request.POST, instance=location)
+                    if form.is_valid():
+                        form.save()
+                        messages.success(request, 'Footer location updated successfully.')
+                    else:
+                        for field, errors in form.errors.items():
+                            for error in errors:
+                                messages.error(request, f'Error in {field}: {error}')
+                except FooterLocation.DoesNotExist:
+                    messages.error(request, 'Footer location not found.')
+                return redirect('admin_panel')
+        
+        elif action == 'delete_footer_location':
+            if request.user.is_authenticated and request.user.is_staff:
+                location_id = request.POST.get('location_id')
+                try:
+                    FooterLocation.objects.get(id=location_id).delete()
+                    messages.success(request, 'Footer location deleted successfully.')
+                except FooterLocation.DoesNotExist:
+                    messages.error(request, 'Footer location not found.')
+                return redirect('admin_panel')
+ 
         return redirect('admin_panel')
-
+ 
     users = User.objects.all()
     all_packages = Package.objects.all()
     news_items = NewsTicker.objects.all()
     messages_list = ContactMessage.objects.all()
     business_requests = BusinessQuoteRequest.objects.all()
     speed_test_results = SpeedTestResult.objects.all()
-    # carousel_images = CarouselImage.objects.all().order_by('-created_at')
+    carousel_images = CarouselImage.objects.all().order_by('-created_at')
+    footer_locations = FooterLocation.objects.all().order_by('-created_at')
     branches = Branch.objects.all().order_by('-created_at')
-    # image_upload_form = ImageUploadForm()
+    image_upload_form = ImageUploadForm()
+    footer_location_form = FooterLocationForm()
     branch_form = BranchForm()
     return render(request, 'admin_panel.html', {
         'users': users,
@@ -490,9 +538,11 @@ def admin_panel(request):#Admin_panel feature
         'news_ticker': news_items,
         'business_requests': business_requests,
         'speed_test_results': speed_test_results,
-        # 'carousel_images': carousel_images,
+        'carousel_images': carousel_images,
+        'footer_locations': footer_locations,
         'branches': branches,
-        # 'image_upload_form': image_upload_form,
+        'image_upload_form': image_upload_form,
+        'footer_location_form': footer_location_form,
         'branch_form': branch_form
     })
 
@@ -644,10 +694,65 @@ def admin_dashboard(request):#admin_dashboard feature
 
     return render(request, 'admin_dashboard.html', context)
 
-    def custom_404_view(request, exception=None):
-    """Render a beautiful custom 404 page."""
-    context = {
+def custom_404_view(request, exception=None):
+        context = {
         'request_path': request.path,
     }
-    return render(request, '404.html', context, status=404)
+        return render(request, '404.html', context, status=404)
+
+def speed_test_view(request):
+    return render(request, 'speed_test.html')
+
+def faq(request):
+    return render(request, 'faq.html')
+
+@csrf_exempt
+def speedtest_ping(request):
+    return JsonResponse({'success': True})
+
+def speedtest_download(request):
+    from django.http import StreamingHttpResponse
+    import time
+    import os
+    size = 5 * 1024 * 1024  # 5 MB
+    chunk_size = 64 * 1024  # 64 KB
+    
+    def generate_data():
+        total_sent = 0
+        while total_sent < size:
+            chunk = os.urandom(chunk_size)
+            yield chunk
+            total_sent += len(chunk)
+            time.sleep(0.005) # Yield every 5ms to simulate realistic streaming throughput
+            
+    response = StreamingHttpResponse(generate_data(), content_type='application/octet-stream')
+    response['Content-Length'] = size
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    return response
+
+@csrf_exempt
+def speedtest_upload(request):
+    return JsonResponse({'success': True, 'received': request.META.get('CONTENT_LENGTH', 0)})
+
+@csrf_exempt
+def speedtest_save(request):
+    import json
+    try:
+        data = json.loads(request.body)
+        download = float(data.get('download', 0))
+        upload   = float(data.get('upload', 0))
+        ping     = float(data.get('ping', 0))
+        ip = request.META.get('REMOTE_ADDR', '')
+        user = request.user if request.user.is_authenticated else None
+        SpeedTestResult.objects.create(
+            user=user,
+            download_speed=download,
+            upload_speed=upload,
+            latency=ping,
+            ip_address=ip,
+        )
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=400)
+
 #Creator by Mahadin Hasan

@@ -1,147 +1,273 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Skybiz communication network-home{% endblock %}
+{% block title %}Skybiz Communication Network - Fast, Reliable Fiber Internet{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Welcome to Skybiz Communication Network. Discover our ultra-fast broadband and fiber optic packages with 99.9% uptime.">
+<meta name="keywords" content="Skybiz, home internet, business internet, fast fiber, broadband, ISP">
+<meta property="og:title" content="Skybiz Communication Network - Fast, Reliable Fiber Internet">
+<meta property="og:description" content="Welcome to Skybiz Communication Network. Discover our ultra-fast broadband and fiber optic packages with 99.9% uptime.">
+{% endblock %}
 
 {% block content %}
-{% comment %} <section id="hero" class="py-16 bg-gray-100 dark:bg-gray-900"> {% endcomment %}
-<!-- Hero Section with Background Image -->
-<section class="relative h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat bg-gray-1000" style="background-image: url('{% static 'images/isp2.png' %}');">
-    <div class="absolute inset-0 bg-black opacity-50"></div> <!-- Overlay for text readability -->
-    <div class="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8">
-        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Experience Lightning-Fast Internet</h1>
-        <!--subtitle text animation-->
-        <p class="text-xl md:text-2xl mb-8">Reliable, Affordable, and High-Speed Connectivity for Everyone</p>
-        <div>
-        <a href="{% url 'packages' %}" class="inline-block bg-primary white:bg-secondary text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-all">
-            Explore Plans
-        </a>
-    </div>
-</section>
-    {% comment %} <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Carousel -->
-        {% if carousel_images %}
-        <div class="relative">
-            <div id="carousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {% for image in carousel_images %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ image.image.url }}" class="w-full h-96 object-cover rounded-lg" alt="{{ image.title }}">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5 class="text-2xl font-bold text-white">{{ image.title }}</h5>
-                            <p class="text-white">{{ image.caption }}</p>
-                        </div>
-                    </div>
-                    {% endfor %}
+
+<!-- Hero / Carousel Section -->
+{% if carousel_images %}
+<section class="relative h-[90vh] w-full overflow-hidden bg-slate-950">
+    <!-- Slides Wrapper -->
+    <div id="carouselSlides"
+        class="flex transition-transform duration-1000 cubic-bezier(0.16, 1, 0.3, 1) h-full w-full">
+        {% for image in carousel_images %}
+        <div class="w-full h-full flex-shrink-0 relative flex items-center justify-center bg-cover bg-center bg-no-repeat transition-all duration-700"
+            style="background-image: url('{{ image.image.url }}');">
+            <!-- Gradient Overlay for readability -->
+            <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-darkBg/60 to-transparent"></div>
+            <!-- Glow circles in background -->
+            <div
+                class="absolute w-[40rem] h-[40rem] -top-40 -left-40 bg-brand-600/10 rounded-full blur-[120px] pointer-events-none">
+            </div>
+            <div
+                class="absolute w-[45rem] h-[45rem] -bottom-40 -right-40 bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none">
+            </div>
+
+            <!-- Content Container -->
+            <div class="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-6">
+                <span
+                    class="inline-block bg-brand-600/20 border border-brand-500/35 text-brand-300 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                    Premium Connectivity
+                </span>
+                <h1
+                    class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white drop-shadow-xl select-none leading-[1.1]">
+                    {{ image.title }}
+                </h1>
+                {% if image.caption %}
+                <p
+                    class="text-lg md:text-xl lg:text-2xl text-slate-200 font-medium drop-shadow-lg leading-relaxed max-w-2xl mx-auto">
+                    {{ image.caption }}
+                </p>
+                {% endif %}
+                <div class="pt-4">
+                    <a href="{% url 'packages' %}"
+                        class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-600 to-indigo-700 hover:from-brand-700 hover:to-indigo-800 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:scale-105 hover:shadow-2xl hover:shadow-brand-500/25 transition-all transform duration-300">
+                        Explore Plans <i class="fa-solid fa-arrow-right text-sm"></i>
+                    </a>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
-        {% else %}
-        <div class="text-center text-gray-600 dark:text-gray-300">
-            <p>No carousel images available.</p>
-        </div>
-        {% endif %} {% endcomment %}
+        {% endfor %}
+    </div>
 
-        <!-- Hero Content -->
-        {% comment %} <div class="text-center mt-12">
-            <h1 class="text-4xl font-bold text-primary dark:text-secondary">Welcome to Skybiz communication Network</h1>
-            <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">Experience blazing-fast internet with our premium plans.</p>
-            <a href="{% url 'packages' %}" class="mt-6 inline-block bg-primary dark:bg-secondary text-white dark:text-primary px-6 py-3 rounded-lg hover:bg-opacity-90">
-                Explore Plans
+    <!-- Navigation Arrows -->
+    <button id="prevBtn"
+        class="absolute left-6 top-1/2 -translate-y-1/2 bg-slate-900/60 hover:bg-brand-600 text-white w-14 h-14 rounded-2xl opacity-0 group-hover:opacity-100 lg:opacity-100 transition-all flex items-center justify-center border border-white/5 shadow-2xl backdrop-blur-md z-20">
+        <i class="fa-solid fa-chevron-left text-lg"></i>
+    </button>
+    <button id="nextBtn"
+        class="absolute right-6 top-1/2 -translate-y-1/2 bg-slate-900/60 hover:bg-brand-600 text-white w-14 h-14 rounded-2xl opacity-0 group-hover:opacity-100 lg:opacity-100 transition-all flex items-center justify-center border border-white/5 shadow-2xl backdrop-blur-md z-20">
+        <i class="fa-solid fa-chevron-right text-lg"></i>
+    </button>
+
+    <!-- Indicator Dots -->
+    <div class="absolute bottom-8 left-0 right-0 flex justify-center space-x-2.5 z-20">
+        {% for image in carousel_images %}
+        <button class="carousel-dot w-8 h-2 rounded-full bg-white/20 hover:bg-white transition-all duration-300"
+            data-slide-index="{{ forloop.counter0 }}"></button>
+        {% endfor %}
+    </div>
+</section>
+{% else %}
+<!-- Fallback Hero Section -->
+<section class="relative h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat bg-slate-950"
+    style="background-image: url('{% static 'images/isp2.png' %}');">
+    <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-darkBg/60 to-darkBg/30"></div>
+    <!-- Ambient glow -->
+    <div class="absolute w-[40rem] h-[40rem] bg-brand-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-6">
+        <span
+            class="inline-block bg-brand-600/20 border border-brand-500/35 text-brand-300 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+            Hyper-Speed Fiber Internet
+        </span>
+        <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight">Experience Lightning-Fast Internet
+        </h1>
+        <p class="text-lg md:text-xl lg:text-2xl text-slate-200 max-w-2xl mx-auto">Reliable, Affordable, and High-Speed
+            Connectivity for Everyone</p>
+        <div class="pt-4">
+            <a href="{% url 'packages' %}"
+                class="inline-flex items-center gap-2 bg-gradient-to-r from-brand-600 to-indigo-700 hover:from-brand-700 hover:to-indigo-800 text-white px-8 py-4 rounded-2xl text-lg font-bold hover:scale-105 hover:shadow-2xl transition-all transform duration-300">
+                Explore Plans <i class="fa-solid fa-arrow-right text-sm"></i>
             </a>
         </div>
     </div>
-</section> {% endcomment %}
+</section>
+{% endif %}
 
-        <!-- Controls -->
-        {% comment %} <button class="carousel-control-prev absolute top-1/2 -translate-y-1/2 left-4 w-12 h-12 flex items-center justify-center bg-gray-500 dark:bg-gray-300 rounded-full hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-            <span class="inline-block w-6 h-6 bg-no-repeat bg-center bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27%3E%3Cpath d=%27M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z%27/%3E%3C/svg%3E')] filter invert-0 dark:invert" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </button>
-        <button class="carousel-control-next absolute top-1/2 -translate-y-1/2 right-4 w-12 h-12 flex items-center justify-center bg-gray-500 dark:bg-gray-300 rounded-full hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-            <span class="inline-block w-6 h-6 bg-no-repeat bg-center bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27 fill=%27%23fff%27%3E%3Cpath d=%27M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z%27/%3E%3C/svg%3E')] filter invert-0 dark:invert" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </button>
-    </div> {% endcomment %}
-
-    <!-- Highlights -->
-    <div class="py-16 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center p-6 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <div class="text-4xl mb-4">⚡</div>
-                    <h3 class="text-xl font-semibold mb-2 text-primary dark:text-secondary">Lightning Speed</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Up to 1Gbps download speeds</p>
+<!-- Highlights Section -->
+<section class="py-24 bg-white dark:bg-cardBgDark/30 border-y border-slate-100 dark:border-slate-900 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Card 1 -->
+            <div
+                class="bg-slate-50 dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-2xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div
+                    class="w-14 h-14 bg-brand-500/10 rounded-xl flex items-center justify-center mb-6 text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-bolt text-2xl"></i>
                 </div>
-                <div class="text-center p-6 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <div class="text-4xl mb-4">🌐</div>
-                    <h3 class="text-xl font-semibold mb-2 text-primary dark:text-secondary">Wide Coverage</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Available in {{ cities_count }} cities Network</p>
+                <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">Lightning Speed</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Experience ultra-low latency
+                    connection speeds up to 1Gbps on a 100% fiber network.</p>
+            </div>
+            <!-- Card 2 -->
+            <div
+                class="bg-slate-50 dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-2xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div
+                    class="w-14 h-14 bg-indigo-500/10 rounded-xl flex items-center justify-center mb-6 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-globe text-2xl"></i>
                 </div>
-                <div class="text-center p-6 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <div class="text-4xl mb-4">🛠️</div>
-                    <h3 class="text-xl font-semibold mb-2 text-primary dark:text-secondary">24/7 Support</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Round-the-clock technical assistance</p>
+                <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">Wide Coverage</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">High performance network coverage
+                    is actively serving residential and corporate hubs.</p>
+            </div>
+            <!-- Card 3 -->
+            <div
+                class="bg-slate-50 dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-2xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div
+                    class="w-14 h-14 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-headset text-2xl"></i>
                 </div>
-                <div class="text-center p-6 rounded-lg bg-gray-50 dark:bg-gray-700">
-                    <div class="text-4xl mb-4">৳</div>
-                    <h3 class="text-xl font-semibold mb-2 text-primary dark:text-secondary">Affordable Pricing</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Competitive rates for all budgets</p>
+                <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">24/7 Priority Support</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Round-the-clock technical helpline
+                    support to assist with troubleshooting at any time.</p>
+            </div>
+            <!-- Card 4 -->
+            <div
+                class="bg-slate-50 dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-2xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div
+                    class="w-14 h-14 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-bangladeshi-taka-sign text-2xl"></i>
                 </div>
+                <h3 class="text-xl font-bold mb-3 text-slate-800 dark:text-white">Aesthetic Pricing</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">Highly transparent, competitive
+                    internet plan pricing structured for any home budget.</p>
             </div>
         </div>
     </div>
+</section>
 
-  <!-- Speed Test Section -->
-   <!-- SPEED TEST SECTION - EMBEDDED DIRECTLY ON HOME PAGE -->
-<section class="py-20 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
-    <div class="max-w-6xl mx-auto px-4 text-center">
-        <h2 class="text-4xl md:text-5xl font-bold text-primary dark:text-secondary mb-6">
-            Test Your Internet Speed – Instantly!
+<!-- Speed Test Section -->
+<section id="speedtest-section"
+    class="py-24 bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-darkBg dark:via-cardBgDark/20 dark:to-darkBg relative overflow-hidden">
+    <div class="absolute w-96 h-96 bg-brand-600/5 rounded-full blur-[100px] -top-12 left-1/3"></div>
+
+    <div class="max-w-6xl mx-auto px-4 text-center relative z-10 space-y-6">
+        <span
+            class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+            Live Diagnostics
+        </span>
+        <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">
+            Test Your Connection Real-Time
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl mx-auto">
-            Check your real-time download, upload speed and ping in seconds. No signup needed.
+        <p class="text-base md:text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+            Check latency/ping, real-time download and upload speeds using our node directly.
         </p>
 
-        <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-10 max-w-4xl mx-auto">
-            <!-- Before Test -->
-            <div id="speedTestBox" class="text-center">
-                <div class="mb-10">
-                    <div class="w-56 h-56 mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-xl">
-                        <svg class="w-28 h-28 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                  d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
+        <!-- Speed Test Widget Card -->
+        <div
+            class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-3xl shadow-2xl p-8 md:p-12 max-w-3xl mx-auto relative overflow-hidden">
+            <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-brand-500 via-indigo-600 to-indigo-800">
+            </div>
+
+            <!-- Before Test Screen -->
+            <div id="speedTestBox" class="py-8 space-y-8">
+                <!-- Large Speedometer Logo Placeholder -->
+                <div
+                    class="relative w-44 h-44 mx-auto flex items-center justify-center bg-brand-50 dark:bg-slate-800/30 border border-brand-100 dark:border-slate-800 rounded-full shadow-inner group">
+                    <div
+                        class="absolute inset-3 bg-gradient-to-tr from-brand-600 to-indigo-800 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid fa-gauge-high text-6xl"></i>
                     </div>
                 </div>
-                <h3 class="text-3xl font-bold mb-6">Ready to Test Your Speed?</h3>
-                <button onclick="startSpeedTest()" 
-                        class="bg-primary hover:bg-blue-700 text-white font-bold py-6 px-16 rounded-full text-2xl transition transform hover:scale-110 shadow-2xl">
-                    Start Speed Test Now
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-extrabold text-slate-800 dark:text-white">Connection Ready</h3>
+                    <p class="text-sm text-slate-400">Click below to begin the live latency, download, and upload
+                        analysis.</p>
+                </div>
+                <button onclick="startSpeedTest()"
+                    class="bg-gradient-to-r from-brand-600 to-indigo-700 hover:from-brand-700 hover:to-indigo-800 text-white font-extrabold py-5 px-14 rounded-2xl text-xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/35 hover:-translate-y-0.5">
+                    Start Speed Test
                 </button>
             </div>
 
-            <!-- Testing... -->
-            <div id="testingBox" class="hidden text-center">
-                <div class="animate-pulse mb-10">
-                    <div class="w-56 h-56 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
-                        <svg class="w-24 h-24 text-primary animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
+            <!-- Live Testing Screen -->
+            <div id="testingBox" class="hidden py-8 space-y-8">
+                <!-- Live Gauge Widget -->
+                <div class="relative w-64 h-64 mx-auto flex items-center justify-center">
+                    <!-- Gauge SVG -->
+                    <svg class="w-full h-full transform -rotate-[220deg]" viewBox="0 0 200 200">
+                        <!-- Track Background (280 degrees arc) -->
+                        <circle cx="100" cy="100" r="80" class="stroke-slate-100 dark:stroke-slate-800/80"
+                            stroke-width="12" fill="transparent" stroke-dasharray="502" stroke-dashoffset="120"
+                            stroke-linecap="round" />
+                        <!-- Speed Active Arc -->
+                        <circle id="speedArc" cx="100" cy="100" r="80"
+                            class="stroke-brand-600 transition-all duration-150 ease-out" stroke-width="12"
+                            fill="transparent" stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round" />
+                    </svg>
+
+                    <!-- Text Display inside Gauge -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-center pt-4">
+                        <span id="gaugeLabel" class="text-xs uppercase font-extrabold text-slate-400">Ping</span>
+                        <div class="flex items-baseline mt-1">
+                            <span id="liveSpeed"
+                                class="text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">—</span>
+                        </div>
+                        <span id="gaugeUnit" class="text-xs font-bold text-slate-400 mt-0.5">ms</span>
+                    </div>
+
+                    <!-- Needle -->
+                    <div id="gaugeNeedle"
+                        class="absolute w-2 h-20 bg-gradient-to-t from-brand-600 to-indigo-800 rounded-full origin-bottom bottom-[50%] left-[calc(50%-4px)] transition-transform duration-150 ease-out"
+                        style="transform-origin: 50% 100%; transform: rotate(-130deg);"></div>
+                </div>
+
+                <!-- Mini Cards Grid -->
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-850 p-4 rounded-2xl relative"
+                        id="card-ping">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Latency</p>
+                        <p id="livePing" class="text-xl md:text-2xl font-extrabold text-slate-700 dark:text-slate-200">—
+                        </p>
+                        <span class="text-[9px] text-slate-400">ms</span>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-850 p-4 rounded-2xl relative"
+                        id="card-download">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Download</p>
+                        <p id="liveDownload"
+                            class="text-xl md:text-2xl font-extrabold text-slate-700 dark:text-slate-200">—</p>
+                        <span class="text-[9px] text-slate-400">Mbps</span>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-850 p-4 rounded-2xl relative"
+                        id="card-upload">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Upload</p>
+                        <p id="liveUpload"
+                            class="text-xl md:text-2xl font-extrabold text-slate-700 dark:text-slate-200">—</p>
+                        <span class="text-[9px] text-slate-400">Mbps</span>
                     </div>
                 </div>
-                <p class="text-3xl font-bold text-primary">Testing Your Connection...</p>
-                <p class="text-xl text-gray-500 mt-4">Usually takes 25 seconds</p>
+
+                <!-- Live Status message -->
+                <div class="space-y-3">
+                    <p id="phaseLabel" class="text-base font-semibold text-slate-700 dark:text-slate-200">Initializing
+                        connection...</p>
+                    <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden shadow-inner">
+                        <div id="progressFill"
+                            class="h-full bg-gradient-to-r from-brand-500 via-indigo-600 to-indigo-800 rounded-full transition-all duration-300"
+                            style="width: 0%"></div>
+                    </div>
+                </div>
             </div>
+
 
             <!-- Results -->
             <div id="resultBox" class="hidden">
@@ -151,132 +277,461 @@
                         <p id="downloadResult" class="text-5xl font-bold mt-3">0</p>
                         <p class="text-2xl opacity-80">Mbps</p>
                     </div>
-                    <div class="bg-gradient-to-br from-green-500 to-green-700 p-8 rounded-2xl text-white transform hover:scale-105 transition">
-                        <p class="text-lg opacity-90">Upload</p>
-                        <p id="uploadResult" class="text-5xl font-bold mt-3">0</p>
-                        <p class="text-2xl opacity-80">Mbps</p>
+                    <div
+                        class="bg-gradient-to-br from-indigo-500 to-indigo-700 p-6 rounded-2xl text-white shadow-xl relative overflow-hidden group">
+                        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-white/5 rounded-full blur-md"></div>
+                        <p class="text-xs uppercase font-extrabold text-indigo-200 tracking-wider">Upload Speed</p>
+                        <p id="uploadResult" class="text-4xl md:text-5xl font-extrabold tracking-tight mt-3">0</p>
+                        <p class="text-xs font-semibold text-indigo-200 mt-1">Mbps</p>
                     </div>
-                    <div class="bg-gradient-to-br from-purple-500 to-purple-700 p-8 rounded-2xl text-white transform hover:scale-105 transition">
-                        <p class="text-lg opacity-90">Ping</p>
-                        <p id="pingResult" class="text-5xl font-bold mt-3">0</p>
-                        <p class="text-2xl opacity-80">ms</p>
+                    <div
+                        class="bg-gradient-to-br from-slate-800 to-slate-900 dark:from-slate-900 dark:to-slate-950 p-6 rounded-2xl text-white shadow-xl border border-slate-750 relative overflow-hidden group">
+                        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-white/5 rounded-full blur-md"></div>
+                        <p class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">Ping Latency</p>
+                        <p id="pingResult" class="text-4xl md:text-5xl font-extrabold tracking-tight mt-3">0</p>
+                        <p class="text-xs font-semibold text-slate-400 mt-1">ms</p>
                     </div>
                 </div>
 
-                <p class="text-lg text-gray-600 dark:text-gray-400" id="serverInfo"></p>
-
-                <button onclick="resetSpeedTest()" 
-                        class="mt-8 bg-gray-600 hover:bg-gray-700 text-white font-bold py-4 px-12 rounded-full text-xl transition">
-                    Test Again
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Package Preview -->
-    <div class="py-16 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center mb-12 text-primary dark:text-secondary">Popular Packages</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {% for package in popular_packages %}
-                <div class="package-card bg-gray-50 dark:bg-gray-700 p-6 rounded-lg border-2 border-transparent hover:border-secondary {% if package.is_popular %}transform scale-105{% endif %}">
-                    {% if package.is_popular %}
-                    <div class="text-center mb-4">
-                        <span class="bg-primary text-secondary px-3 py-1 rounded-full text-sm font-semibold">Most Popular</span>
-                    </div>
-                    {% endif %}
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">{{ package.name }}</h3>
-                    <div class="text-3xl font-bold mb-2 text-primary dark:text-secondary">৳{{ package.price }}<span class="text-sm font-normal">/month</span></div>
-                    <ul class="space-y-2 mb-6 text-gray-600 dark:text-gray-300">
-                        <li>✓ {{ package.download_speed }} Mbps Download</li>
-                        <li>✓ {{ package.upload_speed }} Mbps Upload</li>
-                        <li>✓ {{ package.data_limit }}</li>
-                        <li>✓ {{ package.features }}</li>
-                    </ul>
+                <div
+                    class="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-850 rounded-2xl inline-flex items-center gap-2">
+                    <span id="serverInfo" class="text-sm font-semibold text-slate-500 dark:text-slate-400"></span>
                 </div>
-                {% endfor %}
-            </div>
-            <div class="text-center mt-8">
-                <a href="{% url 'packages' %}" class="bg-primary dark:bg-secondary text-white dark:text-primary px-6 py-3 rounded-lg hover:opacity-90 transition-opacity">
-                    View All Packages
-                </a>
+
+                <div class="pt-4">
+                    <button onclick="resetSpeedTest()"
+                        class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold py-3.5 px-10 rounded-xl text-base transition-all">
+                        Test Again
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+<!-- Package Preview Section -->
+<section class="py-24 bg-white dark:bg-cardBgDark/30 border-t border-slate-100 dark:border-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+        <span
+            class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+            Best Value Plans
+        </span>
+        <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">Popular Internet
+            Packages</h2>
+        <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto">Get connected today with
+            one of our highly popular, client-recommended fiber packages.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-10 text-left">
+            {% for package in popular_packages %}
+            <div
+                class="bg-slate-50 dark:bg-cardBgDark border-2 {% if package.is_popular %}border-brand-500 shadow-brand-500/5{% else %}border-slate-100 dark:border-slate-850 hover:border-brand-500/20{% endif %} rounded-3xl p-8 relative transition-all duration-300 shadow-xl flex flex-col justify-between">
+                {% if package.is_popular %}
+                <div
+                    class="absolute -top-4 right-8 bg-brand-600 text-white font-extrabold text-xs px-4 py-1.5 rounded-full shadow-lg shadow-brand-600/25 tracking-wider uppercase">
+                    Most Popular
+                </div>
+                {% endif %}
+
+                <div>
+                    <h3 class="text-2xl font-extrabold text-slate-800 dark:text-white mb-2">{{ package.name }}</h3>
+                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-6">{{ package.package_type }} package</p>
+
+                    <div class="flex items-baseline mb-6 gap-0.5">
+                        <span class="text-3xl font-extrabold text-slate-800 dark:text-white">৳{{ package.price }}</span>
+                        <span class="text-sm text-slate-400">/month</span>
+                    </div>
+
+                    <!-- Speed circular showcase -->
+                    <div class="flex items-center gap-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl mb-6 shadow-sm">
+                        <div class="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Download Speed</span>
+                            <span class="text-base font-extrabold text-slate-700 dark:text-slate-200">{{ package.download_speed }} Mbps</span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 mb-8 text-sm">
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
+                            <span class="text-slate-600 dark:text-slate-300 font-medium">{{ package.upload_speed }} Mbps Dedicated Upload</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
+                            <span class="text-slate-600 dark:text-slate-300 font-medium">{% if package.data_limit %}{{ package.data_limit }}{% else %}Unlimited Data{% endif %}</span>
+                        </li>
+                        {% if package.features %}
+                        {% for feature in package.features.splitlines %}
+                        {% if feature %}
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
+                            <span class="text-slate-600 dark:text-slate-300 font-medium">{{ feature }}</span>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <a href="{% url 'contact' %}"
+                    class="w-full text-center py-4 bg-slate-200/50 hover:bg-brand-600 text-slate-700 dark:text-slate-200 hover:text-white font-bold rounded-2xl block transition-all shadow-md">
+                    Choose Plan
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="pt-8">
+            <a href="{% url 'packages' %}"
+                class="inline-flex items-center gap-2 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white font-bold px-8 py-4 rounded-xl text-base transition-all">
+                View All Packages <i class="fa-solid fa-chevron-right text-xs"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section -->
+<section class="py-24 bg-white dark:bg-cardBgDark border-t border-slate-100 dark:border-slate-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center space-y-4 mb-16">
+            <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                Our Features
+            </span>
+            <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">Why Choose Skybiz?</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
+                We deliver more than just the internet. We deliver a seamless, high-speed, and ultra-reliable connectivity experience for your home and business.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="text-center p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/50 hover:bg-brand-50 dark:hover:bg-brand-900/10 transition-colors border border-transparent hover:border-brand-500/20">
+                <div class="w-16 h-16 mx-auto bg-brand-500/10 text-brand-600 dark:text-brand-400 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                    <i class="fa-solid fa-rocket"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3">Ultra-Fast Fiber</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Experience lightning-fast download and upload speeds with our state-of-the-art fiber optic technology. No more buffering.
+                </p>
+            </div>
+            
+            <div class="text-center p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/50 hover:bg-indigo-50 dark:hover:bg-indigo-900/10 transition-colors border border-transparent hover:border-indigo-500/20">
+                <div class="w-16 h-16 mx-auto bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3">99.9% Uptime</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Reliability you can count on. Our network is engineered for maximum uptime to keep you connected when it matters most.
+                </p>
+            </div>
+
+            <div class="text-center p-8 rounded-3xl bg-slate-50 dark:bg-slate-900/50 hover:bg-emerald-50 dark:hover:bg-emerald-900/10 transition-colors border border-transparent hover:border-emerald-500/20">
+                <div class="w-16 h-16 mx-auto bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-2xl flex items-center justify-center text-2xl mb-6">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3">24/7 Expert Support</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Our dedicated support team is available around the clock to assist you with any technical issues or inquiries.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Network Coverage / Branches Section -->
+{% if branches %}
+<section class="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+    <!-- Background Accents -->
+    <div class="absolute -left-40 top-20 w-80 h-80 bg-brand-600/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute -right-40 bottom-10 w-96 h-96 bg-indigo-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center space-y-4 mb-16">
+            <span class="inline-block bg-indigo-600/10 border border-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                Our Network
+            </span>
+            <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">Coverage Areas &amp; Branches</h2>
+            <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
+                Find the nearest Skybiz Communication Network branch. We are constantly expanding our fiber network to bring high-speed internet to your doorstep.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for branch in branches %}
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-xl flex items-center justify-center text-xl mb-6">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white mb-3">{{ branch.name }}</h3>
+                    <div class="space-y-3 mb-6">
+                        <p class="text-sm flex items-start gap-3 text-slate-600 dark:text-slate-300">
+                            <i class="fa-solid fa-map text-slate-400 mt-0.5"></i>
+                            <span>{{ branch.address }}<br>{{ branch.city }}, {{ branch.state }}</span>
+                        </p>
+                        <p class="text-sm flex items-center gap-3 text-slate-600 dark:text-slate-300">
+                            <i class="fa-solid fa-phone text-slate-400"></i>
+                            <a href="tel:{{ branch.phone }}" class="hover:text-brand-600">{{ branch.phone }}</a>
+                        </p>
+                    </div>
+                </div>
+                {% if branch.map_link %}
+                <a href="{{ branch.map_link }}" target="_blank" class="w-full text-center py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-bold rounded-xl transition-colors">
+                    <i class="fa-solid fa-map-location-dot mr-1.5"></i> View on Map
+                </a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock content %}
+
 {% block scripts %}
-<style>
-    .progress-arc {
-        transition: stroke-dashoffset 0.3s linear;
-    }
-</style>
-        <style>
-            .progress-arc {
-                transition: stroke-dashoffset 0.3s linear;
-            }
-            .bg-arc {
-                transition: stroke 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-            }
-        </style>
 <script>
-  let testStartTime;
+    // =============================================
+    // CAROUSEL CONTROLLER
+    // =============================================
+    (function () {
+        const slides = document.getElementById('carouselSlides');
+        if (!slides) return;
 
-function startSpeedTest() {
-    testStartTime = Date.now();
-    document.getElementById('speedTestBox').classList.add('hidden');
-    document.getElementById('testingBox').classList.remove('hidden');
+        const totalSlides = slides.children.length;
+        if (totalSlides === 0) return;
 
-    const progress = document.createElement('div');
-    progress.id = 'progressBar';
-    progress.className = 'w-full bg-gray-300 rounded-full h-4 mt-6 overflow-hidden';
-    progress.innerHTML = '<div id="progressFill" class="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300" style="width: 0%"></div>';
-    document.getElementById('testingBox').appendChild(progress);
+        let current = 0;
+        let autoTimer;
 
-    let width = 0;
-    const interval = setInterval(() => {
-        width += 2;
-        document.getElementById('progressFill').style.width = width + '%';
-        if (width >= 100) clearInterval(interval);
-    }, 220);  // 22s total animation
-
-    fetch("{% url 'home_speed_test' %}", {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-            'X-Requested-With': 'XMLHttpRequest'
+        function goTo(index) {
+            current = (index + totalSlides) % totalSlides;
+            slides.style.transform = `translateX(-${current * 100}%)`;
+            // Update dots
+            document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+                dot.classList.toggle('bg-white', i === current);
+                dot.classList.toggle('w-8', i === current);
+                dot.classList.toggle('bg-white/20', i !== current);
+                dot.classList.toggle('w-2.5', i !== current);
+            });
         }
-    })
-    .then(r => r.json())
-    .then(data => {
-        clearInterval(interval);
-        document.getElementById('testingBox').classList.add('hidden');
-        document.getElementById('resultBox').classList.remove('hidden');
 
-        if (data.success) {
-            const timeTaken = ((Date.now() - testStartTime) / 1000).toFixed(1);
-            document.getElementById('downloadResult').textContent = data.download;
-            document.getElementById('uploadResult').textContent = data.upload;
-            document.getElementById('pingResult').textContent = data.ping;
-            document.getElementById('serverInfo').innerHTML = 
-                `${data.server} • ${data.location} <span class="text-green-600">(${timeTaken} seconds)</span>`;
-        } else {
-            alert("No connection. Try again!");
+        function startAuto() {
+            autoTimer = setInterval(() => goTo(current + 1), 6000);
+        }
+        function stopAuto() { clearInterval(autoTimer); }
+
+        // Buttons
+        const prev = document.getElementById('prevBtn');
+        const next = document.getElementById('nextBtn');
+        if (prev) prev.addEventListener('click', () => { stopAuto(); goTo(current - 1); startAuto(); });
+        if (next) next.addEventListener('click', () => { stopAuto(); goTo(current + 1); startAuto(); });
+
+        // Dots
+        document.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+            dot.addEventListener('click', () => { stopAuto(); goTo(i); startAuto(); });
+        });
+
+        // Touch Support
+        let touchStartX = 0;
+        slides.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; stopAuto(); }, { passive: true });
+        slides.addEventListener('touchend', e => {
+            const diff = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) > 40) goTo(current + (diff > 0 ? 1 : -1));
+            startAuto();
+        }, { passive: true });
+
+        // Init
+        goTo(0);
+        startAuto();
+    })();
+
+    // =============================================
+    // REAL-TIME BROWSER-BASED SPEED TEST
+    // =============================================
+    const maxSpeed = 100; // Reference maximum download/upload speed for dial scaling (Mbps)
+
+    function updateGauge(val, phase) {
+        const speedArc = document.getElementById('speedArc');
+        const gaugeNeedle = document.getElementById('gaugeNeedle');
+        const liveSpeed = document.getElementById('liveSpeed');
+        const gaugeLabel = document.getElementById('gaugeLabel');
+        const gaugeUnit = document.getElementById('gaugeUnit');
+
+        if (!speedArc || !gaugeNeedle || !liveSpeed) return;
+
+        // Map speed to gauge angle (-130 to +130 deg)
+        const angle = -130 + Math.min(1, val / maxSpeed) * 260;
+        gaugeNeedle.style.transform = `rotate(${angle}deg)`;
+
+        // Map speed to stroke-dashoffset (total length is 502, maps from 502 to 120)
+        const offset = 502 - Math.min(1, val / maxSpeed) * 382;
+        speedArc.style.strokeDashoffset = offset;
+
+        // Update numbers
+        liveSpeed.textContent = val.toFixed(1);
+
+        if (phase === 'ping') {
+            gaugeLabel.textContent = 'Ping';
+            gaugeUnit.textContent = 'ms';
+        } else if (phase === 'download') {
+            gaugeLabel.textContent = 'Downloading';
+            gaugeUnit.textContent = 'Mbps';
+        } else if (phase === 'upload') {
+            gaugeLabel.textContent = 'Uploading';
+            gaugeUnit.textContent = 'Mbps';
+        }
+    }
+
+    async function measurePing() {
+        const times = [];
+        for (let i = 0; i < 5; i++) {
+            const t = Date.now();
+            await fetch("{% url 'speedtest_ping' %}", { cache: 'no-store' });
+            times.push(Date.now() - t);
+            updateGauge(Date.now() - t, 'ping');
+            await new Promise(r => setTimeout(r, 100)); // sleep 100ms
+        }
+        return Math.round(times.reduce((a, b) => a + b) / times.length);
+    }
+
+    async function measureDownload(onProgress) {
+        const startTime = Date.now();
+        let loaded = 0;
+
+        // Download 5MB dummy payload
+        const response = await fetch("{% url 'speedtest_download' %}?t=" + Date.now(), { cache: 'no-store' });
+        const reader = response.body.getReader();
+        const contentLength = parseInt(response.headers.get('Content-Length') || '5242880');
+
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            loaded += value.length;
+            const elapsed = (Date.now() - startTime) / 1000;
+            if (elapsed > 0) {
+                const speedMbps = ((loaded * 8) / (elapsed * 1e6));
+                const pct = Math.min(100, Math.round((loaded / contentLength) * 100));
+                onProgress(speedMbps, pct);
+            }
+        }
+
+        const totalElapsed = (Date.now() - startTime) / 1000;
+        return parseFloat(((loaded * 8) / (totalElapsed * 1e6)).toFixed(2));
+    }
+
+    async function measureUpload(onProgress) {
+        const dataSize = 3 * 1024 * 1024; // 3 MB upload payload
+        const data = new Uint8Array(dataSize);
+        // Random-fill in chunks of 65536 bytes to comply with Web Crypto API constraints and maximize performance
+        const chunkSize = 65536;
+        for (let i = 0; i < dataSize; i += chunkSize) {
+            const slice = data.subarray(i, i + chunkSize);
+            crypto.getRandomValues(slice);
+        }
+
+        return new Promise((resolve) => {
+            const xhr = new XMLHttpRequest();
+            const startTime = Date.now();
+
+            xhr.upload.addEventListener('progress', (e) => {
+                if (e.lengthComputable) {
+                    const elapsed = (Date.now() - startTime) / 1000;
+                    const speed = elapsed > 0 ? ((e.loaded * 8) / (elapsed * 1e6)) : 0;
+                    const pct = Math.round((e.loaded / e.total) * 100);
+                    onProgress(speed, pct);
+                }
+            });
+
+            xhr.onload = () => {
+                const totalElapsed = (Date.now() - startTime) / 1000;
+                const speed = parseFloat(((dataSize * 8) / (totalElapsed * 1e6)).toFixed(2));
+                resolve(speed);
+            };
+            xhr.onerror = () => resolve(0);
+
+            xhr.open('POST', "{% url 'speedtest_upload' %}");
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            xhr.send(data.buffer);
+        });
+    }
+
+    function setPhase(label, pct) {
+        const phaseEl = document.getElementById('phaseLabel');
+        const fillEl = document.getElementById('progressFill');
+        if (phaseEl) phaseEl.textContent = label;
+        if (fillEl) fillEl.style.width = pct + '%';
+    }
+
+    async function startSpeedTest() {
+        document.getElementById('speedTestBox').classList.add('hidden');
+        document.getElementById('resultBox').classList.add('hidden');
+        document.getElementById('testingBox').classList.remove('hidden');
+
+        // Reset card highlight borders
+        ['card-ping', 'card-download', 'card-upload'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.className = "bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-850 p-4 rounded-2xl relative";
+        });
+
+        try {
+            // PING
+            setPhase('Measuring latency...', 10);
+            document.getElementById('card-ping').classList.add('border-brand-500', 'ring-2', 'ring-brand-500/10');
+            const ping = await measurePing();
+            document.getElementById('livePing').textContent = ping;
+            await new Promise(r => setTimeout(r, 500));
+
+            // DOWNLOAD
+            setPhase('Measuring download speed...', 25);
+            document.getElementById('card-ping').classList.remove('border-brand-500', 'ring-2');
+            document.getElementById('card-download').classList.add('border-brand-500', 'ring-2', 'ring-brand-500/10');
+            const download = await measureDownload((speed, pct) => {
+                updateGauge(speed, 'download');
+                document.getElementById('liveDownload').textContent = speed.toFixed(1);
+                setPhase(`Downloading data... ${pct}%`, 25 + pct * 0.45);
+            });
+            await new Promise(r => setTimeout(r, 500));
+
+            // UPLOAD
+            setPhase('Measuring upload speed...', 70);
+            document.getElementById('card-download').classList.remove('border-brand-500', 'ring-2');
+            document.getElementById('card-upload').classList.add('border-brand-500', 'ring-2', 'ring-brand-500/10');
+            const upload = await measureUpload((speed, pct) => {
+                updateGauge(speed, 'upload');
+                document.getElementById('liveUpload').textContent = speed.toFixed(1);
+                setPhase(`Uploading data... ${pct}%`, 70 + pct * 0.28);
+            });
+
+            setPhase('Finalizing & saving results...', 99);
+            document.getElementById('card-upload').classList.remove('border-brand-500', 'ring-2');
+
+            // Save result
+            await fetch("{% url 'speedtest_save' %}", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}' },
+                body: JSON.stringify({ download, upload, ping })
+            });
+
+            // Show Results screen
+            document.getElementById('testingBox').classList.add('hidden');
+            document.getElementById('downloadResult').textContent = download.toFixed(1);
+            document.getElementById('uploadResult').textContent = upload.toFixed(1);
+            document.getElementById('pingResult').textContent = ping;
+            document.getElementById('serverInfo').innerHTML =
+                `<i class="fa-solid fa-circle-check text-emerald-500 mr-1.5"></i> Test complete — results saved to account`;
+            document.getElementById('resultBox').classList.remove('hidden');
+
+        } catch (err) {
+            console.error(err);
+            alert('Speed test failed. Please check connection and try again.');
             resetSpeedTest();
         }
-    })
-    .catch(() => {
-        alert("Failed. Check internet.");
-        resetSpeedTest();
-    });
-}
+    }
 
-function resetSpeedTest() {
-    document.getElementById('resultBox').classList.add('hidden');
-    document.getElementById('speedTestBox').classList.remove('hidden');
-    const pb = document.getElementById('testingBox');
-    if (pb) pb.innerHTML = pb.innerHTML.split('<div id="progressBar"')[0]; // Clean progress
-}
+    function resetSpeedTest() {
+        document.getElementById('resultBox').classList.add('hidden');
+        document.getElementById('testingBox').classList.add('hidden');
+        document.getElementById('speedTestBox').classList.remove('hidden');
+    }
 </script>
-{% endblock scripts%}
-{% endblock %}
+{% endblock scripts %}

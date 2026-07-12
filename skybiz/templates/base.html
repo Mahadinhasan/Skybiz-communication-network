@@ -1,196 +1,314 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Skybiz communication network{% endblock %}</title>
+    <title>{% block title %}Skybiz Communication Network{% endblock %}</title>
+    
+    {% block meta %}
+    <meta name="description" content="Skybiz Communication Network provides ultra-fast, reliable broadband and fiber internet for homes and businesses.">
+    <meta name="keywords" content="ISP, broadband, fiber internet, high speed internet, skybiz, communication network">
+    <meta name="author" content="Skybiz Communication Network">
+    <meta property="og:title" content="Skybiz Communication Network - Fast, Reliable Fiber Internet">
+    <meta property="og:description" content="Get connected with ultra-fast, reliable broadband and fiber internet for homes and businesses.">
+    <meta property="og:type" content="website">
+    {% endblock %}
     <link rel="icon" type="image/png" href="{% static 'images/favicon.jpg' %}">
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-       tailwind.config = {
+        tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
                     colors: {
-                        primary: '#000d1d',
-                        secondary: '#afbcdf',
-                        'dark-primary': '#ffffff',
-                        'dark-sefaceary': '#2b4676ff',
+                        brand: {
+                            50: '#f5f6ff',
+                            100: '#ebedff',
+                            200: '#dde0ff',
+                            300: '#c5c9ff',
+                            400: '#a3a8ff',
+                            500: '#7c80ff',
+                            600: '#6366f1',
+                            700: '#4f46e5',
+                            800: '#3f37c9',
+                            900: '#0b0f19',
+                        },
+                        darkBg: '#0b0f19',
+                        cardBgDark: '#131926',
                     }
                 }
             }
         }
     </script>
-    {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}"> {% endcomment %}
+    
     <style>
-        .marquee {
-            background: linear-gradient(90deg, #0b3bdaff, #0b021aff);
-            color: white;
-            padding: 8px 0;
-            font-weight: 600;
-            overflow: hidden;
-            white-space: nowrap;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .marquee span {
-            display: inline-block;
-            padding-left: 100%;
-            animation: marquee 20s linear infinite;
+        ::-webkit-scrollbar-track {
+            background: #0b0f19;
         }
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 99px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+
+        /* Smooth marquee */
         @keyframes marquee {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-.marquee:hover .animate-marquee {
-    animation-play-state: paused;
-}
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee-custom {
+            animation: marquee 25s linear infinite;
+        }
+        .animate-marquee-custom:hover {
+            animation-play-state: paused;
+        }
+
+        /* Glassmorphism effects */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .dark .glass-nav {
+            background: rgba(11, 15, 25, 0.8);
+            border-bottom: 1px solid rgba(31, 41, 55, 0.8);
+        }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-<!-- MARQUEE NEWS TICKER (TOP OF EVERY PAGE) -->
- <div class="marquee text-sm md:text-base bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold py-2 overflow-hidden">
-    <div class="inline-block animate-marquee whitespace-nowrap">
-        {% for news in news_ticker %}
-            {% if news.is_active %}
-                <span class="mx-8">
-                    <i class="fas fa-bullhorn"></i> {{ news.message }}
-                </span>
-            {% endif %}
-        {% empty %}
-            <span class="mx-8">
-                <i class="fas fa-bullhorn"></i> No news available at the moment.
-            </span>
-        {% endfor %}
+<body class="bg-slate-50 dark:bg-darkBg text-slate-800 dark:text-slate-100 transition-colors duration-300 flex flex-col min-h-screen">
+    
+    <!-- TOP NEWS TICKER -->
+    <div class="bg-gradient-to-r from-brand-700 via-indigo-600 to-indigo-800 text-white font-semibold py-2.5 overflow-hidden relative shadow-md z-50 text-xs md:text-sm">
+        <div class="flex whitespace-nowrap">
+            <div class="inline-block animate-marquee-custom">
+                {% for news in news_ticker %}
+                    {% if news.is_active %}
+                        <span class="mx-10 inline-flex items-center gap-2">
+                            <i class="fas fa-bullhorn text-brand-300"></i> {{ news.message }}
+                        </span>
+                    {% endif %}
+                {% empty %}
+                    <span class="mx-10 inline-flex items-center gap-2">
+                        <i class="fas fa-bullhorn text-brand-300"></i> Welcome to Skybiz Communication Network! Lightning fast fiber internet is now live.
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
     </div>
-</div>
-    <!-- Navigation -->
-    <nav class="bg-white dark:bg-primary shadow-lg sticky top-0 z-50 transition-colors duration-300">
+
+    <!-- Navigation Header -->
+    <nav class="glass-nav sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
                 <div class="flex items-center">
-                    <div class="text-2xl font-bold text-primary dark:text-secondary">
-                        <span class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-lg mr-2"><a href="{% url 'home'%}">SCN</span>
-                        SKYBIZ</a>
-                    </div>
+                    <a href="{% url 'home' %}" class="flex items-center gap-2">
+                        <div class="bg-gradient-to-tr from-brand-600 to-indigo-800 text-white font-extrabold text-xl px-4 py-2 rounded-xl shadow-lg shadow-brand-500/20 tracking-wider">
+                            SCN
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-extrabold text-lg md:text-xl tracking-tight bg-gradient-to-r from-brand-600 via-brand-800 to-indigo-900 dark:from-white dark:to-indigo-300 bg-clip-text text-transparent">SKYBIZ</span>
+                            <span class="text-[9px] font-bold tracking-widest text-brand-600 dark:text-brand-400 uppercase">Communication</span>
+                        </div>
+                    </a>
                 </div>
                 
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="{% url 'home' %}" class="nav-link text-primary dark:text-secondary font-medium">Home</a>
-                        <a href="{% url 'packages' %}" class="nav-link text-primary dark:text-secondary font-medium">Packages</a>
-                        <a href="{% url 'services'%}" class="nav-link text-primary dark:text-secondary font-medium">Services</a>
-                        <a href="{% url 'business' %}" class="nav-link text-primary dark:text-secondary font-medium">Business</a>
-                        <a href="{% url 'about' %}" class="nav-link text-primary dark:text-secondary font-medium">About</a>
-                        <a href="{% url 'contact' %}" class="nav-link text-primary dark:text-secondary font-medium">Contact</a>
-                        <a href="{% url 'admin_dashboard' %}" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:opacity-80 transition-opacity">Login</a>
-                    </div>
+                <!-- Desktop Nav -->
+                <div class="hidden lg:flex items-center space-x-1">
+                    <a href="{% url 'home' %}" class="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 hover:text-brand-600 dark:hover:text-brand-400 transition-all">Home</a>
+                    <a href="{% url 'packages' %}" class="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 hover:text-brand-600 dark:hover:text-brand-400 transition-all">Packages</a>
+                    <a href="{% url 'services' %}" class="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 hover:text-brand-600 dark:hover:text-brand-400 transition-all">Services</a>
+                    <a href="{% url 'speed_test' %}" class="px-4 py-2 rounded-xl text-sm font-semibold text-brand-600 dark:text-brand-400 bg-brand-100/50 dark:bg-brand-900/30 hover:bg-brand-100 dark:hover:bg-brand-900/50 transition-all">
+                        <i class="fa-solid fa-gauge-high mr-1"></i> Speed Test
+                    </a>
+                    <a href="{% url 'business' %}" class="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 hover:text-brand-600 dark:hover:text-brand-400 transition-all">Business</a>
+                    <a href="{% url 'about' %}" class="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 hover:text-brand-600 dark:hover:text-brand-400 transition-all">About</a>
+                    <a href="{% url 'contact' %}" class="px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 hover:text-brand-600 dark:hover:text-brand-400 transition-all">Contact</a>
                 </div>
                 
-                <div class="flex items-center space-x-4">
-                    <button id="darkModeToggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-primary dark:text-secondary hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path class="dark:hidden" d="M10 2L13.09 8.26L20 9L14 14.74L15.18 21.02L10 17.77L4.82 21.02L6 14.74L0 9L6.91 8.26L10 2Z"/>
-                            <path class="hidden dark:block" d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-                        </svg>
+                <!-- Right buttons -->
+                <div class="flex items-center gap-3">
+                    <!-- Dark Mode -->
+                    <button id="darkModeToggle" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/50 dark:hover:bg-slate-800 text-slate-600 dark:text-brand-300 transition-all" aria-label="Toggle theme">
+                        <i class="fa-solid fa-sun dark:hidden"></i>
+                        <i class="fa-solid fa-moon hidden dark:block"></i>
                     </button>
                     
-                    <button class="md:hidden p-2 rounded-lg text-primary dark:text-secondary" id="mobileMenuBtn">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
+                    <!-- Admin Login Button -->
+                    <a href="{% url 'admin_dashboard' %}" class="hidden sm:inline-flex items-center gap-1.5 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-sm transition-all shadow-md shadow-brand-600/10 hover:shadow-brand-600/25 hover:-translate-y-0.5">
+                        <i class="fa-solid fa-user-shield"></i> Portal
+                    </a>
+                    
+                    <!-- Mobile Nav Trigger -->
+                    <button class="lg:hidden p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 transition-all" id="mobileMenuBtn" aria-label="Toggle Mobile Menu">
+                        <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
         
         <!-- Mobile menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white dark:bg-primary border-t dark:border-gray-700">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="{% url 'home' %}" class="block px-3 py-2 text-primary dark:text-secondary font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Home</a>
-                <a href="{% url 'packages' %}" class="block px-3 py-2 text-primary dark:text-secondary font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Packages</a>
-                <a href="{% url 'services'%}" class="block px-3 py-2 text-primary dark:text-secondary font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Services</a>
-                <a href="{% url 'business' %}" class="block px-3 py-2 text-primary dark:text-secondary font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Business</a>
-                <a href="{% url 'about' %}" class="block px-3 py-2 text-primary dark:text-secondary font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">About</a>
-                <a href="{% url 'contact' %}" class="block px-3 py-2 text-primary dark:text-secondary font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Contact</a>
-                <a href="{% url 'admin_dashboard' %}" class="block px-3 py-2 text-primary dark:text-secondary font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">Login</a>
-                
-            </div>
+        <div id="mobileMenu" class="hidden lg:hidden glass-nav border-t border-slate-200/50 dark:border-slate-850 px-4 py-4 space-y-2">
+            <a href="{% url 'home' %}" class="block px-4 py-3 rounded-xl text-base font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 transition-all">Home</a>
+            <a href="{% url 'packages' %}" class="block px-4 py-3 rounded-xl text-base font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 transition-all">Packages</a>
+            <a href="{% url 'services' %}" class="block px-4 py-3 rounded-xl text-base font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 transition-all">Services</a>
+            <a href="{% url 'speed_test' %}" class="block px-4 py-3 rounded-xl text-base font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/20 transition-all"><i class="fa-solid fa-gauge-high mr-1.5"></i> Speed Test</a>
+            <a href="{% url 'business' %}" class="block px-4 py-3 rounded-xl text-base font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 transition-all">Business</a>
+            <a href="{% url 'about' %}" class="block px-4 py-3 rounded-xl text-base font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 transition-all">About</a>
+            <a href="{% url 'contact' %}" class="block px-4 py-3 rounded-xl text-base font-semibold hover:bg-brand-50 dark:hover:bg-slate-800/50 transition-all">Contact</a>
+            <a href="{% url 'admin_dashboard' %}" class="block px-4 py-3 rounded-xl text-base font-bold bg-brand-600 text-white text-center shadow-md transition-all">Portal Login</a>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div id="mainContent">
+    <!-- Main Content Wrapper -->
+    <main class="flex-grow">
         {% block content %}
         {% endblock %}
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-primary text-secondary py-12">
+    <footer class="bg-[#090d16] text-slate-400 border-t border-slate-900 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="text-2xl font-bold mb-4">
-                        <span class=" text-primary bg-white px-3 py-1 rounded-lg mr-2">SCN</span>
-                        Skybiz Communication Network
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <!-- Branding column -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="bg-gradient-to-tr from-brand-600 to-indigo-800 text-white font-extrabold px-3 py-1.5 rounded-lg">SCN</div>
+                        <span class="font-extrabold text-xl tracking-tight text-white">SKYBIZ</span>
                     </div>
-                    <p class="text-gray-300">High-speed internet for everyone. Connecting communities with reliable, fast, and affordable internet services.</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="{% url 'home' %}" class="text-gray-300 hover:text-secondary transition-colors">Home</a></li>
-                        <li><a href="{% url 'packages' %}" class="text-gray-300 hover:text-secondary transition-colors">Packages</a></li>
-                        <li><a href="{% url 'business' %}" class="text-gray-300 hover:text-secondary transition-colors">Business</a></li>
-                        <li><a href="{% url 'about' %}" class="text-gray-300 hover:text-secondary transition-colors">About</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Support</h3>
-                    <ul class="space-y-2">
-                        <li><a href="{% url 'contact' %}" class="text-gray-300 hover:text-secondary transition-colors">Technical Support</a></li>
-                        <li><a href="{% url 'faq' %}" class="text-gray-300 hover:text-secondary transition-colors">FAQs</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Follow Us</h3>
-                    <div class="flex space-x-4">
-                        <a href="https://www.facebook.com/SCNDOHS" target="_blank" rel="noopener" aria-label="Facebook" class="text-gray-300 hover:text-secondary transition-colors text-2xl">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.326 24h11.495v-9.294H9.691v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"/></svg>
+                    <p class="text-sm leading-relaxed">
+                        High-speed fiber connectivity for home and businesses. We deliver blazing-fast internet and outstanding customer service across communities.
+                    </p>
+                    <!-- Social icons -->
+                    <div class="flex space-x-3 pt-2">
+                        <a href="https://www.facebook.com/SCNDOHS" target="_blank" rel="noopener" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-brand-600 text-slate-400 hover:text-white flex items-center justify-center transition-all duration-300 shadow-inner" aria-label="Facebook">
+                            <i class="fab fa-facebook-f text-lg"></i>
                         </a>
-                        <a href="https://www.linkedin.com/in/skybiz-communication-network-255014194/" target="_blank" rel="noopener" aria-label="LinkedIn" class="text-gray-300 hover:text-secondary transition-colors text-2xl">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 11.268h-3v-5.604c0-1.337-.026-3.063-1.868-3.063-1.868 0-2.154 1.459-2.154 2.967v5.7h-3v-10h2.881v1.367h.041c.401-.761 1.379-1.563 2.838-1.563 3.036 0 3.597 2.001 3.597 4.601v5.595z"/></svg>
+                        <a href="https://www.linkedin.com/in/skybiz-communication-network-255014194/" target="_blank" rel="noopener" class="w-10 h-10 rounded-xl bg-slate-900 hover:bg-brand-600 text-slate-400 hover:text-white flex items-center justify-center transition-all duration-300 shadow-inner" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in text-lg"></i>
                         </a>
                     </div>
+                </div>
+                
+                <!-- Quick links -->
+                <div>
+                    <h3 class="text-white font-bold text-base mb-6 relative after:content-[''] after:block after:w-8 after:h-0.5 after:bg-brand-600 after:mt-2">Company</h3>
+                    <ul class="space-y-3.5 text-sm">
+                        <li><a href="{% url 'home' %}" class="hover:text-white hover:translate-x-1 inline-block transition-all"><i class="fa-solid fa-chevron-right text-[10px] mr-2 text-brand-600"></i>Home</a></li>
+                        <li><a href="{% url 'packages' %}" class="hover:text-white hover:translate-x-1 inline-block transition-all"><i class="fa-solid fa-chevron-right text-[10px] mr-2 text-brand-600"></i>Internet Plans</a></li>
+                        <li><a href="{% url 'services' %}" class="hover:text-white hover:translate-x-1 inline-block transition-all"><i class="fa-solid fa-chevron-right text-[10px] mr-2 text-brand-600"></i>Services</a></li>
+                        <li><a href="{% url 'about' %}" class="hover:text-white hover:translate-x-1 inline-block transition-all"><i class="fa-solid fa-chevron-right text-[10px] mr-2 text-brand-600"></i>About Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support links -->
+                <div>
+                    <h3 class="text-white font-bold text-base mb-6 relative after:content-[''] after:block after:w-8 after:h-0.5 after:bg-brand-600 after:mt-2">Customer Care</h3>
+                    <ul class="space-y-3.5 text-sm">
+                        <li><a href="{% url 'contact' %}" class="hover:text-white hover:translate-x-1 inline-block transition-all"><i class="fa-solid fa-chevron-right text-[10px] mr-2 text-brand-600"></i>Submit a ticket</a></li>
+                        <li><a href="{% url 'speed_test' %}" class="hover:text-white hover:translate-x-1 inline-block transition-all"><i class="fa-solid fa-chevron-right text-[10px] mr-2 text-brand-600"></i>Test Connection</a></li>
+                        <li><a href="{% url 'faq' %}" class="hover:text-white hover:translate-x-1 inline-block transition-all"><i class="fa-solid fa-chevron-right text-[10px] mr-2 text-brand-600"></i>FAQs</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Detail -->
+                <div>
+                    <h3 class="text-white font-bold text-base mb-6 relative after:content-[''] after:block after:w-8 after:h-0.5 after:bg-brand-600 after:mt-2">Get In Touch</h3>
+                    <ul class="space-y-4 text-sm">
+                        <li class="flex items-start gap-3">
+                            <i class="fa-solid fa-map-pin text-brand-500 mt-1"></i>
+                            <span>Road 07, Avenue 05, House 465, GF, Mirpur DOHS, Dhaka 1216</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-brand-500"></i>
+                            <a href="tel:01883005575" class="hover:text-white transition-colors">01883005575</a>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-brand-500"></i>
+                            <a href="mailto:mirpur.skcn@gmail.com" class="hover:text-white transition-colors">mirpur.skcn@gmail.com</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-600 mt-8 pt-8 text-center">
-                <p class="text-gray-300">&copy; {{ current_year }} <a href="https://github.com/Mahadinhasan" target="_blank" rel="noopener" class="hover:text-secondary transition-colors">Mehedi</a>. All rights reserved.</p>
+
+            <!-- Footer Location Grid Maps -->
+            {% if footer_locations %}
+            <div class="border-t border-slate-900 mt-16 pt-12">
+                <h3 class="text-white font-extrabold text-lg text-center mb-8"><i class="fa-solid fa-location-dot text-brand-600 mr-2"></i> Our Network Coverage Area</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for loc in footer_locations %}
+                        {% if loc.is_active %}
+                        <div class="bg-cardBgDark/50 border border-slate-900 hover:border-brand-500/20 p-5 rounded-2xl shadow-xl transition-all duration-300">
+                            <h4 class="font-bold text-white text-sm mb-3 flex items-center gap-2">
+                                <i class="fa-regular fa-compass text-brand-400"></i> {{ loc.name }}
+                            </h4>
+                            <div class="overflow-hidden rounded-xl h-44 w-full bg-slate-950 relative shadow-inner">
+                                <iframe src="{{ loc.map_link }}" class="w-full h-full border-0 grayscale opacity-80 hover:grayscale-0 hover:opacity-100 transition-all duration-500" allowfullscreen="" loading="lazy"></iframe>
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Copyright area -->
+            <div class="border-t border-slate-900 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs gap-4">
+                <p>&copy; {% now "Y" %} <a href="https://github.com/Mahadinhasan" target="_blank" rel="noopener" class="text-brand-500 font-semibold hover:underline">Mehedi</a>. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- Common Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Global Scripts -->
     <script>
-        // Dark mode functionality
+        // Dark Mode Controller
         const darkModeToggle = document.getElementById('darkModeToggle');
         const html = document.documentElement;
+        
+        // Init Theme
         const currentTheme = localStorage.getItem('theme') || 'light';
         if (currentTheme === 'dark') {
             html.classList.add('dark');
+        } else {
+            html.classList.remove('dark');
         }
+        
+        // Listener
         darkModeToggle.addEventListener('click', () => {
             html.classList.toggle('dark');
             const theme = html.classList.contains('dark') ? 'dark' : 'light';
             localStorage.setItem('theme', theme);
         });
-        // Mobile menu functionality
+
+        // Mobile Menu controller
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
         mobileMenuBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
         });
     </script>
+
     {% block scripts %}
     {% endblock %}
 </body>

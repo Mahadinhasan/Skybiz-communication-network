@@ -1,31 +1,144 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% load static %}
 
+{% block title %}FAQ - Frequently Asked Questions | Skybiz Communication Network{% endblock %}\n
+{% block meta %}
+<meta name="description" content="Frequently Asked Questions about Skybiz internet services, billing, packages, and technical support.">
+<meta name="keywords" content="FAQ, internet help, billing support, technical support">
+<meta property="og:title" content="FAQ - Frequently Asked Questions | Skybiz Communication Network">
+<meta property="og:description" content="Frequently Asked Questions about Skybiz internet services, billing, packages, and technical support.">
+{% endblock %}
+
+
 {% block content %}
-<section id="faq" class="page-section">
-    <div class="py-16 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">Frequently Asked Questions</h1>
-            
-            <div class="space-y-8">
-                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold mb-4 text-primary dark:text-secondary">What internet packages do you offer?</h2>
-                    <p class="text-gray-600 dark:text-gray-300">We offer a variety of packages ranging from basic plans for light browsing to high-speed plans for heavy usage. Please visit our <a href="{% url 'packages' %}" class="text-secondary hover:underline">Packages</a> page for detailed information.</p>
+<section id="faq" class="py-20 relative">
+    <div class="absolute w-[40rem] h-[40rem] -top-40 -left-40 bg-brand-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute w-[45rem] h-[45rem] bottom-10 right-0 bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
+        <!-- Header -->
+        <div class="text-center space-y-4">
+            <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                Help Center
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">Frequently Asked Questions</h1>
+            <p class="text-slate-500 dark:text-slate-400 text-base max-w-2xl mx-auto">
+                Browse our most asked questions. Can't find your answer? <a href="{% url 'contact' %}" class="text-brand-600 dark:text-brand-400 hover:underline font-semibold">Contact our support team.</a>
+            </p>
+        </div>
+
+        <!-- FAQ Accordion -->
+        <div class="space-y-4" id="faqAccordion">
+            <!-- FAQ Item 1 -->
+            <div class="faq-item bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-2xl shadow-md overflow-hidden transition-all duration-300">
+                <button class="faq-toggle w-full flex items-center justify-between gap-4 text-left px-7 py-5 font-bold text-slate-800 dark:text-white text-base hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none">
+                    <span>What internet packages do you offer?</span>
+                    <i class="fa-solid fa-chevron-down text-sm text-slate-400 shrink-0 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-body hidden px-7 pb-6 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    We offer a wide range of packages for both residential and business customers, from basic browsing plans starting at 10 Mbps all the way to gigabit fiber connections for heavy usage and corporate environments. Visit our <a href="{% url 'packages' %}" class="text-brand-600 dark:text-brand-400 hover:underline font-semibold">Packages</a> page for detailed pricing and features.
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold mb-4 text-primary dark:text-secondary">How can I sign up for your service?</h2>
-                    <p class="text-gray-600 dark:text-gray-300">You can sign up by visiting our <a href="{% url 'contact' %}" class="text-secondary hover:underline">Contact Us</a> page and filling out the inquiry form, or by calling our customer service number.</p>
+            </div>
+
+            <!-- FAQ Item 2 -->
+            <div class="faq-item bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-2xl shadow-md overflow-hidden transition-all duration-300">
+                <button class="faq-toggle w-full flex items-center justify-between gap-4 text-left px-7 py-5 font-bold text-slate-800 dark:text-white text-base hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none">
+                    <span>How do I sign up for your service?</span>
+                    <i class="fa-solid fa-chevron-down text-sm text-slate-400 shrink-0 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-body hidden px-7 pb-6 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    You can register via our <a href="{% url 'contact' %}" class="text-brand-600 dark:text-brand-400 hover:underline font-semibold">Contact Us</a> page by filling out the inquiry form, or by calling our hotline at <strong class="text-slate-700 dark:text-slate-200">01883005575</strong>. Our team will confirm your area coverage and schedule an installation within 24-48 hours.
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold mb-4 text-primary dark:text-secondary">What areas do you serve?</h2>
-                    <p class="text-gray-600 dark:text-gray-300">We currently serve multiple regions. Please check our coverage map on the <a href="{% url 'home' %}" class="text-secondary hover:underline">Home</a> page or contact us for specific area inquiries.</p>
+            </div>
+
+            <!-- FAQ Item 3 -->
+            <div class="faq-item bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-2xl shadow-md overflow-hidden transition-all duration-300">
+                <button class="faq-toggle w-full flex items-center justify-between gap-4 text-left px-7 py-5 font-bold text-slate-800 dark:text-white text-base hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none">
+                    <span>Which areas do you currently serve?</span>
+                    <i class="fa-solid fa-chevron-down text-sm text-slate-400 shrink-0 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-body hidden px-7 pb-6 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    We currently serve Mirpur DOHS and surrounding areas of Dhaka. We are actively expanding our fiber network to other neighborhoods. Contact us to verify if your area is covered or to register your address for upcoming expansions.
                 </div>
-                <div class="bg-gray-100 dark:bg-gray-700 p-6 rounded-lg shadow-md">
-                    <h2 class="text-2xl font-bold mb-4 text-primary dark:text-secondary">What should I do if I experience connectivity issues?</h2>
-                    <p class="text-gray-600 dark:text-gray-300">If you experience any connectivity issues, please try restarting your modem/router. If the problem persists, contact our support team via the <a href="{% url 'contact' %}" class="text-secondary hover:underline">Contact Us</a> page or call our customer service number for assistance.</p>
+            </div>
+
+            <!-- FAQ Item 4 -->
+            <div class="faq-item bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-2xl shadow-md overflow-hidden transition-all duration-300">
+                <button class="faq-toggle w-full flex items-center justify-between gap-4 text-left px-7 py-5 font-bold text-slate-800 dark:text-white text-base hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none">
+                    <span>What should I do if I experience connectivity issues?</span>
+                    <i class="fa-solid fa-chevron-down text-sm text-slate-400 shrink-0 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-body hidden px-7 pb-6 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    First, try restarting your router and modem by unplugging them for 30 seconds. If the issue persists, contact our 24/7 technical support hotline at <strong class="text-slate-700 dark:text-slate-200">01883005575</strong> or send us a message via the <a href="{% url 'contact' %}" class="text-brand-600 dark:text-brand-400 hover:underline font-semibold">Contact</a> page. Our field engineers are available to dispatch for on-site troubleshooting.
+                </div>
+            </div>
+
+            <!-- FAQ Item 5 -->
+            <div class="faq-item bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-2xl shadow-md overflow-hidden transition-all duration-300">
+                <button class="faq-toggle w-full flex items-center justify-between gap-4 text-left px-7 py-5 font-bold text-slate-800 dark:text-white text-base hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none">
+                    <span>Do you offer dedicated lines for businesses?</span>
+                    <i class="fa-solid fa-chevron-down text-sm text-slate-400 shrink-0 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-body hidden px-7 pb-6 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Yes! We provide dedicated 1:1 contention ratio fiber links for corporate environments. These include symmetric upload/download speeds, static IP allocation, SLA contracts, and priority technical support. Visit our <a href="{% url 'business' %}" class="text-brand-600 dark:text-brand-400 hover:underline font-semibold">Business Solutions</a> page to request a custom quote.
+                </div>
+            </div>
+
+            <!-- FAQ Item 6 -->
+            <div class="faq-item bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-2xl shadow-md overflow-hidden transition-all duration-300">
+                <button class="faq-toggle w-full flex items-center justify-between gap-4 text-left px-7 py-5 font-bold text-slate-800 dark:text-white text-base hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none">
+                    <span>How does the FTP server work?</span>
+                    <i class="fa-solid fa-chevron-down text-sm text-slate-400 shrink-0 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-body hidden px-7 pb-6 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Our local FTP server at <code class="bg-slate-100 dark:bg-slate-800 text-brand-600 dark:text-brand-400 px-1.5 py-0.5 rounded text-xs font-mono">103.203.93.2</code> is a high-speed local content delivery server available exclusively to Skybiz subscribers. Open any FTP client or your browser and navigate to the IP to access movies, software, and other digital media at speeds up to 100 Mbps.
+                </div>
+            </div>
+
+            <!-- FAQ Item 7 -->
+            <div class="faq-item bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-2xl shadow-md overflow-hidden transition-all duration-300">
+                <button class="faq-toggle w-full flex items-center justify-between gap-4 text-left px-7 py-5 font-bold text-slate-800 dark:text-white text-base hover:text-brand-600 dark:hover:text-brand-400 transition-colors focus:outline-none">
+                    <span>How do I pay my monthly bill?</span>
+                    <i class="fa-solid fa-chevron-down text-sm text-slate-400 shrink-0 transition-transform duration-300"></i>
+                </button>
+                <div class="faq-body hidden px-7 pb-6 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                    You can pay your monthly subscription at any of our branch offices in cash, or via mobile banking (bKash, Nagad, Rocket). You can also contact your local area manager for convenient home payment pickup arrangements.
                 </div>
             </div>
         </div>
+
+        <!-- Still have questions CTA -->
+        <div class="bg-gradient-to-r from-brand-600 to-indigo-800 p-8 md:p-12 rounded-3xl text-center text-white relative overflow-hidden shadow-2xl">
+            <div class="absolute -left-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+            <h2 class="text-2xl font-extrabold mb-3">Still have questions?</h2>
+            <p class="text-brand-200 text-sm mb-6 max-w-lg mx-auto">Our support team is available around the clock. Don't hesitate to get in touch.</p>
+            <a href="{% url 'contact' %}" class="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-brand-700 font-extrabold rounded-2xl hover:bg-slate-100 transition-all shadow-md">
+                <i class="fa-solid fa-headset"></i> Contact Support
+            </a>
+        </div>
     </div>
 </section>
-{% endblock %}
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.querySelectorAll('.faq-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.closest('.faq-item');
+            const body = item.querySelector('.faq-body');
+            const icon = btn.querySelector('i');
+            const isOpen = !body.classList.contains('hidden');
+
+            // Close all
+            document.querySelectorAll('.faq-body').forEach(b => b.classList.add('hidden'));
+            document.querySelectorAll('.faq-toggle i').forEach(i => i.classList.remove('rotate-180'));
+
+            if (!isOpen) {
+                body.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            }
+        });
+    });
+</script>
+{% endblock scripts %}

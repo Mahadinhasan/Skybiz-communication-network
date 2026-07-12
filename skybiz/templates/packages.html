@@ -1,90 +1,174 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block title %}Internet Packages & Plans - Skybiz Communication Network{% endblock %}\n
+{% block meta %}
+<meta name="description" content="Browse our affordable and high-speed internet packages. Find the perfect fiber broadband plan for your needs.">
+<meta name="keywords" content="Internet packages, broadband plans, fiber internet price, WiFi packages">
+<meta property="og:title" content="Internet Packages & Plans - Skybiz Communication Network">
+<meta property="og:description" content="Browse our affordable and high-speed internet packages. Find the perfect fiber broadband plan for your needs.">
+{% endblock %}
+
+
 {% block content %}
-<section id="packages" class="page-section">
-    <div class="py-16 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">Internet Packages</h1>
-            
-            <!-- Package Filter -->
-            <div class="flex justify-center mb-8">
-                <div class="bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
-                    <button id="residentialTab" class="px-6 py-2 rounded-md bg-primary text-white font-medium">Residential</button>
-                    <button id="businessTab" class="px-6 py-2 rounded-md text-primary dark:text-secondary font-medium hover:bg-gray-200 dark:hover:bg-gray-600">Business</button>
-                </div>
-            </div>
+<section id="packages" class="py-20 relative">
+    <div class="absolute w-[40rem] h-[40rem] -top-40 -left-40 bg-brand-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute w-[45rem] h-[45rem] bottom-10 right-0 bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none"></div>
 
-            <!-- Residential Packages -->
-            <div id="residentialPackages" class="space-y-6">
-                <div class="overflow-x-auto">
-                    <table class="w-full bg-white dark:bg-gray-700 rounded-lg shadow-lg">
-                        <thead class="bg-primary text-white">
-                            <tr>
-                                <th class="px-6 py-4 text-left">Package</th>
-                                <th class="px-6 py-4 text-left">Speed</th>
-                                <th class="px-6 py-4 text-left">Data</th>
-                                <th class="px-6 py-4 text-left">Price</th>
-                                <th class="px-6 py-4 text-left">Features</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
-                            {% for package in residential_packages %}
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-600 {% if package.is_popular %}bg-secondary bg-opacity-10{% endif %}">
-                                <td class="px-6 py-4 font-semibold text-primary dark:text-secondary">{{ package.name }}{% if package.is_popular %} ⭐{% endif %}</td>
-                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.download_speed }}/{{ package.upload_speed }} Mbps</td>
-                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.data_limit }}</td>
-                                <td class="px-6 py-4 font-bold text-primary dark:text-secondary">৳{{ package.price }}/mo</td>
-                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.features }}</td>
-                                <td class="px-6 py-4">
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <!-- Header -->
+        <div class="text-center space-y-4 mb-16">
+            <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                Flexible Subscriptions
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">Our Internet Packages</h1>
+            <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
+                Find the perfect speed for your house or corporate workspace. Compare our high-speed fiber internet subscription details.
+            </p>
+        </div>
+        
+        <!-- Package Tab Filters -->
+        <div class="flex justify-center mb-16">
+            <div class="bg-slate-100 dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 p-1.5 rounded-2xl flex gap-1 shadow-inner">
+                <button id="residentialTab" class="px-8 py-3 rounded-xl bg-brand-600 text-white font-extrabold text-sm transition-all shadow-lg shadow-brand-600/20 flex items-center gap-2">
+                    <i class="fa-solid fa-house"></i> Residential Plans
+                </button>
+                <button id="businessTab" class="px-8 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 font-extrabold text-sm hover:bg-slate-200/50 dark:hover:bg-slate-800/40 transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-briefcase"></i> Business Solutions
+                </button>
             </div>
+        </div>
 
-            <!-- Business Packages -->
-            <div id="businessPackages" class="space-y-6 hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full bg-white dark:bg-gray-700 rounded-lg shadow-lg">
-                        <thead class="bg-primary text-white">
-                            <tr>
-                                <th class="px-6 py-4 text-left">Package</th>
-                                <th class="px-6 py-4 text-left">Speed</th>
-                                <th class="px-6 py-4 text-left">Data</th>
-                                <th class="px-6 py-4 text-left">Price</th>
-                                <th class="px-6 py-4 text-left">Features</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 dark:divide-gray-600">
-                            {% for package in business_packages %}
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="px-6 py-4 font-semibold text-primary dark:text-secondary">{{ package.name }}</td>
-                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">
-                                    {% if package.download_speed == 0 %}Custom{% else %}{{ package.download_speed }}/{{ package.upload_speed }} Mbps{% endif %}
-                                </td>
-                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.data_limit }}</td>
-                                <td class="px-6 py-4 font-bold text-primary dark:text-secondary">
-                                    {% if package.price == 0 %}Custom Quote{% else %}৳{{ package.price }}/mo{% endif %}
-                                </td>
-                                <td class="px-6 py-4 text-gray-600 dark:text-gray-300">{{ package.features }}</td>
-                                <td class="px-6 py-4">
-                                    <button class="{% if package.price == 0 %}bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:opacity-90 transition-opacity{% endif %}">
-                                        {% if package.price == 0 %}
-                                            <a href="{% url 'business' %}">Get Quote</a>
-                                        {% endif %}
-                                    </button>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+        <!-- Residential Packages Grid -->
+        <div id="residentialPackages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500">
+            {% for package in residential_packages %}
+            <div class="bg-white dark:bg-cardBgDark border-2 {% if package.is_popular %}border-brand-500 shadow-brand-500/5{% else %}border-slate-100 dark:border-slate-850 hover:border-brand-500/20{% endif %} rounded-3xl p-8 relative transition-all duration-300 shadow-xl flex flex-col justify-between group">
+                {% if package.is_popular %}
+                <div class="absolute -top-4 right-8 bg-brand-600 text-white font-extrabold text-xs px-4 py-1.5 rounded-full shadow-lg shadow-brand-600/25 tracking-wider uppercase z-10">
+                    Most Popular
                 </div>
+                {% endif %}
+                
+                <div>
+                    <h3 class="text-2xl font-extrabold text-slate-800 dark:text-white mb-2">{{ package.name }}</h3>
+                    <div class="flex items-baseline mb-6 gap-0.5">
+                        <span class="text-3xl font-extrabold text-slate-800 dark:text-white">৳{{ package.price }}</span>
+                        <span class="text-sm text-slate-400">/month</span>
+                    </div>
+
+                    <!-- Speed circular showcase -->
+                    <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl mb-6 shadow-sm group-hover:border-brand-500/20 transition-all duration-300">
+                        <div class="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400"><i class="fa-solid fa-download"></i></div>
+                        <div class="flex flex-col">
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Download Speed</span>
+                            <span class="text-base font-extrabold text-slate-700 dark:text-slate-200">{{ package.download_speed }} Mbps</span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 mb-8 text-sm">
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
+                            <span class="text-slate-600 dark:text-slate-300 font-medium">{{ package.upload_speed }} Mbps Upload</span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
+                            <span class="text-slate-600 dark:text-slate-300 font-medium">{% if package.data_limit %}{{ package.data_limit }}{% else %}Unlimited Data Usage{% endif %}</span>
+                        </li>
+                        {% if package.features %}
+                            {% for feature in package.features.splitlines %}
+                            {% if feature %}
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
+                                <span class="text-slate-600 dark:text-slate-300 font-medium">{{ feature }}</span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <a href="{% url 'contact' %}" class="w-full text-center py-4 bg-slate-100 dark:bg-slate-800/80 hover:bg-brand-600 text-slate-700 dark:text-slate-200 hover:text-white font-bold rounded-2xl block transition-all shadow-md">
+                    Choose Plan
+                </a>
             </div>
+            {% empty %}
+            <div class="col-span-full py-16 text-center text-slate-500 dark:text-slate-400 bg-white dark:bg-cardBgDark rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
+                <i class="fa-solid fa-folder-open text-4xl mb-4"></i>
+                <p>No residential packages found. Check back later!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Business Packages Grid (Initially Hidden) -->
+        <div id="businessPackages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500 hidden">
+            {% for package in business_packages %}
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 hover:border-brand-500/20 rounded-3xl p-8 transition-all duration-300 shadow-xl flex flex-col justify-between group">
+                <div>
+                    <h3 class="text-2xl font-extrabold text-slate-800 dark:text-white mb-2">{{ package.name }}</h3>
+                    <div class="flex items-baseline mb-6 gap-0.5">
+                        {% if package.price == 0 %}
+                        <span class="text-3xl font-extrabold text-brand-600 dark:text-brand-400">Custom Quote</span>
+                        {% else %}
+                        <span class="text-3xl font-extrabold text-slate-800 dark:text-white">৳{{ package.price }}</span>
+                        <span class="text-sm text-slate-400">/month</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Speed circular showcase -->
+                    <div class="flex items-center gap-4 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl mb-6 shadow-sm group-hover:border-brand-500/20 transition-all duration-300">
+                        <div class="w-10 h-10 rounded-full bg-brand-500/10 flex items-center justify-center text-brand-600 dark:text-brand-400"><i class="fa-solid fa-download"></i></div>
+                        <div class="flex flex-col">
+                            <span class="text-xs text-slate-400 font-semibold uppercase">Download Speed</span>
+                            <span class="text-base font-extrabold text-slate-700 dark:text-slate-200">
+                                {% if package.download_speed == 0 %}Custom Corporate Bandwidth{% else %}{{ package.download_speed }} Mbps{% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4 mb-8 text-sm">
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-circle-check text-indigo-500 text-base"></i>
+                            <span class="text-slate-600 dark:text-slate-300 font-medium">
+                                {% if package.upload_speed == 0 %}Symmetric Connection{% else %}{{ package.upload_speed }} Mbps Symmetric Upload{% endif %}
+                            </span>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-circle-check text-indigo-500 text-base"></i>
+                            <span class="text-slate-600 dark:text-slate-300 font-medium">{% if package.data_limit %}{{ package.data_limit }}{% else %}Dedicated IP Options Available{% endif %}</span>
+                        </li>
+                        {% if package.features %}
+                            {% for feature in package.features.splitlines %}
+                            {% if feature %}
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-indigo-500 text-base"></i>
+                                <span class="text-slate-600 dark:text-slate-300 font-medium">{{ feature }}</span>
+                            </li>
+                            {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
+                </div>
+
+                {% if package.price == 0 %}
+                <a href="{% url 'business' %}" class="w-full text-center py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl block transition-all shadow-md shadow-brand-600/10 hover:shadow-brand-600/20">
+                    Request custom quote
+                </a>
+                {% else %}
+                <a href="{% url 'contact' %}" class="w-full text-center py-4 bg-slate-100 dark:bg-slate-800/80 hover:bg-brand-600 text-slate-700 dark:text-slate-200 hover:text-white font-bold rounded-2xl block transition-all shadow-md">
+                    Choose Plan
+                </a>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div class="col-span-full py-16 text-center text-slate-500 dark:text-slate-400 bg-white dark:bg-cardBgDark rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
+                <i class="fa-solid fa-folder-open text-4xl mb-4"></i>
+                <p>No business packages found. Submit a custom quote inquiry!</p>
+            </div>
+            {% endfor %}
         </div>
     </div>
 </section>
+{% endblock content %}
 
 {% block scripts %}
 <script>
@@ -93,23 +177,26 @@
     const residentialPackages = document.getElementById('residentialPackages');
     const businessPackages = document.getElementById('businessPackages');
 
-    residentialTab.addEventListener('click', () => {
-        residentialTab.classList.add('bg-primary', 'text-white');
-        residentialTab.classList.remove('text-primary', 'dark:text-secondary', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
-        businessTab.classList.remove('bg-primary', 'text-white');
-        businessTab.classList.add('text-primary', 'dark:text-secondary', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
-        residentialPackages.classList.remove('hidden');
-        businessPackages.classList.add('hidden');
-    });
+    if (residentialTab && businessTab) {
+        residentialTab.addEventListener('click', () => {
+            // Update Tab Styling
+            residentialTab.className = "px-8 py-3 rounded-xl bg-brand-600 text-white font-extrabold text-sm transition-all shadow-lg shadow-brand-600/20 flex items-center gap-2";
+            businessTab.className = "px-8 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 font-extrabold text-sm hover:bg-slate-200/50 dark:hover:bg-slate-800/40 transition-all flex items-center gap-2";
+            
+            // Toggle Display
+            residentialPackages.classList.remove('hidden');
+            businessPackages.classList.add('hidden');
+        });
 
-    businessTab.addEventListener('click', () => {
-        businessTab.classList.add('bg-primary', 'text-white');
-        businessTab.classList.remove('text-primary', 'dark:text-secondary', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
-        residentialTab.classList.remove('bg-primary', 'text-white');
-        residentialTab.classList.add('text-primary', 'dark:text-secondary', 'hover:bg-gray-200', 'dark:hover:bg-gray-600');
-        businessPackages.classList.remove('hidden');
-        residentialPackages.classList.add('hidden');
-    });
+        businessTab.addEventListener('click', () => {
+            // Update Tab Styling
+            businessTab.className = "px-8 py-3 rounded-xl bg-brand-600 text-white font-extrabold text-sm transition-all shadow-lg shadow-brand-600/20 flex items-center gap-2";
+            residentialTab.className = "px-8 py-3 rounded-xl text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-300 font-extrabold text-sm hover:bg-slate-200/50 dark:hover:bg-slate-800/40 transition-all flex items-center gap-2";
+            
+            // Toggle Display
+            businessPackages.classList.remove('hidden');
+            residentialPackages.classList.add('hidden');
+        });
+    }
 </script>
-{% endblock scripts%}
-{% endblock %}
+{% endblock scripts %}

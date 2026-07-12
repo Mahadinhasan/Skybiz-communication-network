@@ -11,7 +11,11 @@ urlpatterns = [
     path('admin/', views.admin_panel, name='admin_panel'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('dashboard/', views.admin_dashboard, name='dashboard'),
-    path('home-speed-test/', views.home_speed_test, name='home_speed_test'),
+    path('speedtest/ping/', views.speedtest_ping, name='speedtest_ping'),
+    path('speedtest/download/', views.speedtest_download, name='speedtest_download'),
+    path('speedtest/upload/', views.speedtest_upload, name='speedtest_upload'),
+    path('speedtest/save/', views.speedtest_save, name='speedtest_save'),
+    path('speedtest/', views.speed_test_view, name='speed_test'),
     path('faq/', views.faq, name='faq'),
     re_path(r'^.*$', views.custom_404_view, name='custom_404'),
 ]

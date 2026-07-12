@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Branch
+from .models import Branch, CarouselImage, FooterLocation
 import os
 
 class AdminLoginForm(forms.Form):
@@ -45,42 +45,42 @@ class AdminRegistrationForm(forms.ModelForm):
             raise forms.ValidationError("Passwords do not match.")
         return cleaned_data
 
-# class ImageUploadForm(forms.ModelForm):
-#     class Meta:
-#         model = CarouselImage
-#         fields = ['title', 'caption', 'image', 'is_active']
-#         widgets = {
-#             'title': forms.TextInput(attrs={
-#                 'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
-#                 'placeholder': 'Image Title'
-#             }),
-#             'caption': forms.Textarea(attrs={
-#                 'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
-#                 'placeholder': 'Image Caption (optional)',
-#                 'rows': 3
-#             }),
-#             'image': forms.FileInput(attrs={
-#                 'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
-#                 'accept': 'image/jpeg,image/jpg,image/png'
-#             }),
-#             'is_active': forms.CheckboxInput(attrs={
-#                 'class': 'h-4 w-4 text-primary dark:text-secondary'
-#             }),
-#         }
+class ImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = CarouselImage
+        fields = ['title', 'caption', 'image', 'is_active']
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
+                'placeholder': 'Image Title'
+            }),
+            'caption': forms.Textarea(attrs={
+                'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
+                'placeholder': 'Image Caption (optional)',
+                'rows': 3
+            }),
+            'image': forms.FileInput(attrs={
+                'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
+                'accept': 'image/jpeg,image/jpg,image/png'
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'h-4 w-4 text-primary dark:text-secondary'
+            }),
+        }
 
-#     def clean_image(self):
-#         image = self.cleaned_data.get('image')
-#         if image:
-#             extension = os.path.splitext(image.name)[1].lower()
-#             allowed_extensions = ['.jpeg', '.jpg', '.png']
-#             if extension not in allowed_extensions:
-#                 raise forms.ValidationError("Only JPEG, JPG, and PNG files are allowed.")
-#         return image
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        if image:
+            extension = os.path.splitext(image.name)[1].lower()
+            allowed_extensions = ['.jpeg', '.jpg', '.png']
+            if extension not in allowed_extensions:
+                raise forms.ValidationError("Only JPEG, JPG, and PNG files are allowed.")
+        return image
 
 class BranchForm(forms.ModelForm):
     class Meta:
         model = Branch
-        fields = ['name', 'address', 'city', 'state', 'phone', 'email', 'website_link', 'is_active']
+        fields = ['name', 'address', 'city', 'state', 'phone', 'email', 'website_link', 'map_link', 'is_active']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
@@ -110,6 +110,11 @@ class BranchForm(forms.ModelForm):
                 'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
                 'placeholder': 'Website Link (optional)'
             }),
+            'map_link': forms.Textarea(attrs={
+                'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
+                'placeholder': 'Google Maps Embed iframe src URL (optional)',
+                'rows': 2
+            }),
             'is_active': forms.CheckboxInput(attrs={
                 'class': 'h-4 w-4 text-primary dark:text-secondary'
             }),
@@ -122,3 +127,22 @@ class BranchForm(forms.ModelForm):
             if not website_link.startswith(('http://', 'https://')):
                 website_link = 'https://' + website_link
         return website_link
+
+class FooterLocationForm(forms.ModelForm):
+    class Meta:
+        model = FooterLocation
+        fields = ['name', 'map_link', 'is_active']
+        widgets = {
+            'name': forms.TextInput(attrs={
+                'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
+                'placeholder': 'Location Name'
+            }),
+            'map_link': forms.Textarea(attrs={
+                'class': 'w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200',
+                'placeholder': 'Google Maps Embed iframe src URL',
+                'rows': 3
+            }),
+            'is_active': forms.CheckboxInput(attrs={
+                'class': 'h-4 w-4 text-primary dark:text-secondary'
+            }),
+        }

@@ -1,83 +1,147 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Corporate Business Solutions - Dedicated Internet | Skybiz{% endblock %}\n
+{% block meta %}
+<meta name="description" content="Corporate Business Solutions and Dedicated Internet from Skybiz. Reliable, high-speed connectivity for enterprises.">
+<meta name="keywords" content="Corporate internet, dedicated internet, business broadband, enterprise ISP">
+<meta property="og:title" content="Corporate Business Solutions - Dedicated Internet | Skybiz">
+<meta property="og:description" content="Corporate Business Solutions and Dedicated Internet from Skybiz. Reliable, high-speed connectivity for enterprises.">
+{% endblock %}
+
+
 {% block content %}
-<section id="business" class="page-section">
-    <div class="py-16 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">Business Solutions</h1>
+<section id="business" class="py-20 relative">
+    <div class="absolute w-[40rem] h-[40rem] -top-40 -left-40 bg-brand-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute w-[45rem] h-[45rem] bottom-10 right-0 bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
+        <!-- Header -->
+        <div class="text-center space-y-4 mb-8">
+            <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                Enterprise Network
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">Business Solutions</h1>
+            <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
+                Power your company operations with dedicated fiber links, redundant routes, static IP subnets, and corporate entertainment solutions.
+            </p>
+        </div>
+        
+        <!-- Corporate Features Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-3xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-brand-500/10 rounded-2xl flex items-center justify-center mb-6 text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-link text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white">Dedicated Bandwidth</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Enjoy a dedicated 1:1 contention ratio symmetric bandwidth line. No sharing, no slowdowns, and guaranteed upload speeds for backup nodes.
+                </p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-3xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-network-wired text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white">Static IP Subnets</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Allocate multiple static IP addresses to run local database servers, secure corporate VPN lines, and host public websites or portals seamlessly.
+                </p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-3xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-tv text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white">Cable Entertainment</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Add digital TV lines to your lobbies, cafeteria, and executive board rooms. Premium channel lists configured for commercial spaces.
+                </p>
+            </div>
+        </div>
+
+        <!-- Quote Form Section -->
+        <div class="max-w-3xl mx-auto bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 md:p-12 rounded-3xl shadow-2xl relative overflow-hidden">
+            <div class="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-brand-600 via-indigo-600 to-indigo-800"></div>
             
-            <!-- Business Features -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">🔗</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Dedicated Connection</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Guaranteed bandwidth with no sharing, ensuring consistent performance for your business operations.</p>
-                </div>
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">🌐</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Static IP Address</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Multiple static IP addresses for hosting servers, VPNs, and remote access solutions.</p>
-                </div>
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">📡</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Cable TV Services</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Get the best viewing experience with our digital setup boxes, offering high-definition channels and easy-to-use interfaces.</p>
-                </div>
+            <div class="text-center space-y-3 mb-10">
+                <h2 class="text-2xl font-extrabold text-slate-800 dark:text-white">Request Corporate Quote</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">Fill out the parameters below and our account managers will contact you within 24 hours.</p>
             </div>
 
-            <!-- Custom Quote Form -->
-            <div class="max-w-2xl mx-auto bg-gray-50 dark:bg-gray-700 p-8 rounded-lg">
-                <h2 class="text-2xl font-bold mb-6 text-center text-primary dark:text-secondary">Request Custom Quote</h2>
-                <form id="businessQuoteForm" method="POST" class="space-y-6">
-                    {% csrf_token %}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium mb-2 text-primary dark:text-secondary">Company Name</label>
-                            <input type="text" name="company_name" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent bg-white dark:bg-gray-600 text-primary dark:text-secondary">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2 text-primary dark:text-secondary">Contact Person</label>
-                            <input type="text" name="contact_person" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent bg-white dark:bg-gray-600 text-primary dark:text-secondary">
+            <form id="businessQuoteForm" method="POST" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Company Name</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400"><i class="fa-solid fa-building"></i></span>
+                            <input type="text" name="company_name" required class="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none text-sm dark:text-white transition-all">
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium mb-2 text-primary dark:text-secondary">Email</label>
-                            <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent bg-white dark:bg-gray-600 text-primary dark:text-secondary">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-2 text-primary dark:text-secondary">Phone</label>
-                            <input type="tel" name="phone" required class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent bg-white dark:bg-gray-600 text-primary dark:text-secondary">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Contact Person</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400"><i class="fa-solid fa-user"></i></span>
+                            <input type="text" name="contact_person" required class="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none text-sm dark:text-white transition-all">
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-2 text-primary dark:text-secondary">Required Bandwidth</label>
-                        <select name="bandwidth" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent bg-white dark:bg-gray-600 text-primary dark:text-secondary">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Work Email</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400"><i class="fa-solid fa-envelope"></i></span>
+                            <input type="email" name="email" required class="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none text-sm dark:text-white transition-all">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Phone Number</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400"><i class="fa-solid fa-phone"></i></span>
+                            <input type="tel" name="phone" required class="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none text-sm dark:text-white transition-all">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Required Bandwidth</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-400"><i class="fa-solid fa-gauge-high"></i></span>
+                        <select name="bandwidth" class="w-full pl-11 pr-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none text-sm dark:text-white transition-all appearance-none">
                             <option>100 Mbps - 500 Mbps</option>
                             <option>500 Mbps - 1 Gbps</option>
                             <option>1 Gbps - 10 Gbps</option>
                             <option>10 Gbps+</option>
                         </select>
+                        <span class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400"><i class="fa-solid fa-chevron-down text-xs"></i></span>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium mb-2 text-primary dark:text-secondary">Additional Requirements</label>
-                        <textarea name="requirements" rows="4" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-secondary focus:border-transparent bg-white dark:bg-gray-600 text-primary dark:text-secondary" placeholder="Describe your specific needs..."></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-primary dark:bg-secondary text-white dark:text-primary py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-                        Request Quote
-                    </button>
-                </form>
-            </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Additional Requirements / Description</label>
+                    <textarea name="requirements" rows="4" class="w-full p-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 outline-none text-sm dark:text-white resize-none transition-all" placeholder="Describe branch routing options, SLA support, setup schedule..."></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-gradient-to-r from-brand-600 to-indigo-700 hover:from-brand-700 hover:to-indigo-800 text-white font-extrabold rounded-2xl transition-all shadow-lg shadow-brand-600/10 hover:shadow-brand-600/20 hover:-translate-y-0.5">
+                    Submit Quote Request
+                </button>
+            </form>
         </div>
     </div>
 </section>
+{% endblock content %}
 
 {% block scripts %}
 <script>
-    document.getElementById('businessQuoteForm').addEventListener('submit', (e) => {
-        alert('Your quote request has been submitted! Our team will contact you within 24 hours.');
-    });
+    const form = document.getElementById('businessQuoteForm');
+    if (form) {
+        form.addEventListener('submit', () => {
+            alert('Your corporate quote request has been submitted! Our enterprise relations team will reach out within 24 hours.');
+        });
+    }
 </script>
 {% endblock scripts %}
-{% endblock %}

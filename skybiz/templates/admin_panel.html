@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Skybiz- Admin Panel{% endblock %}
+{% block title %}Admin Control Panel - Skybiz Communication Network{% endblock %}
 
 {% block content %}
-<section id="admin-panel" class="py-16 bg-gray-100 dark:bg-gray-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section id="admin-panel" class="py-12 relative min-h-screen">
+    <div class="absolute w-[40rem] h-[40rem] -top-40 -left-40 bg-brand-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {% if messages %}
-        <div class="mb-6">
+        <div class="mb-6 space-y-2">
             {% for message in messages %}
-            <div class="bg-{% if message.tags == 'success' %}green-100 text-green-700{% else %}red-100 text-red-700 dark:bg-red-800 dark:text-red-300{% endif %} p-4 rounded-lg">
+            <div class="flex items-center gap-3 px-5 py-3 rounded-2xl text-sm font-semibold {% if message.tags == 'success' %}bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800{% else %}bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800{% endif %}">
+                <i class="fa-solid fa-{% if message.tags == 'success' %}circle-check{% else %}circle-exclamation{% endif %}"></i>
                 {{ message }}
             </div>
             {% endfor %}
@@ -18,19 +20,27 @@
 
         {% if user.is_authenticated and user.is_staff %}
         <!-- Header -->
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-primary dark:text-secondary">Admin Panel</h1>
-            <form method="POST" action="{% url 'admin_panel' %}">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="logout">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors">
-                    Logout
-                </button>
-            </form>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
+            <div>
+                <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1 rounded-full uppercase mb-2">Resource Manager</span>
+                <h1 class="text-3xl font-extrabold text-slate-800 dark:text-white">Admin Control Panel</h1>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{% url 'dashboard' %}" class="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold rounded-xl text-sm transition-all hover:bg-brand-600 hover:text-white">
+                    <i class="fa-solid fa-gauge-high mr-1.5"></i> Dashboard
+                </a>
+                <form method="POST" action="{% url 'admin_panel' %}" class="inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="logout">
+                    <button type="submit" class="px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white font-bold rounded-xl text-sm transition-all shadow-md">
+                        <i class="fa-solid fa-right-from-bracket mr-1.5"></i> Logout
+                    </button>
+                </form>
+            </div>
         </div>
 
         <!-- NEWS TICKER MANAGEMENT -->
-<div class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 mt-10">
+<div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-2xl shadow-xl p-8 mt-10">
     <div class="flex justify-between items-center mb-8">
         <h2 class="text-2xl font-bold text-primary">
             <i class="fas fa-newspaper mr-3"></i> Marquee News Management
@@ -92,11 +102,11 @@
         </form>
     </div>
 </div>
-        {% comment %} <!-- Carousel Management -->
+        <!-- Carousel Management -->
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage Carousel Images</h2>
-                <button onclick="openCarouselModal('add')" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage Carousel Images (Max 5)</h2>
+                <button onclick="openCarouselModal('add')" class="bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-semibold">
                     Add New Image
                 </button>
             </div>
@@ -176,13 +186,96 @@
                     </div>
                 </form>
             </div>
-        </div> {% endcomment %}
+        </div>
+
+        <!-- Footer Grid Locations Management -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage Footer Grid Maps</h2>
+                <button onclick="openFooterLocationModal('add')" class="bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-semibold">
+                    Add New Footer Location
+                </button>
+            </div>
+            {% if footer_locations %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 dark:bg-gray-700">
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Location Name</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Google Map Embed Link</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Status</th>
+                            <th class="p-4 text-sm font-semibold text-gray-700 dark:text-gray-200">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for loc in footer_locations %}
+                        <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            <td class="p-4 text-gray-800 dark:text-gray-200">{{ loc.name }}</td>
+                            <td class="p-4 text-gray-600 dark:text-gray-300 font-mono text-xs max-w-xs truncate">{{ loc.map_link }}</td>
+                            <td class="p-4">
+                                <span class="px-2 py-1 rounded-full text-xs {% if loc.is_active %}bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-200{% else %}bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-200{% endif %}">
+                                    {{ loc.is_active|yesno:"Active,Inactive" }}
+                                </span>
+                            </td>
+                            <td class="p-4 flex space-x-2">
+                                <button onclick="editFooterLocation('{{ loc.id }}', '{{ loc.name|escapejs }}', '{{ loc.map_link|escapejs }}', '{{ loc.is_active|yesno:'true,false' }}')"
+                                    class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
+                                    Edit
+                                </button>
+                                <form method="POST" action="{% url 'admin_panel' %}" class="inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="delete_footer_location">
+                                    <input type="hidden" name="location_id" value="{{ loc.id }}">
+                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-gray-600 dark:text-gray-300">No footer locations available.</p>
+            {% endif %}
+        </div>
+
+        <!-- Footer Location Modal -->
+        <div id="footerLocationModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-md mx-auto w-full">
+                <h3 id="footerLocationModalTitle" class="text-lg font-bold mb-4 text-primary dark:text-secondary">Add Footer Location</h3>
+                <form id="footerLocationForm" method="POST" action="{% url 'admin_panel' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" id="footer_location_action" value="add_footer_location">
+                    <input type="hidden" name="location_id" id="footer_location_id" value="">
+                    {% for field in footer_location_form %}
+                    <div class="mb-4">
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                        <div class="text-red-700 dark:text-red-300 text-sm mt-1">
+                            {% for error in field.errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeFooterLocationModal()" class="bg-gray-300 dark:bg-gray-600 text-primary dark:text-secondary px-4 py-2 rounded">Cancel</button>
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         <!-- Branch Management -->
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage Branches</h2>
-                <button onclick="openBranchModal('add')" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                <button onclick="openBranchModal('add')" class="bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-semibold">
                     Add New Branch
                 </button>
             </div>
@@ -222,7 +315,7 @@
                                 </span>
                             </td>
                             <td class="p-4 flex space-x-2">
-                                <button onclick="editBranch('{{ branch.id }}', '{{ branch.name }}', '{{ branch.address }}', '{{ branch.city }}', '{{ branch.state }}', '{{ branch.phone }}', '{{ branch.email }}', '{{ branch.website_link|default:'' }}', '{{ branch.is_active|yesno:'true,false' }}')"
+                                <button onclick="editBranch('{{ branch.id }}', '{{ branch.name|escapejs }}', '{{ branch.address|escapejs }}', '{{ branch.city|escapejs }}', '{{ branch.state|escapejs }}', '{{ branch.phone|escapejs }}', '{{ branch.email|escapejs }}', '{{ branch.website_link|default:''|escapejs }}', '{{ branch.map_link|default:''|escapejs }}', '{{ branch.is_active|yesno:'true,false' }}')"
                                     class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600">
                                     Edit
                                 </button>
@@ -316,7 +409,7 @@
                         <button type="button" onclick="closeUserModal()" class="bg-gray-300 dark:bg-gray-600 text-primary dark:text-secondary px-4 py-2 rounded hover:bg-gray-400">
                             Cancel
                         </button>
-                        <button type="submit" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded hover:bg-opacity-90">
+                        <button type="submit" class="bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-semibold">
                             Save User
                         </button>
                     </div>
@@ -327,7 +420,7 @@
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage user</h2>
-                <button onclick="openUserModal('add')" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                <button onclick="openUserModal('add')" class="bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-semibold">
                     Add New User
                 </button>
             </div>
@@ -380,7 +473,7 @@
         <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-12">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold text-primary dark:text-secondary">Manage Packages</h2>
-                <button onclick="openPackageModal('add')" class="bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                <button onclick="openPackageModal('add')" class="bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-semibold">
                     Add New Package
                 </button>
             </div>
@@ -638,7 +731,7 @@
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
                     <input type="password" name="password" class="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-200" required>
                 </div>
-                <button type="submit" class="w-full bg-primary dark:bg-secondary text-white dark:text-primary px-4 py-2 rounded-lg hover:bg-opacity-90">
+                <button type="submit" class="w-full bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors font-semibold">
                     Login
                 </button>
             </form>
@@ -683,8 +776,9 @@ window.onclick = function(e) {
         const phoneInput = document.querySelector('input[name="phone"]');
         const emailInput = document.querySelector('input[name="email"]');
         const websiteInput = document.querySelector('input[name="website_link"]');
+        const mapInput = document.querySelector('textarea[name="map_link"]');
         const isActiveInput = document.querySelector('input[name="is_active"]');
-
+ 
         title.textContent = mode === 'add' ? 'Add Branch' : 'Edit Branch';
         actionInput.value = mode === 'add' ? 'add_branch' : 'edit_branch';
         idInput.value = '';
@@ -695,15 +789,16 @@ window.onclick = function(e) {
         phoneInput.value = '';
         emailInput.value = '';
         websiteInput.value = '';
+        if (mapInput) mapInput.value = '';
         isActiveInput.checked = true;
         modal.classList.remove('hidden');
     }
-
+ 
     function closeBranchModal() {
         document.getElementById('branchModal').classList.add('hidden');
     }
-
-    function editBranch(id, name, address, city, state, phone, email, website_link, is_active) {
+ 
+    function editBranch(id, name, address, city, state, phone, email, website_link, map_link, is_active) {
         openBranchModal('edit');
         document.getElementById('branch_id').value = id;
         document.querySelector('input[name="name"]').value = name;
@@ -713,8 +808,92 @@ window.onclick = function(e) {
         document.querySelector('input[name="phone"]').value = phone;
         document.querySelector('input[name="email"]').value = email;
         document.querySelector('input[name="website_link"]').value = website_link;
+        const mapInput = document.querySelector('textarea[name="map_link"]');
+        if (mapInput) mapInput.value = map_link;
         document.querySelector('input[name="is_active"]').checked = (is_active === 'true');
     }
+
+    // Carousel Modal Controls
+    function openCarouselModal(mode) {
+        const modal = document.getElementById('carouselModal');
+        const title = document.getElementById('carouselModalTitle');
+        const actionInput = document.getElementById('carousel_action');
+        const idInput = document.getElementById('carousel_id');
+        const titleInput = document.querySelector('input[name="title"]');
+        const captionInput = document.querySelector('textarea[name="caption"]');
+        const imageInput = document.querySelector('input[name="image"]');
+        const isActiveInput = document.querySelector('input[name="is_active"]');
+
+        title.textContent = mode === 'add' ? 'Add Carousel Image' : 'Edit Carousel Image';
+        actionInput.value = mode === 'add' ? 'add_carousel' : 'edit_carousel';
+        idInput.value = '';
+        if (titleInput) titleInput.value = '';
+        if (captionInput) captionInput.value = '';
+        if (imageInput) imageInput.value = '';
+        if (isActiveInput) isActiveInput.checked = true;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeCarouselModal() {
+        const modal = document.getElementById('carouselModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function editCarousel(id, title, caption, is_active) {
+        openCarouselModal('edit');
+        document.getElementById('carousel_id').value = id;
+        const titleInput = document.querySelector('input[name="title"]');
+        const captionInput = document.querySelector('textarea[name="caption"]');
+        const isActiveInput = document.querySelector('input[name="is_active"]');
+
+        if (titleInput) titleInput.value = title;
+        if (captionInput) captionInput.value = caption;
+        if (isActiveInput) isActiveInput.checked = (is_active === 'true');
+        // Image field remains optional when editing
+        const imageInput = document.querySelector('input[name="image"]');
+        if (imageInput) imageInput.required = false;
+    }
+
+    // Footer Location Modal Controls
+    function openFooterLocationModal(mode) {
+        const modal = document.getElementById('footerLocationModal');
+        const title = document.getElementById('footerLocationModalTitle');
+        const actionInput = document.getElementById('footer_location_action');
+        const idInput = document.getElementById('footer_location_id');
+        const nameInput = document.querySelector('#footerLocationForm input[name="name"]');
+        const mapInput = document.querySelector('#footerLocationForm textarea[name="map_link"]');
+        const isActiveInput = document.querySelector('#footerLocationForm input[name="is_active"]');
+
+        title.textContent = mode === 'add' ? 'Add Footer Location' : 'Edit Footer Location';
+        actionInput.value = mode === 'add' ? 'add_footer_location' : 'edit_footer_location';
+        idInput.value = '';
+        if (nameInput) nameInput.value = '';
+        if (mapInput) mapInput.value = '';
+        if (isActiveInput) isActiveInput.checked = true;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closeFooterLocationModal() {
+        const modal = document.getElementById('footerLocationModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
+    function editFooterLocation(id, name, map_link, is_active) {
+        openFooterLocationModal('edit');
+        document.getElementById('footer_location_id').value = id;
+        const nameInput = document.querySelector('#footerLocationForm input[name="name"]');
+        const mapInput = document.querySelector('#footerLocationForm textarea[name="map_link"]');
+        const isActiveInput = document.querySelector('#footerLocationForm input[name="is_active"]');
+
+        if (nameInput) nameInput.value = name;
+        if (mapInput) mapInput.value = map_link;
+        if (isActiveInput) isActiveInput.checked = (is_active === 'true');
+    }
+
      function openUserModal(mode) {
         const modal = document.getElementById('userModal');
         const title = document.getElementById('userModalTitle');

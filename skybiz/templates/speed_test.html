@@ -1,137 +1,386 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Skybiz{% endblock %}
+{% block title %}Live Speed Test - Check Your Internet Speed | Skybiz{% endblock %}\n
+{% block meta %}
+<meta name="description" content="Test your internet speed live with Skybiz. Check your ping, download, and upload speeds instantly.">
+<meta name="keywords" content="Speed test, check internet speed, bandwidth test, ping test">
+<meta property="og:title" content="Live Speed Test - Check Your Internet Speed | Skybiz">
+<meta property="og:description" content="Test your internet speed live with Skybiz. Check your ping, download, and upload speeds instantly.">
+{% endblock %}
+
 
 {% block content %}
-<section class="py-20 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-primary dark:text-secondary mb-6">
-            Test Your Internet Speed
-        </h1>
-        <p class="text-lg text-gray-600 dark:text-gray-300 mb-12">
-            Check your download, upload speed and ping in seconds.
-        </p>
+<section id="speedtest" class="py-20 relative">
+    <div class="absolute w-[40rem] h-[40rem] -top-40 -left-40 bg-brand-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute w-[45rem] h-[45rem] bottom-10 right-0 bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none"></div>
 
-        <div id="speedTestContainer" class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-10">
-            <!-- Before Test -->
-            <div id="beforeTest">
-                <div class="mb-8">
-                    <div class="w-48 h-48 mx-auto bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                        <svg class="w-24 h-24 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                        </svg>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
+        <!-- Header -->
+        <div class="text-center space-y-4">
+            <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                Network Diagnostics
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">Internet Speed Test</h1>
+            <p class="text-slate-500 dark:text-slate-400 text-base max-w-xl mx-auto">
+                Measure your real-time download speed, upload throughput, and ping latency using our dedicated test server.
+            </p>
+        </div>
+
+        <!-- Speed Test Card -->
+        <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-3xl shadow-2xl p-8 md:p-12 relative overflow-hidden">
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-600 via-indigo-600 to-indigo-800"></div>
+
+            <!-- Before Test Screen -->
+            <div id="speedTestBox" class="py-8 space-y-8 text-center">
+                <div class="relative w-44 h-44 mx-auto flex items-center justify-center bg-brand-50 dark:bg-slate-800/30 border border-brand-100 dark:border-slate-800 rounded-full shadow-inner group">
+                    <div class="absolute inset-3 bg-gradient-to-tr from-brand-600 to-indigo-800 text-white rounded-full flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
+                        <i class="fa-solid fa-gauge-high text-6xl"></i>
                     </div>
                 </div>
-                <button onclick="startSpeedTest()"
-                        class="bg-primary hover:bg-blue-700 text-white font-bold py-5 px-12 rounded-full text-xl transition transform hover:scale-105 shadow-lg">
-                    Start Speed Test
+                <div class="space-y-2">
+                    <h3 class="text-2xl font-extrabold text-slate-800 dark:text-white">Connection Ready</h3>
+                    <p class="text-sm text-slate-400">Click below to begin the live latency, download, and upload analysis.</p>
+                </div>
+                <button id="startBtn" onclick="startSpeedTest()"
+                    class="bg-gradient-to-r from-brand-600 to-indigo-700 hover:from-brand-700 hover:to-indigo-800 text-white font-extrabold py-5 px-14 rounded-2xl text-xl transition-all shadow-xl shadow-brand-500/20 hover:shadow-brand-500/35 hover:-translate-y-0.5">
+                    <i class="fa-solid fa-play mr-2"></i> Start Speed Test
                 </button>
             </div>
 
-            <!-- During Test -->
-            <div id="duringTest" class="hidden">
-                <div class="animate-pulse mb-8">
-                    <div class="w-48 h-48 mx-auto bg-primary/20 rounded-full flex items-center justify-center">
-                        <svg class="w-20 h-20 text-primary animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
+            <!-- Live Testing Screen -->
+            <div id="testingBox" class="hidden py-8 space-y-8 text-center">
+                <!-- Live Gauge Widget -->
+                <div class="relative w-64 h-64 mx-auto flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-[220deg]" viewBox="0 0 200 200">
+                        <!-- Track Background (280 degrees arc) -->
+                        <circle cx="100" cy="100" r="80" class="stroke-slate-100 dark:stroke-slate-800/80" stroke-width="12" fill="transparent" stroke-dasharray="502" stroke-dashoffset="120" stroke-linecap="round"/>
+                        <!-- Speed Active Arc -->
+                        <circle id="speedArc" cx="100" cy="100" r="80" class="stroke-brand-600 transition-all duration-150 ease-out" stroke-width="12" fill="transparent" stroke-dasharray="502" stroke-dashoffset="502" stroke-linecap="round"/>
+                    </svg>
+                    <!-- Text Display inside Gauge -->
+                    <div class="absolute inset-0 flex flex-col items-center justify-center pt-4">
+                        <span id="gaugeLabel" class="text-xs uppercase font-extrabold text-slate-400 tracking-widest">Ping</span>
+                        <div class="flex items-baseline mt-1">
+                            <span id="liveSpeed" class="text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">—</span>
+                        </div>
+                        <span id="gaugeUnit" class="text-xs font-bold text-slate-400 mt-0.5">ms</span>
+                    </div>
+                    <!-- Needle -->
+                    <div id="gaugeNeedle" class="absolute w-2 h-20 bg-gradient-to-t from-brand-600 to-indigo-800 rounded-full origin-bottom bottom-[50%] left-[calc(50%-4px)] transition-transform duration-150 ease-out" style="transform-origin: 50% 100%; transform: rotate(-130deg);"></div>
+                </div>
+
+                <!-- Mini Cards Grid -->
+                <div class="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-850 p-4 rounded-2xl" id="card-ping">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Latency</p>
+                        <p id="livePing" class="text-2xl font-extrabold text-slate-700 dark:text-slate-200">—</p>
+                        <span class="text-[9px] text-slate-400">ms</span>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-850 p-4 rounded-2xl" id="card-download">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Download</p>
+                        <p id="liveDownload" class="text-2xl font-extrabold text-slate-700 dark:text-slate-200">—</p>
+                        <span class="text-[9px] text-slate-400">Mbps</span>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-850 p-4 rounded-2xl" id="card-upload">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Upload</p>
+                        <p id="liveUpload" class="text-2xl font-extrabold text-slate-700 dark:text-slate-200">—</p>
+                        <span class="text-[9px] text-slate-400">Mbps</span>
                     </div>
                 </div>
-                <p class="text-2xl font-semibold text-primary">Testing your speed...</p>
-                <p class="text-gray-500 mt-4">This may take 20–40 seconds</p>
+
+                <!-- Live Status message -->
+                <div class="space-y-3 max-w-lg mx-auto">
+                    <p id="phaseLabel" class="text-base font-semibold text-slate-700 dark:text-slate-200">Initializing connection...</p>
+                    <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2 overflow-hidden shadow-inner">
+                        <div id="progressFill" class="h-full bg-gradient-to-r from-brand-500 via-indigo-600 to-indigo-800 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Results -->
-            <div id="results" class="hidden space-y-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-xl text-white">
-                        <p class="text-sm opacity-90">Download</p>
-                        <p id="downloadSpeed" class="text-4xl font-bold mt-2">0</p>
-                        <p class="text-sm opacity-80">Mbps</p>
+            <!-- Complete Results Screen -->
+            <div id="resultBox" class="hidden py-4 space-y-8 text-center">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-brand-600 to-indigo-800 p-6 rounded-2xl text-white shadow-xl relative overflow-hidden">
+                        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-white/5 rounded-full blur-md"></div>
+                        <i class="fa-solid fa-download text-brand-200 text-xl mb-2 block"></i>
+                        <p class="text-xs uppercase font-extrabold text-brand-200 tracking-wider">Download Speed</p>
+                        <p id="downloadResult" class="text-4xl md:text-5xl font-extrabold tracking-tight mt-2">0</p>
+                        <p class="text-xs font-semibold text-brand-200 mt-1">Mbps</p>
                     </div>
-                    <div class="bg-gradient-to-br from-green-500 to-green-600 p-6 rounded-xl text-white">
-                        <p class="text-sm opacity-90">Upload</p>
-                        <p id="uploadSpeed" class="text-4xl font-bold mt-2">0</p>
-                        <p class="text-sm opacity-80">Mbps</p>
+                    <div class="bg-gradient-to-br from-indigo-500 to-indigo-700 p-6 rounded-2xl text-white shadow-xl relative overflow-hidden">
+                        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-white/5 rounded-full blur-md"></div>
+                        <i class="fa-solid fa-upload text-indigo-200 text-xl mb-2 block"></i>
+                        <p class="text-xs uppercase font-extrabold text-indigo-200 tracking-wider">Upload Speed</p>
+                        <p id="uploadResult" class="text-4xl md:text-5xl font-extrabold tracking-tight mt-2">0</p>
+                        <p class="text-xs font-semibold text-indigo-200 mt-1">Mbps</p>
                     </div>
-                    <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-6 rounded-xl text-white">
-                        <p class="text-sm opacity-90">Ping</p>
-                        <p id="ping" class="text-4xl font-bold mt-2">0</p>
-                        <p class="text-sm opacity-80">ms</p>
+                    <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-2xl text-white shadow-xl relative overflow-hidden border border-slate-700">
+                        <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-white/5 rounded-full blur-md"></div>
+                        <i class="fa-solid fa-satellite-dish text-slate-400 text-xl mb-2 block"></i>
+                        <p class="text-xs uppercase font-extrabold text-slate-400 tracking-wider">Ping Latency</p>
+                        <p id="pingResult" class="text-4xl md:text-5xl font-extrabold tracking-tight mt-2">0</p>
+                        <p class="text-xs font-semibold text-slate-400 mt-1">ms</p>
                     </div>
                 </div>
 
-                <div class="text-center text-gray-600 dark:text-gray-400">
-                    <p id="serverInfo" class="text-lg"></p>
+                <!-- Speed rating badge -->
+                <div id="speedRating" class="py-3 px-6 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-850 rounded-2xl inline-flex items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-emerald-500"></i>
+                    <span class="text-sm font-semibold text-slate-600 dark:text-slate-300">Test complete — results saved</span>
                 </div>
 
-                <button onclick="resetTest()"
-                        class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-8 rounded-full transition">
-                    Test Again
-                </button>
+                <div class="pt-2">
+                    <button onclick="resetSpeedTest()"
+                        class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-extrabold py-3.5 px-10 rounded-xl text-base transition-all">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> Test Again
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md">
+                <div class="text-2xl text-brand-600 mb-3"><i class="fa-solid fa-download"></i></div>
+                <h3 class="font-bold text-slate-800 dark:text-white text-sm mb-1">Download Test</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">Measures real data transferred from our local server to your device using streaming. Numbers update live as data arrives.</p>
+            </div>
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md">
+                <div class="text-2xl text-indigo-500 mb-3"><i class="fa-solid fa-upload"></i></div>
+                <h3 class="font-bold text-slate-800 dark:text-white text-sm mb-1">Upload Test</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">Measures data sent from your device to our server. Progress events fire live, showing real-time throughput numbers.</p>
+            </div>
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md">
+                <div class="text-2xl text-emerald-500 mb-3"><i class="fa-solid fa-satellite-dish"></i></div>
+                <h3 class="font-bold text-slate-800 dark:text-white text-sm mb-1">Ping / Latency</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">5 round-trip packets to our server, averaged to give you an accurate network latency reading in milliseconds.</p>
             </div>
         </div>
     </div>
 </section>
+{% endblock content %}
 
+{% block scripts %}
 <script>
-     let testStartTime;
+// ─── Constants ────────────────────────────────────────────────────────────────
+const PING_URL     = "{% url 'speedtest_ping' %}";
+const DOWNLOAD_URL = "{% url 'speedtest_download' %}";
+const UPLOAD_URL   = "{% url 'speedtest_upload' %}";
+const SAVE_URL     = "{% url 'speedtest_save' %}";
+const CSRF_TOKEN   = "{{ csrf_token }}";
+const MAX_SPEED    = 100; // reference max for gauge scaling
 
-function startSpeedTest() {
-    testStartTime = Date.now();
-    document.getElementById('speedTestBox').classList.add('hidden');
-    document.getElementById('testingBox').classList.remove('hidden');
+// ─── Gauge updater ────────────────────────────────────────────────────────────
+function updateGauge(val, phase) {
+    const speedArc   = document.getElementById('speedArc');
+    const needle     = document.getElementById('gaugeNeedle');
+    const liveSpeed  = document.getElementById('liveSpeed');
+    const gaugeLabel = document.getElementById('gaugeLabel');
+    const gaugeUnit  = document.getElementById('gaugeUnit');
+    if (!speedArc || !liveSpeed) return;
 
-    const progress = document.createElement('div');
-    progress.id = 'progressBar';
-    progress.className = 'w-full bg-gray-300 rounded-full h-4 mt-6 overflow-hidden';
-    progress.innerHTML = '<div id="progressFill" class="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300" style="width: 0%"></div>';
-    document.getElementById('testingBox').appendChild(progress);
+    // Needle angle: -130deg (0) → +130deg (max)
+    const ratio  = Math.min(1, val / MAX_SPEED);
+    const angle  = -130 + ratio * 260;
+    if (needle) needle.style.transform = `rotate(${angle}deg)`;
 
-    let width = 0;
-    const interval = setInterval(() => {
-        width += 2;
-        document.getElementById('progressFill').style.width = width + '%';
-        if (width >= 100) clearInterval(interval);
-    }, 120);  // 12s total animation
+    // Arc: total stroke is 502, 120 is the "gap". Active portion = ratio × (502-120)
+    const offset = 502 - ratio * 382;
+    speedArc.style.strokeDashoffset = offset;
 
-    fetch("{% url 'home_speed_test' %}", {
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': '{{ csrf_token }}',
-            'X-Requested-With': 'XMLHttpRequest'
+    liveSpeed.textContent = val.toFixed(1);
+
+    const labels = { ping: ['Ping', 'ms'], download: ['Downloading', 'Mbps'], upload: ['Uploading', 'Mbps'] };
+    if (phase && labels[phase]) {
+        gaugeLabel.textContent = labels[phase][0];
+        gaugeUnit.textContent  = labels[phase][1];
+    }
+}
+
+// ─── Progress bar + phase label ───────────────────────────────────────────────
+function setPhase(label, pct) {
+    const ph = document.getElementById('phaseLabel');
+    const pf = document.getElementById('progressFill');
+    if (ph) ph.textContent   = label;
+    if (pf) pf.style.width   = Math.min(100, pct) + '%';
+}
+
+// ─── Highlight mini-card ──────────────────────────────────────────────────────
+function highlightCard(id) {
+    ['card-ping','card-download','card-upload'].forEach(cid => {
+        const el = document.getElementById(cid);
+        if (!el) return;
+        if (cid === id) {
+            el.classList.add('border-brand-500','ring-2','ring-brand-500/10');
+        } else {
+            el.classList.remove('border-brand-500','ring-2','ring-brand-500/10');
         }
-    })
-    .then(r => r.json())
-    .then(data => {
-        clearInterval(interval);
+    });
+}
+
+// ─── 1. Ping ──────────────────────────────────────────────────────────────────
+async function measurePing() {
+    highlightCard('card-ping');
+    const times = [];
+    for (let i = 0; i < 5; i++) {
+        const t = Date.now();
+        await fetch(PING_URL + '?r=' + Math.random(), { cache: 'no-store' });
+        const rtt = Date.now() - t;
+        times.push(rtt);
+        updateGauge(rtt, 'ping');
+        document.getElementById('livePing').textContent = rtt;
+        setPhase(`Measuring latency… (${i+1}/5)`, 5 + i * 3);
+        await new Promise(r => setTimeout(r, 120));
+    }
+    return Math.round(times.reduce((a, b) => a + b) / times.length);
+}
+
+// ─── 2. Download — streaming reader for real-time updates ─────────────────────
+async function measureDownload() {
+    highlightCard('card-download');
+    setPhase('Connecting to download server…', 20);
+
+    const startTime = Date.now();
+    let loaded = 0;
+
+    const response = await fetch(DOWNLOAD_URL + '?t=' + Date.now(), { cache: 'no-store' });
+    const reader   = response.body.getReader();
+    const contentLength = parseInt(response.headers.get('Content-Length') || '5242880');
+
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        loaded += value.length;
+
+        const elapsed = (Date.now() - startTime) / 1000;
+        if (elapsed > 0.1) {
+            const speedMbps = (loaded * 8) / (elapsed * 1e6);
+            const pct       = Math.min(100, Math.round((loaded / contentLength) * 100));
+            updateGauge(speedMbps, 'download');
+            document.getElementById('liveDownload').textContent = speedMbps.toFixed(1);
+            setPhase(`Downloading… ${pct}%`, 20 + pct * 0.45);
+        }
+    }
+
+    const totalElapsed = (Date.now() - startTime) / 1000;
+    return parseFloat(((loaded * 8) / (totalElapsed * 1e6)).toFixed(2));
+}
+
+// ─── 3. Upload — XHR progress events for real-time updates ────────────────────
+async function measureUpload() {
+    highlightCard('card-upload');
+    setPhase('Preparing upload data…', 68);
+
+    const dataSize = 3 * 1024 * 1024; // 3 MB
+    const data     = new Uint8Array(dataSize);
+    // Random-fill in chunks of 65536 bytes to comply with Web Crypto API constraints
+    const chunkSize = 65536;
+    for (let i = 0; i < dataSize; i += chunkSize) {
+        const slice = data.subarray(i, i + chunkSize);
+        crypto.getRandomValues(slice);
+    }
+
+    return new Promise((resolve, reject) => {
+        const xhr       = new XMLHttpRequest();
+        const startTime = Date.now();
+
+        xhr.upload.addEventListener('progress', (e) => {
+            if (e.lengthComputable) {
+                const elapsed = (Date.now() - startTime) / 1000;
+                const speed   = elapsed > 0 ? (e.loaded * 8) / (elapsed * 1e6) : 0;
+                const pct     = Math.round((e.loaded / e.total) * 100);
+                updateGauge(speed, 'upload');
+                document.getElementById('liveUpload').textContent = speed.toFixed(1);
+                setPhase(`Uploading… ${pct}%`, 68 + pct * 0.28);
+            }
+        });
+
+        xhr.onload = () => {
+            const elapsed = (Date.now() - startTime) / 1000;
+            resolve(parseFloat(((dataSize * 8) / (elapsed * 1e6)).toFixed(2)));
+        };
+        xhr.onerror = () => reject(new Error('Upload XHR failed'));
+
+        xhr.open('POST', UPLOAD_URL);
+        xhr.setRequestHeader('X-CSRFToken', CSRF_TOKEN);
+        xhr.send(data.buffer);
+    });
+}
+
+// ─── Speed quality helper ─────────────────────────────────────────────────────
+function speedRating(dlMbps) {
+    if (dlMbps >= 100)  return { icon: 'fa-rocket',      color: 'text-emerald-500', label: 'Excellent — Gigabit class connection' };
+    if (dlMbps >= 50)   return { icon: 'fa-bolt',        color: 'text-brand-500',   label: 'Great — Suitable for 4K streaming & gaming' };
+    if (dlMbps >= 20)   return { icon: 'fa-thumbs-up',   color: 'text-indigo-500',  label: 'Good — Comfortable for HD streaming & calls' };
+    if (dlMbps >= 5)    return { icon: 'fa-circle-info', color: 'text-amber-500',   label: 'Fair — Adequate for browsing & SD video' };
+    return               { icon: 'fa-triangle-exclamation', color: 'text-red-500',  label: 'Slow — Consider upgrading your plan' };
+}
+
+// ─── Main orchestrator ────────────────────────────────────────────────────────
+async function startSpeedTest() {
+    document.getElementById('speedTestBox').classList.add('hidden');
+    document.getElementById('resultBox').classList.add('hidden');
+    document.getElementById('testingBox').classList.remove('hidden');
+    updateGauge(0, 'ping');
+    setPhase('Initializing…', 0);
+
+    try {
+        // Step 1 — Ping
+        const ping = await measurePing();
+        document.getElementById('livePing').textContent = ping;
+        await new Promise(r => setTimeout(r, 400));
+
+        // Step 2 — Download
+        const download = await measureDownload();
+        await new Promise(r => setTimeout(r, 400));
+
+        // Step 3 — Upload
+        const upload = await measureUpload();
+
+        setPhase('Saving results…', 99);
+        highlightCard(null);
+
+        // Save to backend
+        try {
+            await fetch(SAVE_URL, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+                body:    JSON.stringify({ download, upload, ping })
+            });
+        } catch(_) {}  // silent fail
+
+        // ── Show results screen
         document.getElementById('testingBox').classList.add('hidden');
+        document.getElementById('downloadResult').textContent = download.toFixed(1);
+        document.getElementById('uploadResult').textContent   = upload.toFixed(1);
+        document.getElementById('pingResult').textContent     = ping;
+
+        const rating  = speedRating(download);
+        const ratingEl = document.getElementById('speedRating');
+        if (ratingEl) {
+            ratingEl.innerHTML = `<i class="fa-solid ${rating.icon} ${rating.color}"></i><span class="text-sm font-semibold text-slate-600 dark:text-slate-300">${rating.label}</span>`;
+        }
+
         document.getElementById('resultBox').classList.remove('hidden');
 
-        if (data.success) {
-            const timeTaken = ((Date.now() - testStartTime) / 1000).toFixed(1);
-            document.getElementById('downloadResult').textContent = data.download;
-            document.getElementById('uploadResult').textContent = data.upload;
-            document.getElementById('pingResult').textContent = data.ping;
-            document.getElementById('serverInfo').innerHTML = 
-                `${data.server} • ${data.location} <span class="text-green-600">(${timeTaken}s)</span>`;
-        } else {
-            alert("No connection. Try again!");
-            resetSpeedTest();
-        }
-    })
-    .catch(() => {
-        alert("Failed. Check internet.");
-        resetSpeedTest();
-    });
+    } catch (err) {
+        console.error('Speed test error:', err);
+        setPhase('❌ Test failed — check your connection', 0);
+        document.getElementById('resultBox').classList.add('hidden');
+        document.getElementById('speedTestBox').classList.remove('hidden');
+    }
 }
 
 function resetSpeedTest() {
     document.getElementById('resultBox').classList.add('hidden');
+    document.getElementById('testingBox').classList.add('hidden');
     document.getElementById('speedTestBox').classList.remove('hidden');
-    const pb = document.getElementById('testingBox');
-    if (pb) pb.innerHTML = pb.innerHTML.split('<div id="progressBar"')[0]; // Clean progress
+    updateGauge(0, 'ping');
+    ['livePing','liveDownload','liveUpload'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = '—';
+    });
 }
 </script>
-{% endblock %}
+{% endblock scripts %}

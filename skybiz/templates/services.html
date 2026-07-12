@@ -1,75 +1,319 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block title %}Our Services - High-Speed Fiber Internet & Digital TV | Skybiz{% endblock %}\n
+{% block meta %}
+<meta name="description" content="Explore Skybiz services including High-Speed Fiber Internet, Digital TV, and Corporate networking solutions.">
+<meta name="keywords" content="Fiber internet, Digital TV, ISP services, networking solutions">
+<meta property="og:title" content="Our Services - High-Speed Fiber Internet & Digital TV | Skybiz">
+<meta property="og:description" content="Explore Skybiz services including High-Speed Fiber Internet, Digital TV, and Corporate networking solutions.">
+{% endblock %}
+
+
 {% block content %}
-<section id="services" class="page-section">
-    <div class="py-16 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">Our Services</h1>
-            
-            <!-- Service Features -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">🚀</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">High-Speed Internet</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Experience blazing fast internet speeds with our fiber-optic connections, perfect for streaming, gaming, and remote work.</p>
+<section id="services" class="py-20 relative">
+    <div class="absolute w-[40rem] h-[40rem] -top-40 -left-40 bg-brand-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute w-[45rem] h-[45rem] bottom-10 right-0 bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
+        <!-- Header -->
+        <div class="text-center space-y-4 mb-8">
+            <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                What We Offer
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">Our Network Services</h1>
+            <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
+                Discover our range of digital solutions. We combine advanced fiber technology with dedicated customer care.
+            </p>
+        </div>
+        
+        <!-- Core Services Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Service 1 -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-3xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-brand-500/10 rounded-2xl flex items-center justify-center mb-6 text-brand-600 dark:text-brand-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-rocket text-2xl"></i>
                 </div>
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">🔒</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Secure Connections</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Our advanced security protocols ensure your data is protected while you browse, stream, and work online.</p>
+                <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white">High-Speed Fiber</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Experience blazing fast, reliable internet connections powered by next-generation fiber optics. Perfect for streaming, live gaming, and remote work.
+                </p>
+            </div>
+            <!-- Service 2 -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-3xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-6 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-shield-halved text-2xl"></i>
                 </div>
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">💼</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Business Solutions</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Tailored internet solutions for businesses of all sizes, including dedicated lines, static IPs, and 24/7 support.</p>
+                <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white">Secure Browsing</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Our network is monitored with advanced security architectures and DNS protection systems, keeping your downloads and browsing sessions secure.
+                </p>
+            </div>
+            <!-- Service 3 -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 rounded-3xl shadow-xl hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300 group">
+                <div class="w-14 h-14 bg-purple-500/10 rounded-2xl flex items-center justify-center mb-6 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform duration-300">
+                    <i class="fa-solid fa-hotel text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-4 text-slate-800 dark:text-white">Business Solutions</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    Tailored internet services for corporate environments. Guaranteed symmetric speed bandwidth lines, static IP allocations, and priority SLA contracts.
+                </p>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════ -->
+        <!-- DIGITAL TELEVISION SECTION - COMPLETE                  -->
+        <!-- ══════════════════════════════════════════════════════ -->
+        <div class="space-y-12">
+            <div class="text-center space-y-3">
+                <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                    Entertainment
+                </span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white">
+                    <i class="fa-solid fa-tv text-brand-600 mr-2"></i>
+                    Digital Television &amp; Media Entertainment
+                </h2>
+                <p class="text-slate-500 dark:text-slate-400 text-base max-w-2xl mx-auto">
+                    Crystal clear picture quality on local and international channels — delivered straight to your home through our cable infrastructure.
+                </p>
+            </div>
+
+            <!-- Two service cards: Cable TV + Digital Box -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Premium Cable TV Card -->
+                <div class="bg-gradient-to-br from-brand-600 to-indigo-800 rounded-3xl p-8 text-white relative overflow-hidden shadow-2xl">
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
+                    <div class="absolute -left-5 -top-5 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
+                    <div class="w-16 h-16 bg-white/15 rounded-2xl flex items-center justify-center text-white text-3xl mb-6">
+                        <i class="fa-solid fa-satellite-dish"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold mb-2">Premium Cable TV</h3>
+                    <div class="inline-flex items-center gap-2 bg-white/20 border border-white/30 px-4 py-1.5 rounded-full mb-5">
+                        <i class="fa-solid fa-tv text-xs"></i>
+                        <span class="font-extrabold text-sm">70 Channels</span>
+                    </div>
+                    <p class="text-brand-200 text-sm leading-relaxed mb-6">
+                        Enjoy 70 premium television channels including local Bangladeshi channels, South Asian entertainment, news, sports, and kids programming — all with crisp, uninterrupted signal quality.
+                    </p>
+                    <ul class="space-y-2 text-sm text-brand-100">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-emerald-300 text-xs"></i> Local Bangladeshi Channels (ATN, NTV, Channel i &amp; more)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-emerald-300 text-xs"></i> Hindi Entertainment (Star Plus, Sony, Zee TV)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-emerald-300 text-xs"></i> International News (BBC, CNN, Al Jazeera)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-emerald-300 text-xs"></i> Sports (ESPN, Star Sports, Ten Sports)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-emerald-300 text-xs"></i> Kids &amp; Cartoon (Disney, Cartoon Network)</li>
+                    </ul>
+                </div>
+
+                <!-- Digital Setup Box Card -->
+                <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+                    <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 to-purple-600"></div>
+                    <div class="w-16 h-16 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-3xl mb-6">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold mb-2 text-slate-800 dark:text-white">Digital Setup Box</h3>
+                    <div class="inline-flex items-center gap-2 bg-indigo-100 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-800 px-4 py-1.5 rounded-full mb-5">
+                        <i class="fa-solid fa-tv text-indigo-600 dark:text-indigo-400 text-xs"></i>
+                        <span class="font-extrabold text-sm text-indigo-700 dark:text-indigo-300">200+ Channels</span>
+                    </div>
+                    <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed mb-6">
+                        Upgrade your home entertainment experience with our Digital HD Setup Box. Access 200+ channels with an intelligent TV guide, HD picture quality, channel sorting, and parental lock features.
+                    </p>
+                    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-brand-500 text-xs"></i> HD &amp; SD channels (200+)</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-brand-500 text-xs"></i> Built-in EPG Electronic Program Guide</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-brand-500 text-xs"></i> USB &amp; HDMI connectivity</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-brand-500 text-xs"></i> Parental control &amp; channel lock</li>
+                        <li class="flex items-center gap-2"><i class="fa-solid fa-check-circle text-brand-500 text-xs"></i> Free installation &amp; setup support</li>
+                    </ul>
                 </div>
             </div>
 
-            <!-- Cable Tv or Digital Setup Box services -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="flex items-center space-x-6 bg-gray-50 dark:bg-gray-700 p-8 rounded-lg">
-                    <div class="text-6xl">📺</div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2 text-primary dark:text-secondary">Cable TV Services</h3>
-                        <p class="text-gray-600 dark:text-gray-300">Enjoy a wide range of channels and on-demand content with our reliable cable TV services. Perfect for home entertainment.</p>
+            <!-- Setup Box Product Image & Channels Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <!-- Product Image -->
+                <div class="bg-slate-50 dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-3xl p-8 flex flex-col items-center gap-6 shadow-lg">
+                    <h3 class="text-lg font-extrabold text-slate-800 dark:text-white self-start">
+                        <i class="fa-solid fa-box text-indigo-500 mr-2"></i> HD Digital Set-Top Box
+                    </h3>
+                    <img src="{% static 'images/digital_setup_box.png' %}" alt="Digital HD Setup Box" class="w-full max-w-xs rounded-2xl shadow-xl object-contain" loading="lazy">
+                    <div class="grid grid-cols-3 gap-3 w-full text-center text-xs">
+                        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl p-3">
+                            <p class="font-black text-indigo-600 dark:text-indigo-400 text-xl">200+</p>
+                            <p class="text-slate-400 font-semibold">Channels</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl p-3">
+                            <p class="font-black text-brand-600 dark:text-brand-400 text-xl">HD</p>
+                            <p class="text-slate-400 font-semibold">Picture</p>
+                        </div>
+                        <div class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl p-3">
+                            <p class="font-black text-emerald-600 dark:text-emerald-400 text-xl">Free</p>
+                            <p class="text-slate-400 font-semibold">Install</p>
+                        </div>
                     </div>
                 </div>
-                <div class="flex items-center space-x-6 bg-gray-50 dark:bg-gray-700 p-8 rounded-lg">
-                    <div class="text-6xl">📡</div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2 text-primary dark:text-secondary">Digital Setup Box</h3>
-                        <p class="text-gray-600 dark:text-gray-300">Get the best viewing experience with our digital setup boxes, offering high-definition channels and easy-to-use interfaces.</p>
+
+                <!-- Channel Logo Grid -->
+                <div class="bg-slate-900 dark:bg-slate-950 rounded-3xl p-8 shadow-2xl border border-slate-800">
+                    <h3 class="text-lg font-extrabold text-white mb-6">
+                        <i class="fa-solid fa-satellite-dish text-brand-400 mr-2"></i> Available Channels
+                    </h3>
+                    <img src="{% static 'images/tv_channels_grid.png' %}" alt="Available TV Channels" class="w-full rounded-2xl mb-6 shadow-lg" loading="lazy">
+
+                    <!-- Channel Name Pills -->
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">ATN Bangla</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Channel i</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">NTV</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Boishakhi TV</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">RTV</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Ekattor TV</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Channel 24</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Star Plus</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Sony LIV</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Zee TV</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Colors</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Star Jalsha</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Zee Bangla</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Star Sports</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">ESPN</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Ten Sports</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Discovery</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Nat Geo</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">BBC World</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">CNN</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Al Jazeera</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Disney Channel</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Cartoon Network</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">MTV</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Star Movies</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">HBO</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">History Channel</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Animal Planet</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">TLC</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Sony Six</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-white/10 border border-white/10 text-slate-300 rounded-full">Star Sports 2</span>
+                        <span class="text-[10px] font-bold px-2.5 py-1 bg-brand-600/20 border border-brand-500/30 text-brand-300 rounded-full">+170 more</span>
                     </div>
+
+                </div>
+            </div>
+
+            <!-- Comparison Table: Cable vs Setup Box -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-3xl shadow-xl overflow-hidden">
+                <div class="p-6 bg-slate-50 dark:bg-slate-900/50 border-b border-slate-100 dark:border-slate-800">
+                    <h3 class="text-lg font-extrabold text-slate-800 dark:text-white"><i class="fa-solid fa-table text-brand-600 mr-2"></i> Package Comparison</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b border-slate-100 dark:border-slate-800">
+                                <th class="text-left p-4 text-slate-400 font-bold text-xs uppercase tracking-wider">Feature</th>
+                                <th class="text-center p-4 text-brand-600 dark:text-brand-400 font-extrabold">
+                                    <i class="fa-solid fa-satellite-dish mr-1"></i> Cable TV
+                                </th>
+                                <th class="text-center p-4 text-indigo-600 dark:text-indigo-400 font-extrabold">
+                                    <i class="fa-solid fa-box-open mr-1"></i> Digital Setup Box
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                            <tr>
+                                <td class="p-4 text-slate-600 dark:text-slate-400 font-semibold">Total Channels</td>
+                                <td class="p-4 text-center font-extrabold text-brand-600 dark:text-brand-400">70</td>
+                                <td class="p-4 text-center font-extrabold text-indigo-600 dark:text-indigo-400">200+</td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-900/20">
+                                <td class="p-4 text-slate-600 dark:text-slate-400 font-semibold">Picture Quality</td>
+                                <td class="p-4 text-center text-slate-500">SD / Clear</td>
+                                <td class="p-4 text-center font-bold text-emerald-600">Full HD</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-slate-600 dark:text-slate-400 font-semibold">Program Guide</td>
+                                <td class="p-4 text-center"><i class="fa-solid fa-xmark text-slate-300"></i></td>
+                                <td class="p-4 text-center"><i class="fa-solid fa-check text-emerald-500"></i></td>
+                            </tr>
+                            <tr class="bg-slate-50/50 dark:bg-slate-900/20">
+                                <td class="p-4 text-slate-600 dark:text-slate-400 font-semibold">Parental Control</td>
+                                <td class="p-4 text-center"><i class="fa-solid fa-xmark text-slate-300"></i></td>
+                                <td class="p-4 text-center"><i class="fa-solid fa-check text-emerald-500"></i></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 text-slate-600 dark:text-slate-400 font-semibold">Installation</td>
+                                <td class="p-4 text-center text-slate-500">Free</td>
+                                <td class="p-4 text-center font-bold text-emerald-600">Free</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
-                       <!--FTP server-->
-    <div class="py-16 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">FTP Server Services</h1>
+
+        <!-- FTP Server services section -->
+        <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 rounded-3xl shadow-xl p-8 md:p-12 relative overflow-hidden">
+            <div class="absolute inset-y-0 right-0 w-80 bg-brand-500/5 rounded-full blur-3xl -z-10"></div>
             
-            <!-- FTP Features and ip Address-->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">📁</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Secure File Storage</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Store and manage your files securely with our FTP server solutions, ensuring easy access and data protection.</p>
+            <div class="text-center md:text-left space-y-4 mb-8">
+                <h2 class="text-2xl font-bold text-slate-800 dark:text-white flex flex-col md:flex-row items-center gap-2 justify-center md:justify-start">
+                    <i class="fa-solid fa-folder-open text-brand-600"></i> Local FTP Media Server
+                </h2>
+                <p class="text-slate-500 dark:text-slate-400 text-sm max-w-2xl">
+                    Subscribers have access to our local high-speed FTP server network. Enjoy instant downloads of games, software packages, movies, and documentation files.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
+                <div class="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-6 rounded-2xl space-y-2">
+                    <div class="text-3xl text-brand-600"><i class="fa-solid fa-download"></i></div>
+                    <h3 class="font-bold text-slate-800 dark:text-white text-base">Instant Download</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">No rate limits. Download movies and files at speeds up to 100 Mbps regardless of subscription package.</p>
                 </div>
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">⚙️</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">Easy File Management</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Our FTP servers offer user-friendly interfaces for effortless file uploads, downloads, and organization.</p>
+                <div class="bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-6 rounded-2xl space-y-2">
+                    <div class="text-3xl text-indigo-600"><i class="fa-solid fa-gears"></i></div>
+                    <h3 class="font-bold text-slate-800 dark:text-white text-base">Simple Interface</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Standard FTP folder system. Access contents via search indexing or direct folder directory structure.</p>
                 </div>
-                <div class="text-center p-8 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                    <div class="text-5xl mb-4">🌐</div>
-                    <h3 class="text-xl font-semibold mb-4 text-primary dark:text-secondary">IP Address</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Access your FTP server using the following IP address: <a href="http://103.203.93.2/" class="dark:text-secondary hover:underline">103.203.93.2</a>
-                    </p>
+                <!-- IP Server Card -->
+                <div class="bg-gradient-to-br from-brand-600 to-indigo-800 p-6 rounded-2xl text-white flex flex-col justify-between shadow-lg relative overflow-hidden group">
+                    <div class="absolute -right-6 -bottom-6 w-20 h-20 bg-white/5 rounded-full blur-md"></div>
+                    <div class="space-y-2">
+                        <span class="text-[10px] font-extrabold uppercase text-brand-200 tracking-wider">FTP Node Address</span>
+                        <div class="text-2xl font-black mt-2 font-mono">103.203.93.2</div>
+                    </div>
+                    <div class="flex items-center gap-2 pt-4">
+                        <a href="http://103.203.93.2/" target="_blank" rel="noopener" class="flex-grow text-center text-xs py-2.5 bg-white text-brand-700 font-bold rounded-xl hover:bg-slate-100 transition-colors">
+                            Access Server <i class="fa-solid fa-up-right-from-square ml-0.5 text-[9px]"></i>
+                        </a>
+                        <button id="copyIpBtn" onclick="copyIpAddress()" class="w-10 h-10 bg-white/10 hover:bg-white/20 text-white flex items-center justify-center rounded-xl transition-colors" title="Copy IP">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% endblock %}
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    function copyIpAddress() {
+        const ip = "103.203.93.2";
+        navigator.clipboard.writeText(ip).then(() => {
+            const btn = document.getElementById('copyIpBtn');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+            btn.classList.remove('bg-white/10');
+            btn.classList.add('bg-emerald-500');
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.classList.remove('bg-emerald-500');
+                btn.classList.add('bg-white/10');
+            }, 2000);
+        }).catch(err => {
+            console.error('Could not copy text: ', err);
+        });
+    }
+</script>
+{% endblock scripts %}

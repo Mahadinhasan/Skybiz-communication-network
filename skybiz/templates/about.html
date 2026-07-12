@@ -1,93 +1,136 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
-<section id="about" class="page-section">
-    <div class="py-16 bg-white dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-center mb-12 text-primary dark:text-secondary">About Skybiz communication Network</h1>
-            
-            <!-- Company Info -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-                <div>
-                    <h2 class="text-2xl font-bold mb-6 text-primary dark:text-secondary">Our Mission</h2>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6">
-                        To provide reliable, high-speed internet connectivity that empowers individuals and businesses to thrive in the digital age. We believe that fast, affordable internet is not a luxury, but a necessity for modern life.
-                    </p>
-                    <h2 class="text-2xl font-bold mb-6 text-primary dark:text-secondary">Our Vision</h2>
-                    <p class="text-gray-600 dark:text-gray-300">
-                        To become the leading internet service provider by delivering exceptional connectivity solutions that exceed customer expectations and drive innovation in our communities.
-                    </p>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold mb-6 text-primary dark:text-secondary">Our History</h2>
-                    <div class="space-y-4">
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-full text-sm font-semibold">2013</div>
-                            <p class="text-gray-600 dark:text-gray-300">Founded with a vision to revolutionize internet connectivity</p>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-full text-sm font-semibold">2018</div>
-                            <p class="text-gray-600 dark:text-gray-300">Expanded to serve 10 cities with fiber-optic infrastructure</p>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-full text-sm font-semibold">2020</div>
-                            <p class="text-gray-600 dark:text-gray-300">Reached 5000+ satisfied customers city</p>
-                        </div>
-                        <div class="flex items-start space-x-4">
-                            <div class="bg-primary dark:bg-secondary text-white dark:text-primary px-3 py-1 rounded-full text-sm font-semibold">2023</div>
-                            <p class="text-gray-600 dark:text-gray-300">Leading provider in 7+ cities with 10Gbps speeds</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Why Choose Us -->
-            <div class="mb-16">
-                <h2 class="text-3xl font-bold text-center mb-12 text-primary dark:text-secondary">Why Choose Skybiz communication Network?</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="text-center p-6">
-                        <div class="text-4xl mb-4">📡</div>
-                        <h3 class="text-lg font-semibold mb-2 text-primary dark:text-secondary">Advanced Infrastructure</h3>
-                        <p class="text-gray-600 dark:text-gray-300">State-of-the-art fiber-optic network ensuring maximum reliability and speed.</p>
-                    </div>
-                    <div class="text-center p-6">
-                        <div class="text-4xl mb-4">⚡</div>
-                        <h3 class="text-lg font-semibold mb-2 text-primary dark:text-secondary">Lightning Fast</h3>
-                        <p class="text-gray-600 dark:text-gray-300">Speeds up to 1Gbps for seamless streaming, gaming, and working.</p>
-                    </div>
-                    <div class="text-center p-6">
-                        <div class="text-4xl mb-4">🛡️</div>
-                        <h3 class="text-lg font-semibold mb-2 text-primary dark:text-secondary">Reliable Service</h3>
-                        <p class="text-gray-600 dark:text-gray-300">99.9% uptime guarantee with redundant network infrastructure.</p>
-                        <!--IIG name detials-->
-                        <p class="text-gray-600 dark:text-gray-300">IIG : Summit communication and Level3 carrier</p>
-                        <p class="text-gray-600 dark:text-gray-300">Backup Link : Fiber@Home Ltd.</p>
-                    </div>
-                    <div class="text-center p-6">
-                        <div class="text-4xl mb-4">💬</div>
-                        <h3 class="text-lg font-semibold mb-2 text-primary dark:text-secondary">Expert Support</h3>
-                        <p class="text-gray-600 dark:text-gray-300">24/7 customer support from knowledgeable technical experts.</p>
-                    </div>
-                </div>
-            </div>
-
-            {% comment %} <!-- Our Total Branch Area -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-semibold text-center text-primary dark:text-secondary mb-6">Our Total Branch Area</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold text-primary dark:text-secondary">{{ total_branches }}</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Total Branches</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold text-primary dark:text-secondary">{{ unique_cities }}</h3>
-                    <p class="text-gray-600 dark:text-gray-300">Cities Covered</p>
-                </div>
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <h3 class="text-xl font-bold text-primary dark:text-secondary">{{ unique_states }}</h3>
-                    <p class="text-gray-600 dark:text-gray-300">States Served</p>
-                </div>
-            </div>
-        </section> {% endcomment %}
+{% block title %}About Us - Skybiz Communication Network{% endblock %}\n
+{% block meta %}
+<meta name="description" content="Learn about Skybiz Communication Network, our mission, vision, and our commitment to providing the best internet service.">
+<meta name="keywords" content="About Skybiz, ISP mission, internet provider, broadband company">
+<meta property="og:title" content="About Us - Skybiz Communication Network">
+<meta property="og:description" content="Learn about Skybiz Communication Network, our mission, vision, and our commitment to providing the best internet service.">
 {% endblock %}
+
+
+{% block content %}
+<section id="about" class="py-20 relative">
+    <div class="absolute w-[40rem] h-[40rem] -top-40 -left-40 bg-brand-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="absolute w-[45rem] h-[45rem] bottom-10 right-0 bg-indigo-600/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-20">
+        <!-- Header -->
+        <div class="text-center space-y-4">
+            <span class="inline-block bg-brand-600/10 border border-brand-500/20 text-brand-600 dark:text-brand-400 font-extrabold text-xs tracking-widest px-4 py-1.5 rounded-full uppercase">
+                Our Story
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-800 dark:text-white">About Skybiz</h1>
+            <p class="text-slate-500 dark:text-slate-400 text-base md:text-lg max-w-2xl mx-auto">
+                Dedicated to connecting families and empowering business workspaces across the nation.
+            </p>
+        </div>
+        
+        <!-- Mission & Vision Cards -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <!-- Mission Card -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 md:p-10 rounded-3xl shadow-xl space-y-6 relative overflow-hidden group">
+                <div class="absolute inset-x-0 top-0 h-1 bg-brand-500"></div>
+                <div class="w-12 h-12 bg-brand-500/10 rounded-xl flex items-center justify-center text-brand-600 dark:text-brand-400"><i class="fa-solid fa-bullseye text-xl"></i></div>
+                <h2 class="text-2xl font-extrabold text-slate-800 dark:text-white">Our Mission</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    To deliver premium, high-speed internet infrastructure that empowers local communities, families, and growing businesses to thrive in the modern digital age. We believe high-performance connectivity is not a luxury, but a critical foundation for learning and development.
+                </p>
+            </div>
+            <!-- Vision Card -->
+            <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-8 md:p-10 rounded-3xl shadow-xl space-y-6 relative overflow-hidden group">
+                <div class="absolute inset-x-0 top-0 h-1 bg-indigo-500"></div>
+                <div class="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400"><i class="fa-solid fa-eye text-xl"></i></div>
+                <h2 class="text-2xl font-extrabold text-slate-800 dark:text-white">Our Vision</h2>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                    To scale as the most trusted and customer-focused internet service provider, setting industry benchmarks for network uptime, low-latency performance, and active client-support systems that exceed public expectations.
+                </p>
+            </div>
+        </div>
+
+        <!-- History vertical timeline -->
+        <div class="space-y-12">
+            <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white text-center">Milestones & Growth</h2>
+            
+            <div class="relative max-w-4xl mx-auto pl-8 sm:pl-0 sm:before:content-[''] sm:before:absolute sm:before:left-1/2 sm:before:top-0 sm:before:bottom-0 sm:before:w-0.5 sm:before:bg-slate-200 dark:sm:before:bg-slate-800 space-y-12">
+                <!-- Timeline item 1 -->
+                <div class="relative flex flex-col sm:flex-row sm:justify-between items-start group">
+                    <div class="absolute left-[-24px] sm:left-[calc(50%-12px)] top-1.5 w-6 h-6 rounded-full bg-brand-600 border-4 border-white dark:border-darkBg shadow-md z-10"></div>
+                    <div class="w-full sm:w-[45%] bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md space-y-2 hover:-translate-y-0.5 transition-all">
+                        <span class="inline-block text-xs font-black text-brand-600 dark:text-brand-400 tracking-wider">2013</span>
+                        <h3 class="font-extrabold text-slate-800 dark:text-white text-lg">Foundation Year</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">SCN Skybiz began operations with a core vision to build localized fiber optic loop networks.</p>
+                    </div>
+                    <div class="hidden sm:block w-[45%]"></div>
+                </div>
+                
+                <!-- Timeline item 2 -->
+                <div class="relative flex flex-col sm:flex-row sm:justify-between items-start group">
+                    <div class="absolute left-[-24px] sm:left-[calc(50%-12px)] top-1.5 w-6 h-6 rounded-full bg-brand-600 border-4 border-white dark:border-darkBg shadow-md z-10"></div>
+                    <div class="hidden sm:block w-[45%]"></div>
+                    <div class="w-full sm:w-[45%] bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md space-y-2 hover:-translate-y-0.5 transition-all">
+                        <span class="inline-block text-xs font-black text-brand-600 dark:text-brand-400 tracking-wider">2018</span>
+                        <h3 class="font-extrabold text-slate-800 dark:text-white text-lg">Infrastructure Expansion</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Expanded fiber grid systems across major neighborhoods, establishing direct connectivity backbones.</p>
+                    </div>
+                </div>
+
+                <!-- Timeline item 3 -->
+                <div class="relative flex flex-col sm:flex-row sm:justify-between items-start group">
+                    <div class="absolute left-[-24px] sm:left-[calc(50%-12px)] top-1.5 w-6 h-6 rounded-full bg-brand-600 border-4 border-white dark:border-darkBg shadow-md z-10"></div>
+                    <div class="w-full sm:w-[45%] bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md space-y-2 hover:-translate-y-0.5 transition-all">
+                        <span class="inline-block text-xs font-black text-brand-600 dark:text-brand-400 tracking-wider">2020</span>
+                        <h3 class="font-extrabold text-slate-800 dark:text-white text-lg">5,000+ Connections</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Celebrated serving over 5,000 active, satisfied home internet subscribers.</p>
+                    </div>
+                    <div class="hidden sm:block w-[45%]"></div>
+                </div>
+
+                <!-- Timeline item 4 -->
+                <div class="relative flex flex-col sm:flex-row sm:justify-between items-start group">
+                    <div class="absolute left-[-24px] sm:left-[calc(50%-12px)] top-1.5 w-6 h-6 rounded-full bg-brand-600 border-4 border-white dark:border-darkBg shadow-md z-10"></div>
+                    <div class="hidden sm:block w-[45%]"></div>
+                    <div class="w-full sm:w-[45%] bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md space-y-2 hover:-translate-y-0.5 transition-all">
+                        <span class="inline-block text-xs font-black text-brand-600 dark:text-brand-400 tracking-wider">2023</span>
+                        <h3 class="font-extrabold text-slate-800 dark:text-white text-lg">Gigabit Scale & Redundancy</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Launched up to 1Gbps fiber plans and integrated multiple upstream redundant link loops.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Why Choose Us -->
+        <div class="space-y-12">
+            <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white text-center">Why Choose Us?</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Col 1 -->
+                <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md text-center space-y-4 hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300">
+                    <div class="text-3xl text-brand-600"><i class="fa-solid fa-server"></i></div>
+                    <h3 class="font-extrabold text-slate-800 dark:text-white text-base">Advanced Setup</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Multiple International Internet Gateways (IIG) like Summit Communications & Level3. Backup loops by Fiber@Home Ltd.</p>
+                </div>
+                <!-- Col 2 -->
+                <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md text-center space-y-4 hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300">
+                    <div class="text-3xl text-indigo-600"><i class="fa-solid fa-gauge-high"></i></div>
+                    <h3 class="font-extrabold text-slate-800 dark:text-white text-base">Low Latency</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Optimized routing rules to international gaming servers, ensuring competitive, lag-free gameplay sessions.</p>
+                </div>
+                <!-- Col 3 -->
+                <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md text-center space-y-4 hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300">
+                    <div class="text-3xl text-purple-600"><i class="fa-solid fa-clock"></i></div>
+                    <h3 class="font-extrabold text-slate-800 dark:text-white text-base">99.9% Uptime</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Automated failover loops keep your connection active even in the event of upstream physical cable cuts.</p>
+                </div>
+                <!-- Col 4 -->
+                <div class="bg-white dark:bg-cardBgDark border border-slate-100 dark:border-slate-850 p-6 rounded-2xl shadow-md text-center space-y-4 hover:-translate-y-1 hover:border-brand-500/20 transition-all duration-300">
+                    <div class="text-3xl text-emerald-600"><i class="fa-solid fa-user-gear"></i></div>
+                    <h3 class="font-extrabold text-slate-800 dark:text-white text-base">Dedicated Engineers</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Active deployment support. Physical troubleshooting teams are dispatched within minutes of complaint tickets.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
